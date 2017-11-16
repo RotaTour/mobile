@@ -1,3 +1,11 @@
 <resources>
     <string name="app_name">RotaTour</string>
+    <!-- Facebook login -->
+    <string name="facebook_app_id">719517088218830</string>
+    <string name="fb_login_protocol_scheme">fb719517088218830</string>
+
+    <!-- Strings to login -->
+    <string name="login_welcome">Welcome to RotaTour</string>
+    <string name="login_signIn">Login with RotaTour account</string>
+    <string name="login_signUp">Create account</string>
 </resources>
