@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "152906433407",
+    "firebase_url": "https://fir-rotatour.firebaseio.com",
+    "project_id": "firebase-rotatour",
+    "storage_bucket": "firebase-rotatour.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:152906433407:android:d40a2682b2c88c39",
+        "android_client_info": {
+          "package_name": "br.ufrpe.projetao.rotatour"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "152906433407-cs5mii6u9nlbsqt1oatk4oivdcce1p2d.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "br.ufrpe.projetao.rotatour",
+            "certificate_hash": "6d1aec6d66966827c95bb90080dd6f14f43a464a"
+          }
+        },
+        {
+          "client_id": "152906433407-1mdsmv077lpci7ronv1ts49v3t8t49vi.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "152906433407-89oglmfukadg4u2alti1an4hs5rg94af.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDAG7xwyuQyqv8QqlXorHnBdJKBZStXag"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -8,4 +8,8 @@
     <string name="login_welcome">Welcome to RotaTour</string>
     <string name="login_signIn">Login with RotaTour account</string>
     <string name="login_signUp">Create account</string>
+    <string name="login_facebook">Continue with Facebook</string>
+    <string name="login_google">Continue with Google</string>
+    <string name="login_falhou">Login failed</string>
+
 </resources>

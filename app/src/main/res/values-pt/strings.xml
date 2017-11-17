@@ -6,4 +6,7 @@
     <string name="login_welcome">Bem-vindo ao RotaTour</string>
     <string name="login_signIn">Login com a conta RotaTour</string>
     <string name="login_signUp">Criar conta</string>
+    <string name="login_facebook">Continuar com o Facebook</string>
+    <string name="login_falhou">Não é possível realizar login</string>
+    <string name="login_google">Continuar com o Google</string>
 </resources>

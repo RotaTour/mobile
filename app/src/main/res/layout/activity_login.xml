@@ -3,22 +3,23 @@
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="match_parent"
-              android:paddingLeft="16dp"
-              android:paddingRight="16dp"
-              android:background="@color/colorPrimaryDark"
+              android:paddingStart="16dp"
+              android:paddingEnd="16dp"
+              android:background="@color/colorPrimary"
               android:orientation="vertical"
               android:gravity="center_vertical">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
+        android:layout_gravity="top|center"
+        android:layout_marginBottom="10dp"
+        android:layout_weight="10"
         android:fontFamily="sans-serif"
+        android:gravity="center"
         android:text="@string/login_welcome"
         android:textColor="@android:color/white"
-        android:textSize="30sp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"/>
+        android:textSize="30sp"/>
 
     <Button
         android:id="@+id/login_button_signIn"
@@ -27,8 +28,9 @@
         android:layout_gravity="center"
         android:background="@color/btnLogin"
         android:text="@string/login_signIn"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="7dp"/>
+        android:textColor="@color/txtLogin"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="0"/>
 
     <Button
         android:id="@+id/login_button_signUp"
@@ -37,32 +39,37 @@
         android:layout_gravity="center"
         android:background="@color/btnLogin"
         android:text="@string/login_signUp"
-        android:textColor="@android:color/black"
-        android:layout_marginBottom="7dp"/>
+        android:textColor="@color/txtLogin"
+        android:layout_marginBottom="7dp"
+        android:layout_weight="0"/>
 
     <com.facebook.login.widget.LoginButton
         android:id="@+id/login_button_facebook"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="30dp"
-        android:layout_marginBottom="30dp" />
+        android:layout_marginBottom="10dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingLeft="10dp"
+        android:gravity="center_vertical|center"
+        xmlns:facebook="http://schemas.android.com/apk/res-auto"
+        facebook:com_facebook_login_text="@string/login_facebook"
+        android:layout_weight="0"/>
 
-    <Button
+    <com.google.android.gms.common.SignInButton
         android:id="@+id/login_button_google"
-        android:layout_width="150dp"
+        android:layout_width="257dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@android:color/white"
-        android:text="Google"
-        android:textColor="@android:color/black"/>
+        android:gravity="center_vertical|center"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0"/>
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/info"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
         android:textSize="18sp"
         />
 
