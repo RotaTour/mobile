@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.util.Base64;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,15 +37,24 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private CallbackManager mCallbackManager;
     private GoogleApiClient mGoogleApiClient;
     private SignInButton mGoogleButton;
+    private Button mBtnLoginRT; // login com conta RotaTour
+    private Button mBtnCadastrarContaRT; // cadastrar conta RotaTour
     public static final int GOOGLE_SIGN_IN_CODE = 777;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         mCallbackManager = CallbackManager.Factory.create();
-        //printar keyhash do app no Logcat do android studio
+
+        setContentView(R.layout.activity_login);
+
+        mBtnLoginRT = (Button) findViewById(R.id.login_button_signIn);
+        mBtnCadastrarContaRT = (Button) findViewById(R.id.login_button_signUp);
+
+        //OPCIONAL -- printar keyhash do app no Logcat do android studio
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "br.ufrpe.projetao.rotatour",
@@ -61,7 +71,19 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
         //fim print keyhash
 
-        setContentView(R.layout.activity_login);
+        mBtnLoginRT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), LoginRotaActivity.class));
+            }
+        });
+
+        mBtnCadastrarContaRT.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(getApplicationContext(), CriarContaActivity.class));
+            }
+        });
 
         //Google login
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -74,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .build();
         mGoogleButton = (SignInButton)findViewById(R.id.login_button_google);
 
-        //mudar texto do botão
+        //mudar texto do botão google
         setGoogleButtonText(mGoogleButton, getString(R.string.login_google));
         mGoogleButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -147,6 +169,12 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        // disable going back to the MainActivity
+        moveTaskToBack(true);
     }
 }
 

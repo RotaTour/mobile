@@ -9,4 +9,10 @@
     <string name="login_facebook">Continuar com o Facebook</string>
     <string name="login_falhou">Não é possível realizar login</string>
     <string name="login_google">Continuar com o Google</string>
+    <string name="loginRT_password">Senha</string>
+    <string name="loginRT_login">Entrar</string>
+    <string name="loginRT_autenticando">Autenticando...</string>
+    <string name="loginRT_login_falou">Login falhou</string>
+    <string name="loginRT_erro_senha">entre 4 e 10 caracteres alfanuméricos</string>
+    <string name="loginRT_erro_email">digite um endereço de email válido</string>
 </resources>

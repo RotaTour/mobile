@@ -5,7 +5,6 @@
               android:layout_height="match_parent"
               android:paddingStart="16dp"
               android:paddingEnd="16dp"
-              android:background="@color/colorPrimary"
               android:orientation="vertical"
               android:gravity="center_vertical">
 
@@ -26,9 +25,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/btnLogin"
         android:text="@string/login_signIn"
-        android:textColor="@color/txtLogin"
         android:layout_marginBottom="7dp"
         android:layout_weight="0"/>
 
@@ -37,9 +34,7 @@
         android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@color/btnLogin"
         android:text="@string/login_signUp"
-        android:textColor="@color/txtLogin"
         android:layout_marginBottom="7dp"
         android:layout_weight="0"/>
 
