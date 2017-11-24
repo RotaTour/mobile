@@ -42,7 +42,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
     @Override
     public void onMapReady(GoogleMap googleMap) {
 
-
         try {
             mMap = googleMap;
             mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
@@ -59,8 +58,6 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
         mMap.addMarker(new MarkerOptions().position(sydney).title("Marker in Sydney"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
-
-
     }
 
     private void requestPermissionGPS(){

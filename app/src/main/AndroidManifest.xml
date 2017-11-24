@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme.Dark">
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id"/>
@@ -73,13 +73,15 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
 
-        <activity android:name=".CriarContaActivity"
-                    android:label="Criar conta RotaTour"
-                    android:theme="@style/AppTheme.Dark">
+        <activity
+            android:name=".CriarContaActivity"
+            android:label="Criar conta RotaTour">
         </activity>
-        <activity android:name=".LoginRotaActivity"
-                    android:label="Login com conta RotaTour"
-                    android:theme="@style/AppTheme.Dark">
+        <activity
+            android:name=".LoginRotaActivity"
+            android:label="Login com conta RotaTour">
+        </activity>
+        <activity android:name=".PerfilActivity">
         </activity>
     </application>
 

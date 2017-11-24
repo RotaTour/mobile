@@ -120,6 +120,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
                 );
+                startActivity(new Intent (getApplicationContext(), PerfilActivity.class));
             }
 
             @Override
@@ -147,6 +148,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         if(result.isSuccess()){
             mInfo.setText(result.getSignInAccount().getEmail());
+            Intent intent = new Intent (getApplicationContext(), PerfilActivity.class);
+            startActivity(intent);
         }else{
             Toast.makeText(this, R.string.login_falhou, Toast.LENGTH_LONG).show();
         }

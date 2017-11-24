@@ -12,11 +12,17 @@
     <string name="login_google">Continue with Google</string>
     <string name="login_falhou">Login failed</string>
     <string name="title_activity_maps">Map</string>
+
+    <!-- Strings to loginRTactivity -->
     <string name="loginRT_password">Password</string>
     <string name="loginRT_login">Login</string>
     <string name="loginRT_autenticando">Authenticating...</string>
     <string name="loginRT_login_falou">Login failed</string>
     <string name="loginRT_erro_senha">between 4 and 10 alphanumeric characters</string>
     <string name="loginRT_erro_email">enter a valid email address</string>
+    <string name="loginRT_conect_error">Connection error, verify if you have internet.</string>
+    <string name="criarConta_criar">Create Account</string>
+    <string name="criarConta_senha">Password</string>
+    <string name="criarConta_nome">Name</string>
 
 </resources>

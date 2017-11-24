@@ -1,18 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">RotaTour</string>
-
-    <!-- Strings para login -->
+    <!-- Strings para loginActivity -->
     <string name="login_welcome">Bem-vindo ao RotaTour</string>
     <string name="login_signIn">Login com a conta RotaTour</string>
     <string name="login_signUp">Criar conta</string>
     <string name="login_facebook">Continuar com o Facebook</string>
     <string name="login_falhou">Não é possível realizar login</string>
     <string name="login_google">Continuar com o Google</string>
+
+    <!-- Strings para loginRTactivity -->
     <string name="loginRT_password">Senha</string>
     <string name="loginRT_login">Entrar</string>
     <string name="loginRT_autenticando">Autenticando...</string>
     <string name="loginRT_login_falou">Login falhou</string>
     <string name="loginRT_erro_senha">entre 4 e 10 caracteres alfanuméricos</string>
     <string name="loginRT_erro_email">digite um endereço de email válido</string>
+    <string name="loginRT_conect_error">Erro de conexão, verifique se está conectado à internet.</string>
+    <string name="criarConta_criar">Criar Conta</string>
+    <string name="criarConta_senha">Senha</string>
+    <string name="criarConta_nome">Nome</string>
 </resources>

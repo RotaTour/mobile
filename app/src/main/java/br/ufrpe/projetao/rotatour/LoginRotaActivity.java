@@ -9,12 +9,16 @@ import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.Toast;
+
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginRotaActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
-    private static final int REQUEST_SIGNUP = 0;
 
     private EditText mTxtEmail;
     private EditText mTxtSenha;
@@ -25,12 +29,11 @@ public class LoginRotaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_rota);
 
-        mTxtEmail = (EditText) findViewById(R.id.loginRT_edit_email);
-        mTxtSenha = (EditText) findViewById(R.id.loginRT_edit_senha);
-        mBtnLogin = (Button) findViewById(R.id.loginRT_button_login);
+        mTxtEmail = findViewById(R.id.loginRT_edit_email);
+        mTxtSenha = findViewById(R.id.loginRT_edit_senha);
+        mBtnLogin = findViewById(R.id.loginRT_button_login);
 
         mBtnLogin.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 login();
@@ -57,7 +60,11 @@ public class LoginRotaActivity extends AppCompatActivity {
         String email = mTxtEmail.getText().toString();
         String password = mTxtSenha.getText().toString();
 
-        // TODO: Implement your own authentication logic here.
+        try {
+            userLogin(email, password);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
@@ -67,20 +74,7 @@ public class LoginRotaActivity extends AppCompatActivity {
                         // onLoginFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
-    }
-
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_SIGNUP) {
-            if (resultCode == RESULT_OK) {
-
-                // TODO: Implement successful signup logic here
-                // By default we just finish the Activity and log them in automatically
-                this.finish();
-            }
-        }
+                }, 5000);
     }
 
     public void onLoginSuccess() {
@@ -115,5 +109,25 @@ public class LoginRotaActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void userLogin(final String email, final String password) throws JSONException {
+        //TODO SUBSTITUIR PELA CLASSE URLs
+        String url = "https://jsonplaceholder.typicode.com/posts";
+        VolleySingleton.getInstance(this).postLogin(url, new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), R.string.loginRT_conect_error, Toast.LENGTH_LONG).show();
+            }
+        },email, password);
+
+        Intent intent = new Intent(this, PerfilActivity.class);
+        startActivity(intent);
     }
 }
