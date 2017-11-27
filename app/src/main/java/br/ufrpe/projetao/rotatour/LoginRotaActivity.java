@@ -1,11 +1,11 @@
 package br.ufrpe.projetao.rotatour;
 
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import android.content.Intent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +13,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class LoginRotaActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
@@ -57,21 +54,33 @@ public class LoginRotaActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.loginRT_autenticando));
         progressDialog.show();
 
-        String email = mTxtEmail.getText().toString();
-        String password = mTxtSenha.getText().toString();
+        final String email = mTxtEmail.getText().toString();
+        final String password = mTxtSenha.getText().toString();
 
-        try {
-            userLogin(email, password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
+        String url = URLs.URL_LOGIN;
+        VolleySingleton.getInstance(this).postLogin(url, new Response.Listener<String>() {
+
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
+                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                killActivity();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                mTxtEmail.setError(getString(R.string.loginRT_erro_emailOuSenha));
+                mTxtSenha.setError(getString(R.string.loginRT_erro_emailOuSenha));
+            }
+        }, email, password);
 
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         onLoginSuccess();
-                        // onLoginFailed();
+                       // onLoginFailed();
                         progressDialog.dismiss();
                     }
                 }, 5000);
@@ -79,11 +88,12 @@ public class LoginRotaActivity extends AppCompatActivity {
 
     public void onLoginSuccess() {
         mBtnLogin.setEnabled(true);
-        finish();
+        Toast.makeText(this, "onLoginSuccess", Toast.LENGTH_LONG);
+        //finish();
     }
 
     public void onLoginFailed() {
-        Toast.makeText(getBaseContext(), R.string.loginRT_login_falou, Toast.LENGTH_LONG).show();
+        Toast.makeText(getBaseContext(), R.string.loginRT_login_falhou, Toast.LENGTH_LONG).show();
 
         mBtnLogin.setEnabled(true);
     }
@@ -111,23 +121,7 @@ public class LoginRotaActivity extends AppCompatActivity {
         return valid;
     }
 
-    private void userLogin(final String email, final String password) throws JSONException {
-        //TODO SUBSTITUIR PELA CLASSE URLs
-        String url = "https://jsonplaceholder.typicode.com/posts";
-        VolleySingleton.getInstance(this).postLogin(url, new Response.Listener<String>(){
-
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), R.string.loginRT_conect_error, Toast.LENGTH_LONG).show();
-            }
-        },email, password);
-
-        Intent intent = new Intent(this, PerfilActivity.class);
-        startActivity(intent);
+    private void killActivity() {
+        finish();
     }
 }

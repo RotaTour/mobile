@@ -7,16 +7,29 @@
     <string name="login_facebook">Continuar com o Facebook</string>
     <string name="login_falhou">Não é possível realizar login</string>
     <string name="login_google">Continuar com o Google</string>
+    <string name="login_backTwice">Por favor, pressione BACK novamente para sair</string>
 
     <!-- Strings para loginRTactivity -->
     <string name="loginRT_password">Senha</string>
     <string name="loginRT_login">Entrar</string>
     <string name="loginRT_autenticando">Autenticando...</string>
-    <string name="loginRT_login_falou">Login falhou</string>
+    <string name="loginRT_login_falhou">Login falhou</string>
     <string name="loginRT_erro_senha">entre 4 e 10 caracteres alfanuméricos</string>
     <string name="loginRT_erro_email">digite um endereço de email válido</string>
     <string name="loginRT_conect_error">Erro de conexão, verifique se está conectado à internet.</string>
+
+    <!-- Srings CriarContaActivity -->
     <string name="criarConta_criar">Criar Conta</string>
     <string name="criarConta_senha">Senha</string>
     <string name="criarConta_nome">Nome</string>
+    <string name="criarConta_erroNome">Pelo menos 3 caracteres</string>
+    <string name="criarConta_criando">Criando conta...</string>
+
+    <!-- Principal -->
+    <string name="title_home">Início</string>
+    <string name="title_map">Mapa</string>
+    <string name="title_profile">Perfil</string>
+    <string name="search_hint">Pra onde vamos?</string>
+    <string name="login_facebookCancel">Login attempt canceled.</string>
+    <string name="loginRT_erro_emailOuSenha">Email ou senha incorretos</string>
 </resources>

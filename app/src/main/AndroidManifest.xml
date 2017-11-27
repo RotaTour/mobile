@@ -55,8 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".PrincipalActivity">
-        </activity>
         <activity
             android:name=".RotaMapaActivity"
             android:label="Rota no mapa">
@@ -82,6 +80,10 @@
             android:label="Login com conta RotaTour">
         </activity>
         <activity android:name=".PerfilActivity">
+        </activity>
+        <activity
+            android:name=".PrincipalActivity"
+            android:label="@string/title_activity_principal">
         </activity>
     </application>
 

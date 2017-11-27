@@ -35,19 +35,21 @@ public class PerfilActivity extends AppCompatActivity {
         Usuario user = SharedPrefManager.getInstance(this).getUser();
 
         //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getId()));
-        textViewUsername.setText(user.getUsername());
+        textViewId.setText(String.valueOf(user.getToken()));
         textViewEmail.setText(user.getEmail());
-        textViewGender.setText(user.getGender());
 
         //when the user presses logout button
         //calling the logout method
         findViewById(R.id.buttonLogout).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
                 SharedPrefManager.getInstance(getApplicationContext()).logout();
+                killActivity();
             }
         });
+    }
+
+    private void killActivity() {
+        finish();
     }
 }

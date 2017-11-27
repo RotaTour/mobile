@@ -1,14 +1,10 @@
 package br.ufrpe.projetao.rotatour;
 
 import android.content.Intent;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.Signature;
+import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -28,8 +24,6 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private TextView mInfo;
@@ -51,10 +45,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         setContentView(R.layout.activity_login);
 
-        mBtnLoginRT = (Button) findViewById(R.id.login_button_signIn);
-        mBtnCadastrarContaRT = (Button) findViewById(R.id.login_button_signUp);
+        if(SharedPrefManager.getInstance(this).isLoggedIn()) {
+            startActivity(new Intent(this, PrincipalActivity.class));
+            killActivity();
+        }
 
-        //OPCIONAL -- printar keyhash do app no Logcat do android studio
+        mBtnLoginRT = findViewById(R.id.login_button_signIn);
+        mBtnCadastrarContaRT = findViewById(R.id.login_button_signUp);
+
+        /*//OPCIONAL -- printar keyhash do app no Logcat do android studio
         try {
             PackageInfo info = getPackageManager().getPackageInfo(
                     "br.ufrpe.projetao.rotatour",
@@ -70,6 +69,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
         }
         //fim print keyhash
+        */
 
         mBtnLoginRT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -94,7 +94,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this, this)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
                 .build();
-        mGoogleButton = (SignInButton)findViewById(R.id.login_button_google);
+        mGoogleButton = findViewById(R.id.login_button_google);
 
         //mudar texto do botão google
         setGoogleButtonText(mGoogleButton, getString(R.string.login_google));
@@ -107,8 +107,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         });
 
         //Facebook login
-        mInfo = (TextView)findViewById(R.id.info);
-        mFacebookButton = (LoginButton)findViewById(R.id.login_button_facebook);
+        mInfo = findViewById(R.id.info);
+        mFacebookButton = findViewById(R.id.login_button_facebook);
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
             //Tratar login FACEBOOK
             @Override
@@ -125,7 +125,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
             @Override
             public void onCancel() {
-                mInfo.setText("Login attempt canceled.");
+                mInfo.setText(R.string.login_facebookCancel);
             }
 
             @Override
@@ -174,10 +174,29 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
 
     }
 
+    //Pressionar botão BACK duas vezes para sair
+    boolean doubleBackToExitPressedOnce = false;
     @Override
     public void onBackPressed() {
-        // disable going back to the MainActivity
-        moveTaskToBack(true);
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, R.string.login_backTwice, Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
+    }
+
+    private void killActivity() {
+        finish();
     }
 }
 

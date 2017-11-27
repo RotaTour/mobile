@@ -73,4 +73,20 @@ public class VolleySingleton {
 
         mQueue.add(postRequest);
     }
+
+    void postRegister(String url, Response.Listener<String> callback, Response.ErrorListener error, final String nome, final String email, final String password) {
+        final StringRequest postRequest = new StringRequest(Request.Method.POST, url, callback, error) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("nome", nome);
+                params.put("email", email);
+                params.put("password", password);
+
+                return params;
+            }
+        };
+
+        mQueue.add(postRequest);
+    }
 }

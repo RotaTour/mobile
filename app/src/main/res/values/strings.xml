@@ -21,8 +21,22 @@
     <string name="loginRT_erro_senha">between 4 and 10 alphanumeric characters</string>
     <string name="loginRT_erro_email">enter a valid email address</string>
     <string name="loginRT_conect_error">Connection error, verify if you have internet.</string>
+
+    <!-- Strings for criarContaActivity -->
     <string name="criarConta_criar">Create Account</string>
     <string name="criarConta_senha">Password</string>
     <string name="criarConta_nome">Name</string>
+    <string name="criarConta_erroNome">at least 3 characters</string>
+    <string name="criarConta_criando">Creating Account...</string>
+    <string name="title_activity_principal">PrincipalActivity</string>
+
+    <!-- Principal -->
+    <string name="title_home">Home</string>
+    <string name="title_map">Map</string>
+    <string name="title_profile">Profile</string>
+    <string name="search_hint">To where?</string>
+    <string name="login_backTwice">Please click BACK again to exit</string>
+    <string name="login_facebookCancel">Login attempt canceled.</string>
+    <string name="loginRT_erro_emailOuSenha">Wrong email or password</string>
 
 </resources>
