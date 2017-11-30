@@ -36,7 +36,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     ArrayList<Place> listitems = new ArrayList<>();
     RecyclerView MyRecyclerView;
-    String Fruits[] = {"Mango","Apple","Grapes","Papaya","WaterMelon"};
+    String Places[] = {"Museu","Praia","Recife Antigo","Igreja","Olinda"};
     int  Images[] = {R.drawable.ic_like
             ,R.drawable.ic_home_black_24dp
             ,R.drawable.ic_map_black_24dp
@@ -47,12 +47,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         listitems.clear();
-        for(int i =0;i<Fruits.length;i++){
+        for(int i =0;i<Places.length;i++){
             Place item = new Place();
-            item.setCardName(Fruits[i]);
+            item.setCardName(Places[i]);
             item.setImageResourceId(Images[i]);
-            item.setIsfav(0);
-            item.setIsturned(0);
+            item.setAtividade("Atividade"+i);
             listitems.add(item);
         }
 
@@ -62,7 +61,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
+        //cards
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         MyRecyclerView = view.findViewById(R.id.cardView);
         MyRecyclerView.setHasFixedSize(true);
@@ -73,6 +72,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
+        //mapa
         mMapView = view.findViewById(R.id.mapView);
         mMapView.onCreate(savedInstanceState);
 

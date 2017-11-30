@@ -2,21 +2,14 @@ package br.ufrpe.projetao.rotatour;
 
 public class Place {
     String cardName;
+    String atividade;
     int imageResourceId;
-    int isfav;
-    int isturned;
 
-    public int getIsturned() {
-        return isturned;
+    public String getAtividade(){
+        return atividade;
     }
-    public void setIsturned(int isturned) {
-        this.isturned = isturned;
-    }
-    public int getIsfav() {
-        return isfav;
-    }
-    public void setIsfav(int isfav) {
-        this.isfav = isfav;
+    public void setAtividade(String atv){
+        atividade=atv;
     }
     public String getCardName() {
         return cardName;

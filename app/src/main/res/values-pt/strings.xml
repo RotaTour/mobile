@@ -32,4 +32,5 @@
     <string name="search_hint">Pra onde vamos?</string>
     <string name="login_facebookCancel">Login attempt canceled.</string>
     <string name="loginRT_erro_emailOuSenha">Email ou senha incorretos</string>
+    <string name="home_search">Pra onde vamos?</string>
 </resources>
