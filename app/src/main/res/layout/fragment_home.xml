@@ -13,6 +13,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginTop="16dp"
             android:background="@android:drawable/screen_background_dark_transparent">
             <EditText
                 android:id="@+id/home_search"
@@ -20,13 +21,14 @@
                 android:layout_height="wrap_content"
                 android:hint="@string/home_search"
                 android:imeOptions="actionSearch"
+                android:layout_marginStart="5dp"
                 android:inputType="text"
                 android:singleLine="true"/>
             <ImageButton
                 android:id="@+id/home_btnSearch"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_toRightOf="@+id/home_search"
+                android:layout_toEndOf="@+id/home_search"
                 app:srcCompat="@drawable/ic_search_black_24dp"
                 android:layout_margin="5dp"
                 android:tint="@color/white"/>

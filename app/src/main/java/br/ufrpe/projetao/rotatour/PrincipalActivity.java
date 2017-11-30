@@ -14,6 +14,7 @@ public class PrincipalActivity extends AppCompatActivity
                   , PerfilFragment.OnFragmentInteractionListener {
 
     private FragmentManager mFragmentManager;
+    private MapsFragment mMapFrag = new MapsFragment();
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
 
@@ -31,7 +32,7 @@ public class PrincipalActivity extends AppCompatActivity
 
                 case R.id.navigation_map:
                     if(mFragmentManager.getFragments().get(0).getClass() != MapsFragment.class)
-                        fragmentTransaction.replace(R.id.principal_frame_container, new MapsFragment(), "Maps Fragment");
+                        fragmentTransaction.replace(R.id.principal_frame_container, mMapFrag, "Maps Fragment");
 
                     fragmentTransaction.commitAllowingStateLoss();
                     return true;
@@ -55,6 +56,7 @@ public class PrincipalActivity extends AppCompatActivity
         mFragmentManager = getSupportFragmentManager();
         BottomNavigationView navigation = findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+
         FragmentTransaction fragmentTransaction = mFragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.principal_frame_container, new HomeFragment(), "Home Fragment");
         fragmentTransaction.commitAllowingStateLoss();
