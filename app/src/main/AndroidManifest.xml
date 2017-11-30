@@ -55,10 +55,6 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity
-            android:name=".RotaMapaActivity"
-            android:label="Rota no mapa">
-        </activity>
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -78,8 +74,6 @@
         <activity
             android:name=".LoginRotaActivity"
             android:label="Login com conta RotaTour">
-        </activity>
-        <activity android:name=".PerfilActivity">
         </activity>
         <activity
             android:name=".PrincipalActivity"

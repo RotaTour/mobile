@@ -34,6 +34,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Button mBtnLoginRT; // login com conta RotaTour
     private Button mBtnCadastrarContaRT; // cadastrar conta RotaTour
     public static final int GOOGLE_SIGN_IN_CODE = 777;
+    public static final int REQUEST_LOGIN = 77;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +75,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mBtnLoginRT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), LoginRotaActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), LoginRotaActivity.class), REQUEST_LOGIN);
             }
         });
 
@@ -113,6 +114,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             //Tratar login FACEBOOK
             @Override
             public void onSuccess(LoginResult loginResult) {
+
                 mInfo.setText(
                         "User ID: "
                                 + loginResult.getAccessToken().getUserId()
@@ -120,7 +122,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
                 );
-                startActivity(new Intent (getApplicationContext(), PerfilActivity.class));
+                startActivity(new Intent (getApplicationContext(), PrincipalActivity.class));
             }
 
             @Override
@@ -141,6 +143,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if(requestCode == GOOGLE_SIGN_IN_CODE){
            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        } else  if(requestCode == REQUEST_LOGIN && resultCode == RESULT_OK){
+            finish();
         }
     }
 
@@ -148,7 +152,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private void handleSignInResult(GoogleSignInResult result) {
         if(result.isSuccess()){
             mInfo.setText(result.getSignInAccount().getEmail());
-            Intent intent = new Intent (getApplicationContext(), PerfilActivity.class);
+            Intent intent = new Intent (getApplicationContext(), PrincipalActivity.class);
             startActivity(intent);
         }else{
             Toast.makeText(this, R.string.login_falhou, Toast.LENGTH_LONG).show();

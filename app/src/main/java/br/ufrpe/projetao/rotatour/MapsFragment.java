@@ -6,30 +6,87 @@ import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
-public class MapsFragment extends SupportMapFragment implements OnMapReadyCallback {
+import java.util.ArrayList;
+
+public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
     private static final int MY_PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 22;
     private GoogleMap mMap;
+    private MapView mMapView;
     private LocationManager mLocationManager;
     private static final String TAG = "MapsFragment";
+
+    ArrayList<Place> listitems = new ArrayList<>();
+    RecyclerView MyRecyclerView;
+    String Fruits[] = {"Mango","Apple","Grapes","Papaya","WaterMelon"};
+    int  Images[] = {R.drawable.ic_like
+            ,R.drawable.ic_home_black_24dp
+            ,R.drawable.ic_map_black_24dp
+            ,R.drawable.ic_person_black_24dp
+            ,R.drawable.ic_share_black_24dp};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        getMapAsync(this);
+        listitems.clear();
+        for(int i =0;i<Fruits.length;i++){
+            Place item = new Place();
+            item.setCardName(Fruits[i]);
+            item.setImageResourceId(Images[i]);
+            item.setIsfav(0);
+            item.setIsturned(0);
+            listitems.add(item);
+        }
+
+        getActivity().setTitle("Places");
     }
 
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+
+        View view = inflater.inflate(R.layout.fragment_maps, container, false);
+        MyRecyclerView = view.findViewById(R.id.cardView);
+        MyRecyclerView.setHasFixedSize(true);
+        LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
+        MyLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        if (listitems.size() > 0 & MyRecyclerView != null) {
+            MyRecyclerView.setAdapter(new MyAdapter(listitems));
+        }
+        MyRecyclerView.setLayoutManager(MyLayoutManager);
+
+        mMapView = view.findViewById(R.id.mapView);
+        mMapView.onCreate(savedInstanceState);
+
+        mMapView.onResume(); // needed to get the map to display immediately
+
+        try {
+            MapsInitializer.initialize(getActivity().getApplicationContext());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        mMapView.getMapAsync(this);
+        return view;
+    }
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -44,8 +101,8 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
 
         try {
             mMap = googleMap;
-            mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             Criteria criteria = new Criteria();
+            mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             String provider = mLocationManager.getBestProvider(criteria, true);
             requestPermissionGPS();
             mMap.setMyLocationEnabled(true);
@@ -69,7 +126,7 @@ public class MapsFragment extends SupportMapFragment implements OnMapReadyCallba
             // Should we show an explanation?
             if (ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)) {
-                Toast.makeText(getContext(),"Precisamso de sua localização" ,Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),"Precisamos de sua localização" ,Toast.LENGTH_LONG).show();
             } else {
                 // No explanation needed, we can request the permission.
                 ActivityCompat.requestPermissions(getActivity(),

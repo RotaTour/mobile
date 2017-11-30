@@ -15,6 +15,8 @@ import com.android.volley.VolleyError;
 
 import org.json.JSONException;
 
+import java.security.Principal;
+
 public class CriarContaActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
     private EditText mTxtNome;
@@ -131,7 +133,7 @@ public class CriarContaActivity extends AppCompatActivity {
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
 
-                startActivity(new Intent(getApplicationContext(), PerfilActivity.class));
+                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
             }
         }, new Response.ErrorListener() {
             @Override

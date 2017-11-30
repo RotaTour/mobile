@@ -14,6 +14,9 @@ import android.widget.Toast;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class LoginRotaActivity extends AppCompatActivity {
     private static final String TAG = "LoginActivity";
 
@@ -63,33 +66,40 @@ public class LoginRotaActivity extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(response);
+                    response = jsonObject.getString("token");
+                    Log.i("LoginRotaActivity", response);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                progressDialog.dismiss();
                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
-                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                setResult(RESULT_OK);
                 killActivity();
+                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                mBtnLogin.setEnabled(true);
+                progressDialog.dismiss();
                 mTxtEmail.setError(getString(R.string.loginRT_erro_emailOuSenha));
                 mTxtSenha.setError(getString(R.string.loginRT_erro_emailOuSenha));
             }
         }, email, password);
 
-        new android.os.Handler().postDelayed(
+        /*new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onLoginSuccess or onLoginFailed
                         onLoginSuccess();
                        // onLoginFailed();
                         progressDialog.dismiss();
+                        killActivity();
                     }
-                }, 5000);
-    }
-
-    public void onLoginSuccess() {
-        mBtnLogin.setEnabled(true);
-        Toast.makeText(this, "onLoginSuccess", Toast.LENGTH_LONG);
-        //finish();
+                }, 5000); */
     }
 
     public void onLoginFailed() {
