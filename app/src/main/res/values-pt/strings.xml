@@ -33,4 +33,8 @@
     <string name="login_facebookCancel">Login attempt canceled.</string>
     <string name="loginRT_erro_emailOuSenha">Email ou senha incorretos</string>
     <string name="home_search">Pra onde vamos?</string>
+
+    <!-- Criar rota activity -->
+    <string name="criarRota_activity">Atividade</string>
+    <string name="criarRota_place">Local</string>
 </resources>

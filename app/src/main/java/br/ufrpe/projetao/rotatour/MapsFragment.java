@@ -1,10 +1,12 @@
 package br.ufrpe.projetao.rotatour;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
@@ -32,6 +34,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private GoogleMap mMap;
     private MapView mMapView;
     private LocationManager mLocationManager;
+    private FloatingActionButton mFabNovaRota;
     private static final String TAG = "MapsFragment";
 
     ArrayList<Place> listitems = new ArrayList<>();
@@ -61,9 +64,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        //cards
+
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         MyRecyclerView = view.findViewById(R.id.cardView);
+        mFabNovaRota = view.findViewById(R.id.novaRota);
+
+        //cards
         MyRecyclerView.setHasFixedSize(true);
         LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
         MyLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
@@ -72,6 +78,12 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         }
         MyRecyclerView.setLayoutManager(MyLayoutManager);
 
+        mFabNovaRota.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), CriarRotaActivity.class));
+            }
+        });
         //mapa
             mMapView = view.findViewById(R.id.mapView);
             mMapView.onCreate(savedInstanceState);
