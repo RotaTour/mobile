@@ -2,23 +2,35 @@ package br.ufrpe.projetao.rotatour;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Toast;
+
+import me.gujun.android.taggroup.TagGroup;
 
 public class CriarRotaActivity extends AppCompatActivity {
 
     private LinearLayout mLinearLayout;
-    private ImageButton mAddLocal;
+    private Button mAddLocal;
     private int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_rota);
 
+        Toolbar myToolbar = findViewById(R.id.criarRota_toolbar);
+        setSupportActionBar(myToolbar);
+
         mLinearLayout = findViewById(R.id.criarRota_layout_pai);
         mAddLocal = findViewById(R.id.criarRota_button_novoItem);
+
+        TagGroup tagGroup = findViewById(R.id.criarRota_tag_group);
+        tagGroup.submitTag();
 
         mAddLocal.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -47,8 +59,24 @@ public class CriarRotaActivity extends AppCompatActivity {
 
                 ll.addView(etAtv);
                 ll.addView(etLoc);
-                mLinearLayout.addView(ll, 1);
+                mLinearLayout.addView(ll, 4);
             }
         });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.criar_rota_menu_done, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_menu_done:
+                // TODO do someing
+                Toast.makeText(getApplication(), "Done", Toast.LENGTH_LONG).show();
+                break;
+
+        }
+        return true;
     }
 }

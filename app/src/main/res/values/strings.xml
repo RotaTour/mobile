@@ -45,5 +45,9 @@
     <!-- Create route activity -->
     <string name="criarRota_activity">Activity</string>
     <string name="criarRota_place">Place</string>
+    <string name="criarRota_nomeDaRota">Route name</string>
+    <string name="criarRota_descricaoDaRota">Route description</string>
+    <string name="criarRota_adicionarLocal">Add place</string>
+    <string name="criarRota_tituloToolbar">New route</string>
 
 </resources>

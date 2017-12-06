@@ -37,4 +37,8 @@
     <!-- Criar rota activity -->
     <string name="criarRota_activity">Atividade</string>
     <string name="criarRota_place">Local</string>
+    <string name="criarRota_nomeDaRota">Nome da rota</string>
+    <string name="criarRota_descricaoDaRota">Descrição da rota</string>
+    <string name="criarRota_adicionarLocal">Adicionar local</string>
+    <string name="criarRota_tituloToolbar">Nova rota</string>
 </resources>
