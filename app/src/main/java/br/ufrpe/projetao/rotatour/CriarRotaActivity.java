@@ -30,7 +30,6 @@ public class CriarRotaActivity extends AppCompatActivity {
         mAddLocal = findViewById(R.id.criarRota_button_novoItem);
 
         TagGroup tagGroup = findViewById(R.id.criarRota_tag_group);
-        tagGroup.submitTag();
 
         mAddLocal.setOnClickListener(new View.OnClickListener() {
             @Override
