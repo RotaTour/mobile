@@ -60,12 +60,10 @@ public class LoginRotaActivity extends AppCompatActivity {
         final String email = mTxtEmail.getText().toString();
         final String password = mTxtSenha.getText().toString();
 
-        String url = URLs.URL_LOGIN;
-        VolleySingleton.getInstance(this).postLogin(url, new Response.Listener<String>() {
+        VolleySingleton.getInstance(this).postLogin(new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), response, Toast.LENGTH_LONG).show();
                 JSONObject jsonObject;
                 try {
                     jsonObject = new JSONObject(response);
@@ -83,10 +81,12 @@ public class LoginRotaActivity extends AppCompatActivity {
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
                 mBtnLogin.setEnabled(true);
                 progressDialog.dismiss();
                 mTxtEmail.setError(getString(R.string.loginRT_erro_emailOuSenha));
                 mTxtSenha.setError(getString(R.string.loginRT_erro_emailOuSenha));
+                mTxtEmail.requestFocus();
             }
         }, email, password);
 

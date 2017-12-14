@@ -17,8 +17,8 @@
     <string name="loginRT_password">Password</string>
     <string name="loginRT_login">Login</string>
     <string name="loginRT_autenticando">Authenticating...</string>
-    <string name="loginRT_login_falou">Login failed</string>
-    <string name="loginRT_erro_senha">between 4 and 10 alphanumeric characters</string>
+    <string name="loginRT_login_falhou">Login failed</string>
+    <string name="loginRT_erro_senha">between 6 and 10 alphanumeric characters</string>
     <string name="loginRT_erro_email">enter a valid email address</string>
     <string name="loginRT_conect_error">Connection error, verify if you have internet.</string>
 
@@ -49,5 +49,6 @@
     <string name="criarRota_descricaoDaRota">Route description</string>
     <string name="criarRota_adicionarLocal">Add place</string>
     <string name="criarRota_tituloToolbar">New route</string>
+    <string name="criarConta_errorEmail">Email already used</string>
 
 </resources>

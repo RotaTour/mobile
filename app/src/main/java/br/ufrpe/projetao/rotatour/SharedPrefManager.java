@@ -4,16 +4,16 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-//here for this class we are using a singleton pattern
+import com.facebook.login.LoginManager;
+
+//Classe para salvar informações de sessão de usuário no próprio dispositivo Android
 
 public class SharedPrefManager {
 
     //the constants
     private static final String SHARED_PREF_NAME = "simplifiedcodingsharedpref";
-    private static final String KEY_USERNAME = "keyusername";
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_PASSWORD = "keypassword";
-    private static final String KEY_ID = "keyid";
     private static final String KEY_TOKEN = "keytoken";
 
     private static SharedPrefManager mInstance;
@@ -61,6 +61,7 @@ public class SharedPrefManager {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.clear();
         editor.apply();
+        LoginManager.getInstance().logOut(); // desconectar do facebook
         mCtx.startActivity(new Intent(mCtx, LoginActivity.class));
     }
 }

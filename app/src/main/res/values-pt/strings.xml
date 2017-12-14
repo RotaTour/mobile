@@ -14,7 +14,7 @@
     <string name="loginRT_login">Entrar</string>
     <string name="loginRT_autenticando">Autenticando...</string>
     <string name="loginRT_login_falhou">Login falhou</string>
-    <string name="loginRT_erro_senha">entre 4 e 10 caracteres alfanuméricos</string>
+    <string name="loginRT_erro_senha">entre 6 e 10 caracteres alfanuméricos</string>
     <string name="loginRT_erro_email">digite um endereço de email válido</string>
     <string name="loginRT_conect_error">Erro de conexão, verifique se está conectado à internet.</string>
 
@@ -41,4 +41,5 @@
     <string name="criarRota_descricaoDaRota">Descrição da rota</string>
     <string name="criarRota_adicionarLocal">Adicionar local</string>
     <string name="criarRota_tituloToolbar">Nova rota</string>
+    <string name="criarConta_errorEmail">Email já cadastrado</string>
 </resources>

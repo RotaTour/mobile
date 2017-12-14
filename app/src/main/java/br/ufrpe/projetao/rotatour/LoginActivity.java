@@ -5,25 +5,34 @@ import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
 import com.facebook.FacebookSdk;
+import com.facebook.GraphRequest;
+import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private TextView mInfo;
@@ -35,6 +44,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     private Button mBtnCadastrarContaRT; // cadastrar conta RotaTour
     public static final int GOOGLE_SIGN_IN_CODE = 777;
     public static final int REQUEST_LOGIN = 77;
+    public static final int REQUEST_CADASTRO = 78;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,34 +53,15 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         FacebookSdk.sdkInitialize(getApplicationContext());
         AppEventsLogger.activateApp(this);
         mCallbackManager = CallbackManager.Factory.create();
-
         setContentView(R.layout.activity_login);
 
         if(SharedPrefManager.getInstance(this).isLoggedIn()) {
             startActivity(new Intent(this, PrincipalActivity.class));
-            killActivity();
+            finish();
         }
 
         mBtnLoginRT = findViewById(R.id.login_button_signIn);
         mBtnCadastrarContaRT = findViewById(R.id.login_button_signUp);
-
-        /*//OPCIONAL -- printar keyhash do app no Logcat do android studio
-        try {
-            PackageInfo info = getPackageManager().getPackageInfo(
-                    "br.ufrpe.projetao.rotatour",
-                    PackageManager.GET_SIGNATURES);
-            for (Signature signature : info.signatures) {
-                MessageDigest md = MessageDigest.getInstance("SHA");
-                md.update(signature.toByteArray());
-                Log.d("KeyHash:", Base64.encodeToString(md.digest(), Base64.DEFAULT));
-            }
-        } catch (PackageManager.NameNotFoundException e) {
-
-        } catch (NoSuchAlgorithmException e) {
-
-        }
-        //fim print keyhash
-        */
 
         mBtnLoginRT.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -82,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         mBtnCadastrarContaRT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(getApplicationContext(), CriarContaActivity.class));
+                startActivityForResult(new Intent(getApplicationContext(), CriarContaActivity.class), REQUEST_CADASTRO);
             }
         });
 
@@ -110,19 +101,50 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         //Facebook login
         mInfo = findViewById(R.id.info);
         mFacebookButton = findViewById(R.id.login_button_facebook);
+        //setar permissoes no Facebook
+        mFacebookButton.setReadPermissions("public_profile");
+        mFacebookButton.setReadPermissions("email");
+        //solicitar login FACEBOOK
         mFacebookButton.registerCallback(mCallbackManager, new FacebookCallback<LoginResult>() {
-            //Tratar login FACEBOOK
+
+            String name;
+            String avatar;
+            String email;
+            String provider = "facebook";
+            String provider_id;
             @Override
             public void onSuccess(LoginResult loginResult) {
-
-                mInfo.setText(
+                /*mInfo.setText(
                         "User ID: "
                                 + loginResult.getAccessToken().getUserId()
                                 + "\n" +
                                 "Auth Token: "
                                 + loginResult.getAccessToken().getToken()
-                );
-                startActivity(new Intent (getApplicationContext(), PrincipalActivity.class));
+                );*/
+
+                //solicitar informações do perfil Facebook
+                GraphRequest request = GraphRequest.newMeRequest(
+                        loginResult.getAccessToken(),
+                        new GraphRequest.GraphJSONObjectCallback() {
+                            @Override
+                            public void onCompleted(JSONObject object, GraphResponse response) {
+                                Log.v("LoginActivity", response.toString());
+                                try {
+                                    email = object.getString("email");
+                                    name = object.getString("name");
+                                    avatar = object.getJSONObject("picture").getJSONObject("data").getString("url");
+                                    provider_id = object.getString("id");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                loginSocial(name, email, avatar, provider, provider_id);
+                            }
+                        });
+                Bundle parameters = new Bundle();
+                parameters.putString("fields", "id,name,email,gender,birthday,picture");
+                request.setParameters(parameters);
+                request.executeAsync();
+                //comunicação com nosso servidor
             }
 
             @Override
@@ -143,7 +165,9 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         if(requestCode == GOOGLE_SIGN_IN_CODE){
            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        } else  if(requestCode == REQUEST_LOGIN && resultCode == RESULT_OK){
+        } else if(requestCode == REQUEST_LOGIN && resultCode == RESULT_OK){
+            finish();
+        } else if(requestCode == REQUEST_CADASTRO && resultCode == RESULT_OK){
             finish();
         }
     }
@@ -151,9 +175,17 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
     //Tratar login GOOGLE
     private void handleSignInResult(GoogleSignInResult result) {
         if(result.isSuccess()){
-            mInfo.setText(result.getSignInAccount().getEmail());
-            Intent intent = new Intent (getApplicationContext(), PrincipalActivity.class);
-            startActivity(intent);
+            //pegar dados da conta do Google
+            GoogleSignInAccount contaGoogle = result.getSignInAccount();
+            String name = contaGoogle.getDisplayName();
+            final String email = contaGoogle.getEmail();
+            String avatar = contaGoogle.getPhotoUrl().toString();
+            String provider = "google";
+            String provider_id = contaGoogle.getId();
+
+            //comunicação com nosso servidor
+            loginSocial(name, email, avatar, provider, provider_id);
+
         }else{
             Toast.makeText(this, R.string.login_falhou, Toast.LENGTH_LONG).show();
         }
@@ -199,9 +231,31 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }, 2000);
     }
 
-    private void killActivity() {
-        finish();
+    private void loginSocial(String name, final String email, String avatar, String provider, String provider_id){
+        VolleySingleton.getInstance(getApplicationContext()).postRegisterSocial(new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                JSONObject jsonObject;
+                Log.i("Login", "entrou no response");
+                try {
+                    jsonObject = new JSONObject(response);
+                    response = jsonObject.getString("token");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                Log.i("Login", "token: " + response);
+                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, null, response));
+                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error == null || error.networkResponse == null)
+                    return;
+                Toast.makeText(getApplicationContext(),"Deu erro",Toast.LENGTH_LONG).show();
+                Log.d("login", "net code error " + String.valueOf(error.networkResponse.statusCode));
+            }
+        }, name, email, avatar, provider, provider_id);
     }
 }
-
-

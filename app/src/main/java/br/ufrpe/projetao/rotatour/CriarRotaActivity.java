@@ -17,6 +17,7 @@ public class CriarRotaActivity extends AppCompatActivity {
 
     private LinearLayout mLinearLayout;
     private Button mAddLocal;
+    private TagGroup mTagGroup;
     private int i;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,12 +30,12 @@ public class CriarRotaActivity extends AppCompatActivity {
         mLinearLayout = findViewById(R.id.criarRota_layout_pai);
         mAddLocal = findViewById(R.id.criarRota_button_novoItem);
 
-        TagGroup tagGroup = findViewById(R.id.criarRota_tag_group);
+        mTagGroup = findViewById(R.id.criarRota_tag_group);
 
         mAddLocal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //adicionar novos campos de atividade e local para a Rota
+                //adicionar novos dinamicos campos de atividade e local para a Rota
                 LinearLayout ll = new LinearLayout(v.getContext());
 
                 ll.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
@@ -72,7 +73,7 @@ public class CriarRotaActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
                 // TODO do someing
-                Toast.makeText(getApplication(), "Done", Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplication(), "Tags: " + mTagGroup.getTags(), Toast.LENGTH_LONG).show();
                 break;
 
         }

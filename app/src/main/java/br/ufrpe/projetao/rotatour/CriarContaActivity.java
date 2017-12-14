@@ -14,8 +14,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 
 import org.json.JSONException;
+import org.json.JSONObject;
 
-import java.security.Principal;
+import java.net.HttpURLConnection;
 
 public class CriarContaActivity extends AppCompatActivity {
     private static final String TAG = "SignupActivity";
@@ -59,16 +60,43 @@ public class CriarContaActivity extends AppCompatActivity {
         progressDialog.show();
 
         String name = mTxtNome.getText().toString();
-        String email = mTxtEmail.getText().toString();
-        String password = mTxtSenha.getText().toString();
+        final String email = mTxtEmail.getText().toString();
+        final String password = mTxtSenha.getText().toString();
 
-        // TODO: Implement your own signup logic here.
-        try {
-            userRegister(name, email, password);
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-        new android.os.Handler().postDelayed(
+        VolleySingleton.getInstance(this).postRegister(new Response.Listener<String>(){
+
+            @Override
+            public void onResponse(String response) {
+                JSONObject jsonObject;
+                try {
+                    jsonObject = new JSONObject(response);
+                    response = jsonObject.getString("token");
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
+                setResult(RESULT_OK);
+                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                finish();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                if (error == null || error.networkResponse == null) {
+                    return;
+                }
+                progressDialog.dismiss();
+                mBtnCriar.setEnabled(true);
+                //new String(error.networkResponse.data,"UTF-8"));  //opcional pegar mensagem de erro da resposta
+
+                if (error.networkResponse.statusCode == HttpURLConnection.HTTP_CONFLICT) {
+                    mTxtEmail.setError(getString(R.string.criarConta_errorEmail));
+                    mTxtEmail.requestFocus();
+                }
+            }
+        },name, email, password);
+    }
+        /*new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
                         // On complete call either onSignupSuccess or onSignupFailed
@@ -77,19 +105,10 @@ public class CriarContaActivity extends AppCompatActivity {
                         // onSignupFailed();
                         progressDialog.dismiss();
                     }
-                }, 3000);
-    }
-
-
-    public void onSignupSuccess() {
-        mBtnCriar.setEnabled(true);
-        setResult(RESULT_OK, null);
-        finish();
-    }
+                }, 3000);*/
 
     public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), getString(R.string.loginRT_login_falou), Toast.LENGTH_LONG).show();
-
+        Toast.makeText(getBaseContext(), getString(R.string.loginRT_login_falhou), Toast.LENGTH_LONG).show();
         mBtnCriar.setEnabled(true);
     }
 
@@ -114,7 +133,7 @@ public class CriarContaActivity extends AppCompatActivity {
             mTxtEmail.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 6 || password.length() > 10) {
             mTxtSenha.setError(getString(R.string.loginRT_erro_senha));
             valid = false;
         } else {
@@ -122,24 +141,5 @@ public class CriarContaActivity extends AppCompatActivity {
         }
 
         return valid;
-    }
-
-    private void userRegister(final String nome, final String email, final String password) throws JSONException {
-        //TODO SUBSTITUIR PELA CLASSE URLs
-        String url = "https://jsonplaceholder.typicode.com/posts";
-        VolleySingleton.getInstance(this).postRegister(url, new Response.Listener<String>(){
-
-            @Override
-            public void onResponse(String response) {
-                Toast.makeText(getApplicationContext(), response.toString(), Toast.LENGTH_LONG).show();
-
-                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), R.string.loginRT_conect_error, Toast.LENGTH_LONG).show();
-            }
-        },nome, email, password);
     }
 }
