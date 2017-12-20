@@ -6,6 +6,8 @@ import android.content.SharedPreferences;
 
 import com.facebook.login.LoginManager;
 
+import br.ufrpe.projetao.rotatour.activities.LoginActivity;
+
 //Classe para salvar informações de sessão de usuário no próprio dispositivo Android
 
 public class SharedPrefManager {

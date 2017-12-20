@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.fragments;
 
 import android.content.Context;
 import android.content.Intent;
@@ -18,15 +18,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
+
+import br.ufrpe.projetao.rotatour.activities.CriarRotaActivity;
+import br.ufrpe.projetao.rotatour.Local;
+import br.ufrpe.projetao.rotatour.Manifest;
+import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.adapters.MyAdapter;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -37,7 +40,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FloatingActionButton mFabNovaRota;
     private static final String TAG = "MapsFragment";
 
-    ArrayList<Place> listitems = new ArrayList<>();
+    ArrayList<Local> listitems = new ArrayList<>();
     RecyclerView MyRecyclerView;
     String Places[] = {"Museu","Praia","Recife Antigo","Igreja","Olinda"};
     int  Images[] = {R.drawable.ic_like
@@ -51,7 +54,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
         super.onCreate(savedInstanceState);
         listitems.clear();
         for(int i =0;i<Places.length;i++){
-            Place item = new Place();
+            Local item = new Local();
             item.setCardName(Places[i]);
             item.setImageResourceId(Images[i]);
             item.setAtividade("Atividade"+i);

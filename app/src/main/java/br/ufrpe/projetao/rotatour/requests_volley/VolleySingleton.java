@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.requests_volley;
 
 import android.content.Context;
 
@@ -38,7 +38,7 @@ public class VolleySingleton {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").replace(" ", "%20");
     }
 
-    void getObject(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
+    public void getObject(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
         url = removerAcentos(url);
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error);
         request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -46,7 +46,7 @@ public class VolleySingleton {
     }
 
     //TODO HEADERS
-    void getObjectWithHeader(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error, final String email, final String password) {
+    public void getObjectWithHeader(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error, final String email, final String password) {
         url = removerAcentos(url);
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error) {
             @Override
@@ -57,11 +57,13 @@ public class VolleySingleton {
                 return params;
             }
         };
-        request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
     }
 
-    void postLogin(Response.Listener<String> callback, Response.ErrorListener error, final String email, final String password) {
+    public void postLogin(Response.Listener<String> callback, Response.ErrorListener error,
+                          final String email, final String password) {
         final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_LOGIN, callback, error) {
             @Override
             protected Map<String, String> getParams() {
@@ -76,7 +78,8 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
-    void postRegister(Response.Listener<String> callback, Response.ErrorListener error, final String nome, final String email, final String password) {
+    public void postRegister(Response.Listener<String> callback, Response.ErrorListener error,
+                             final String nome, final String email, final String password) {
         final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_REGISTER, callback, error) {
             @Override
             protected Map<String, String> getParams() {
@@ -92,7 +95,7 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
-    void postRegisterSocial(Response.Listener<String> callback, Response.ErrorListener error,
+    public void postRegisterSocial(Response.Listener<String> callback, Response.ErrorListener error,
                             final String nome, final String email, final String avatar, final String provider,
                             final String provider_id) {
 

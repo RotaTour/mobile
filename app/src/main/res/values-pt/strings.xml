@@ -42,4 +42,5 @@
     <string name="criarRota_adicionarLocal">Adicionar local</string>
     <string name="criarRota_tituloToolbar">Nova rota</string>
     <string name="criarConta_errorEmail">Email já cadastrado</string>
+    <string name="criarRota_ajudaLocal">Toque no botão \'+\' para adicionar locais à rota</string>
 </resources>

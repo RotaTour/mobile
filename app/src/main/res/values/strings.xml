@@ -50,5 +50,6 @@
     <string name="criarRota_adicionarLocal">Add place</string>
     <string name="criarRota_tituloToolbar">New route</string>
     <string name="criarConta_errorEmail">Email already used</string>
+    <string name="criarRota_ajudaLocal">Touch on \'+\' button to add places to your route</string>
 
 </resources>

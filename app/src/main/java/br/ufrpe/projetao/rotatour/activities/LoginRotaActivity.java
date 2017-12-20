@@ -1,10 +1,11 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.activities;
 
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,54 +17,55 @@ import com.android.volley.VolleyError;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.net.HttpURLConnection;
+import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.SharedPrefManager;
+import br.ufrpe.projetao.rotatour.Usuario;
+import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 
-public class CriarContaActivity extends AppCompatActivity {
-    private static final String TAG = "SignupActivity";
-    private EditText mTxtNome;
+public class LoginRotaActivity extends AppCompatActivity {
+    private static final String TAG = "LoginActivity";
+
     private EditText mTxtEmail;
     private EditText mTxtSenha;
-    private Button mBtnCriar;
+    private Button mBtnLogin;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_criar_conta);
+        setContentView(R.layout.activity_login_rota);
 
-        mTxtNome = findViewById(R.id.criarConta_edit_nome);
-        mTxtEmail = findViewById(R.id.criarConta_edit_email);
-        mTxtSenha = findViewById(R.id.criarConta_edit_senha);
-        mBtnCriar = findViewById(R.id.criarConta_button_criar);
+        mTxtEmail = findViewById(R.id.loginRT_edit_email);
+        mTxtSenha = findViewById(R.id.loginRT_edit_senha);
+        mBtnLogin = findViewById(R.id.loginRT_button_login);
 
-        mBtnCriar.setOnClickListener(new View.OnClickListener() {
+        mBtnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                signup();
+                login();
             }
         });
     }
 
-    public void signup() {
-        Log.d(TAG, "Signup");
+    public void login() {
+        Log.d(TAG, "Login");
 
         if (!validate()) {
-            onSignupFailed();
+            onLoginFailed();
             return;
         }
 
-        mBtnCriar.setEnabled(false);
+        mBtnLogin.setEnabled(false);
 
-        final ProgressDialog progressDialog = new ProgressDialog(CriarContaActivity.this,
+        final ProgressDialog progressDialog = new ProgressDialog(LoginRotaActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
-        progressDialog.setMessage(getString(R.string.criarConta_criando));
+        progressDialog.setMessage(getString(R.string.loginRT_autenticando));
         progressDialog.show();
 
-        String name = mTxtNome.getText().toString();
         final String email = mTxtEmail.getText().toString();
         final String password = mTxtSenha.getText().toString();
 
-        VolleySingleton.getInstance(this).postRegister(new Response.Listener<String>(){
+        VolleySingleton.getInstance(this).postLogin(new Response.Listener<String>() {
 
             @Override
             public void onResponse(String response) {
@@ -71,60 +73,51 @@ public class CriarContaActivity extends AppCompatActivity {
                 try {
                     jsonObject = new JSONObject(response);
                     response = jsonObject.getString("token");
+                    Log.i("LoginRotaActivity", response);
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
+                progressDialog.dismiss();
                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
                 setResult(RESULT_OK);
+                killActivity();
                 startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
-                finish();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                if (error == null || error.networkResponse == null) {
-                    return;
-                }
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
+                mBtnLogin.setEnabled(true);
                 progressDialog.dismiss();
-                mBtnCriar.setEnabled(true);
-                //new String(error.networkResponse.data,"UTF-8"));  //opcional pegar mensagem de erro da resposta
-
-                if (error.networkResponse.statusCode == HttpURLConnection.HTTP_CONFLICT) {
-                    mTxtEmail.setError(getString(R.string.criarConta_errorEmail));
-                    mTxtEmail.requestFocus();
-                }
+                mTxtEmail.setError(getString(R.string.loginRT_erro_emailOuSenha));
+                mTxtSenha.setError(getString(R.string.loginRT_erro_emailOuSenha));
+                mTxtEmail.requestFocus();
             }
-        },name, email, password);
-    }
+        }, email, password);
+
         /*new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
-                        // On complete call either onSignupSuccess or onSignupFailed
-                        // depending on success
-                        onSignupSuccess();
-                        // onSignupFailed();
+                        // On complete call either onLoginSuccess or onLoginFailed
+                        onLoginSuccess();
+                       // onLoginFailed();
                         progressDialog.dismiss();
+                        killActivity();
                     }
-                }, 3000);*/
+                }, 5000); */
+    }
 
-    public void onSignupFailed() {
-        Toast.makeText(getBaseContext(), getString(R.string.loginRT_login_falhou), Toast.LENGTH_LONG).show();
-        mBtnCriar.setEnabled(true);
+    public void onLoginFailed() {
+        Toast.makeText(getBaseContext(), R.string.loginRT_login_falhou, Toast.LENGTH_LONG).show();
+
+        mBtnLogin.setEnabled(true);
     }
 
     public boolean validate() {
         boolean valid = true;
 
-        String name = mTxtNome.getText().toString();
         String email = mTxtEmail.getText().toString();
         String password = mTxtSenha.getText().toString();
-
-        if (name.isEmpty() || name.length() < 3) {
-            mTxtNome.setError(getString(R.string.criarConta_erroNome));
-            valid = false;
-        } else {
-            mTxtNome.setError(null);
-        }
 
         if (email.isEmpty() || !android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             mTxtEmail.setError(getString(R.string.loginRT_erro_email));
@@ -133,7 +126,7 @@ public class CriarContaActivity extends AppCompatActivity {
             mTxtEmail.setError(null);
         }
 
-        if (password.isEmpty() || password.length() < 6 || password.length() > 10) {
+        if (password.isEmpty() || password.length() < 4 || password.length() > 10) {
             mTxtSenha.setError(getString(R.string.loginRT_erro_senha));
             valid = false;
         } else {
@@ -141,5 +134,9 @@ public class CriarContaActivity extends AppCompatActivity {
         }
 
         return valid;
+    }
+
+    private void killActivity() {
+        finish();
     }
 }

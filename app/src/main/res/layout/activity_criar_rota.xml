@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              xmlns:app="http://schemas.android.com/apk/res-auto"
-              android:orientation="vertical">
+<android.support.design.widget.CoordinatorLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:orientation="vertical">
 
     <android.support.v7.widget.Toolbar
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -18,9 +19,11 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <ScrollView android:layout_width="match_parent"
+    <ScrollView android:id="@+id/svConteudo"
+                android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_marginTop="24dp"
                 android:layout_marginBottom="16dp">
             <LinearLayout
                 android:id="@+id/criarRota_layout_pai"
@@ -30,7 +33,7 @@
                 android:layout_height="match_parent"
                 android:orientation="vertical"
                 android:layout_margin="16dp"
-                tools:context="br.ufrpe.projetao.rotatour.CriarRotaActivity">
+                tools:context=".activities.CriarRotaActivity">
 
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
@@ -43,6 +46,7 @@
                         android:layout_height="wrap_content"
                         android:hint="@string/criarRota_nomeDaRota"/>
                 </android.support.design.widget.TextInputLayout>
+
                 <android.support.design.widget.TextInputLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -53,15 +57,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="@string/criarRota_descricaoDaRota"
-                        android:inputType="textMultiLine"
-                        android:lines="5"/>
+                        android:inputType="textMultiLine"/>
                 </android.support.design.widget.TextInputLayout>
 
-                    <TextView
-                        android:id="@+id/criarRota_text_tags"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:hint="Tags"/>
+                <TextView
+                    android:id="@+id/criarRota_text_tags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Tags"/>
 
                 <me.gujun.android.taggroup.TagGroup
                     android:id="@+id/criarRota_tag_group"
@@ -70,37 +73,29 @@
                     android:layout_marginBottom="12dp"
                     style="@style/TagGroup.Large" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/criarRota_tv_mais"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-                    <EditText
-                        android:id="@+id/criarRota_text_atv0"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/criarRota_activity"
-                        android:layout_weight="2"/>
+                    android:text="@string/criarRota_ajudaLocal"
+                    android:layout_gravity="center_vertical"/>
 
-                    <EditText
-                        android:id="@+id/criarRota_text_lugar0"
-                        android:layout_width="0dp"
-                        android:layout_height="wrap_content"
-                        android:hint="@string/criarRota_place"
-                        android:layout_weight="3"/>
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/criarRota_button_novoItem"
+                <android.support.v7.widget.RecyclerView
+                    android:id="@+id/criarRota_rv_lista"
                     android:layout_width="match_parent"
-                    android:layout_height="30dp"
-                    android:layout_marginBottom="16dp"
-                    android:text="@string/criarRota_adicionarLocal"
-                    android:textColor="@color/primary_dark"
-                    android:background="@color/white"
-                    android:drawableStart="@drawable/ic_add_location_black_24dp"
-                    android:drawableTint="@color/primary_dark"/>
-
+                    android:layout_height="wrap_content"
+                    android:scrollbars="vertical"/>
             </LinearLayout>
     </ScrollView>
-</LinearLayout>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/criarRota_button_novoLocal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        app:layout_anchor="@id/svConteudo"
+        app:layout_anchorGravity="bottom|end"
+        android:backgroundTint="@color/white"
+        app:srcCompat="@drawable/ic_add_black_24dp"
+        android:tint="@color/primary_dark"/>
+</android.support.design.widget.CoordinatorLayout>

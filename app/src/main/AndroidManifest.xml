@@ -47,7 +47,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -66,20 +66,24 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key"/>
-
+        <!-- Chave Places
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyBW6jesNb6icsREQxn3N3PL1Xu23Z2SR6g"/>
+        -->
         <activity
-            android:name=".CriarContaActivity"
+            android:name=".activities.CriarContaActivity"
             android:label="Criar conta RotaTour">
         </activity>
         <activity
-            android:name=".LoginRotaActivity"
+            android:name=".activities.LoginRotaActivity"
             android:label="Login com conta RotaTour">
         </activity>
         <activity
-            android:name=".PrincipalActivity"
+            android:name=".activities.PrincipalActivity"
             android:label="@string/title_activity_principal">
         </activity>
-        <activity android:name=".CriarRotaActivity">
+        <activity android:name=".activities.CriarRotaActivity">
         </activity>
     </application>
 

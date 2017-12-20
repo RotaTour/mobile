@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -8,6 +8,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.SharedPrefManager;
+import br.ufrpe.projetao.rotatour.Usuario;
 
 public class PerfilFragment extends Fragment {
 

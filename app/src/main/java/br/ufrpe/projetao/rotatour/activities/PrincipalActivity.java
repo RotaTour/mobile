@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.activities;
 
 import android.net.Uri;
 import android.os.Bundle;
@@ -8,6 +8,11 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
+
+import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.fragments.HomeFragment;
+import br.ufrpe.projetao.rotatour.fragments.MapsFragment;
+import br.ufrpe.projetao.rotatour.fragments.PerfilFragment;
 
 public class PrincipalActivity extends AppCompatActivity
         implements HomeFragment.OnFragmentInteractionListener

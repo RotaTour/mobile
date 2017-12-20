@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.activities;
 
 import android.content.Intent;
 import android.os.Handler;
@@ -20,7 +20,6 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -33,6 +32,11 @@ import com.google.android.gms.common.api.GoogleApiClient;
 
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.SharedPrefManager;
+import br.ufrpe.projetao.rotatour.Usuario;
+import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 
 public class LoginActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
     private TextView mInfo;

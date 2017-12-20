@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -11,6 +11,8 @@ import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import br.ufrpe.projetao.rotatour.R;
 
 
 /**

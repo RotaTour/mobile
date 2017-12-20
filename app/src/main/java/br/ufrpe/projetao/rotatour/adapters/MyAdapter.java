@@ -1,4 +1,4 @@
-package br.ufrpe.projetao.rotatour;
+package br.ufrpe.projetao.rotatour.adapters;
 
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -7,9 +7,13 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 
+import br.ufrpe.projetao.rotatour.Local;
+import br.ufrpe.projetao.rotatour.MyViewHolder;
+import br.ufrpe.projetao.rotatour.R;
+
 public class MyAdapter extends RecyclerView.Adapter<MyViewHolder> {
-    private ArrayList<Place> list;
-    public MyAdapter(ArrayList<Place> Data) {
+    private ArrayList<Local> list;
+    public MyAdapter(ArrayList<Local> Data) {
         list = Data;
     }
     @Override
