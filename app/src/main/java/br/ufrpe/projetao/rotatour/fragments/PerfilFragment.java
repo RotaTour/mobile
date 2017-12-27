@@ -7,15 +7,21 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
 
-public class PerfilFragment extends Fragment {
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     private TextView textViewId, textViewUsername, textViewEmail, textViewGender;
+    private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
+
 
     private PerfilFragment.OnFragmentInteractionListener mListener;
 
@@ -47,6 +53,73 @@ public class PerfilFragment extends Fragment {
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
 
+
+
+
+       v.findViewById(R.id.buttonMinhasRotas).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Context context = getApplicationContext();
+               String texto = "Minhas Rotas";
+               Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+               toast.show();
+           }
+       });
+
+        //Minhas Anvaliacoes button - replace logic
+         v.findViewById(R.id.buttonMinhasAvaliacoes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Minhas Avaliações";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        //Minhas Fotos button - replace logic
+        v.findViewById(R.id.buttonMinhasFotos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Minhas Fotos";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        // Favoritos buttos - replace logic
+       v.findViewById(R.id.buttonFavoritos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Favoritos";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+       //Conquistas button - replace logic
+        v.findViewById(R.id.buttonConquistas).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Conquistas";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        //Configuracoes button - replace logic
+        v.findViewById(R.id.buttonConfiguracoes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Configurações";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         //getting the current user
         Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
@@ -90,6 +163,20 @@ public class PerfilFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.buttonMinhasRotas:
+                Context context = getApplicationContext();
+                String texto = "Minhas Rotas";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+        }
+
+
     }
 
     /**
