@@ -42,7 +42,7 @@ public class PerfilFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
 
-        textViewId = v.findViewById(R.id.textViewId);
+        //textViewId = v.findViewById(R.id.textViewId); token
         textViewUsername = v.findViewById(R.id.textViewUsername);
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
@@ -52,7 +52,7 @@ public class PerfilFragment extends Fragment {
         Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
 
         //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getToken()));
+        //textViewId.setText(String.valueOf(user.getToken()));  token
         textViewEmail.setText(user.getEmail());
 
         //when the user presses logout button

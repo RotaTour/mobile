@@ -1,106 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.ufrpe.projetao.rotatour.fragments.PerfilFragment"
-    android:theme="@style/AppTheme.Dark">
+    android:orientation="vertical"
+    tools:context="br.ufrpe.projetao.rotatour.fragments.HomeFragment">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="5dp">
-
-        <TableLayout
+        android:layout_height="wrap_content">
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@android:drawable/screen_background_dark_transparent">
+            android:orientation="horizontal"
+            android:gravity="start">
 
-            <TableRow>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Token"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/ic_launcher"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="1dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="117dp"
+                tools:layout_editor_absoluteY="6dp" />
 
-                <TextView
-                    android:id="@+id/textViewId"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="1"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Username"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
 
                 <TextView
                     android:id="@+id/textViewUsername"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Ikaro Alef"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Email"
+                    android:padding="5dp"
+                    android:text="Tatu"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
 
                 <TextView
                     android:id="@+id/textViewEmail"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="probelalkhan@gmail.com"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
-            </TableRow>
-
-            <TableRow>
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:padding="10dp"
-                    android:text="Gender"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
-
+                    android:padding="5dp"
+                    android:text="tatu@rotatuor.com"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
                 <TextView
                     android:id="@+id/textViewGender"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="10dp"
+                    android:padding="5dp"
                     android:text="Male"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
+            </LinearLayout>
+        </LinearLayout>
 
-            </TableRow>
 
+    </RelativeLayout>
 
-        </TableLayout>
+    <Button
+        android:id="@+id/buttonMinhasRotas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Minhas Rotas"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
 
-        <Button
-            android:id="@+id/buttonLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout" />
-    </LinearLayout>
-</FrameLayout>
+    <Button
+        android:id="@+id/buttonMinhasAvaliacoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Minhas Avaliações"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonMinhasFotos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Minhas Fotos"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonFavoritos"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Favoritos"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonConquistas"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Conquistas"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonConfiguracoes"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Configurações"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+    <Button
+        android:id="@+id/buttonLogout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Logout"
+        android:textAllCaps="false"
+        android:textSize="18sp" />
+
+</LinearLayout>
