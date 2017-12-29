@@ -5,6 +5,7 @@ import android.net.Uri;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,6 +15,7 @@ import android.widget.Toast;
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.facebook.FacebookSdk.getApplicationContext;
 
@@ -21,9 +23,8 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     private TextView textViewId, textViewUsername, textViewEmail, textViewGender;
     private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
-
-
     private PerfilFragment.OnFragmentInteractionListener mListener;
+    private CircleImageView circleImage;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,8 +54,17 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
 
+        v.findViewById(R.id.profile).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
 
-
+                Context context = getApplicationContext();
+                String texto = "Adicionar lógica de escolha de imagem de perfil";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+                return false;
+            }
+        });
 
        v.findViewById(R.id.buttonMinhasRotas).setOnClickListener(new View.OnClickListener() {
            @Override
