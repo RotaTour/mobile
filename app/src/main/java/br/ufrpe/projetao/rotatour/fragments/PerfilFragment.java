@@ -1,9 +1,16 @@
 package br.ufrpe.projetao.rotatour.fragments;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -12,12 +19,17 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.IOException;
+
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
 import de.hdodenhof.circleimageview.CircleImageView;
 
+import static android.app.Activity.RESULT_OK;
+import static com.android.volley.VolleyLog.TAG;
 import static com.facebook.FacebookSdk.getApplicationContext;
+
 
 public class PerfilFragment extends Fragment implements View.OnClickListener {
 
@@ -25,6 +37,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
     private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
     private PerfilFragment.OnFragmentInteractionListener mListener;
     private CircleImageView circleImage;
+    private static int IMAGE_PICKER = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -53,15 +66,22 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         textViewUsername = v.findViewById(R.id.textViewUsername);
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
+        circleImage = v.findViewById(R.id.profile);
 
         v.findViewById(R.id.profile).setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
 
-                Context context = getApplicationContext();
+                /*Context context = getApplicationContext();
                 String texto = "Adicionar lógica de escolha de imagem de perfil";
                 Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
-                toast.show();
+
+                toast.show();*/
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), IMAGE_PICKER);
                 return false;
             }
         });
@@ -188,6 +208,27 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
 
     }
+
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == IMAGE_PICKER && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                Log.d(TAG, String.valueOf(bitmap));
+
+                circleImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this
