@@ -1,23 +1,43 @@
 package br.ufrpe.projetao.rotatour.fragments;
 
+import android.app.DownloadManager;
 import android.content.Context;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.support.v4.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import java.io.IOException;
 
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
+import de.hdodenhof.circleimageview.CircleImageView;
 
-public class PerfilFragment extends Fragment {
+import static android.app.Activity.RESULT_OK;
+import static com.android.volley.VolleyLog.TAG;
+import static com.facebook.FacebookSdk.getApplicationContext;
+
+
+public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     private TextView textViewId, textViewUsername, textViewEmail, textViewGender;
-
+    private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
     private PerfilFragment.OnFragmentInteractionListener mListener;
+    private CircleImageView circleImage;
+    private static int IMAGE_PICKER = 1;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,17 +62,100 @@ public class PerfilFragment extends Fragment {
         View v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
 
-        textViewId = v.findViewById(R.id.textViewId);
+        //textViewId = v.findViewById(R.id.textViewId); token
         textViewUsername = v.findViewById(R.id.textViewUsername);
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
+        circleImage = v.findViewById(R.id.profile);
 
+        v.findViewById(R.id.profile).setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                /*Context context = getApplicationContext();
+                String texto = "Adicionar lógica de escolha de imagem de perfil";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+
+                toast.show();*/
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "Select Picture"), IMAGE_PICKER);
+                return false;
+            }
+        });
+
+       v.findViewById(R.id.buttonMinhasRotas).setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               Context context = getApplicationContext();
+               String texto = "Minhas Rotas";
+               Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+               toast.show();
+           }
+       });
+
+        //Minhas Anvaliacoes button - replace logic
+         v.findViewById(R.id.buttonMinhasAvaliacoes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Minhas Avaliações";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        //Minhas Fotos button - replace logic
+        v.findViewById(R.id.buttonMinhasFotos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Minhas Fotos";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        // Favoritos buttos - replace logic
+       v.findViewById(R.id.buttonFavoritos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Favoritos";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+       //Conquistas button - replace logic
+        v.findViewById(R.id.buttonConquistas).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Conquistas";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
+
+        //Configuracoes button - replace logic
+        v.findViewById(R.id.buttonConfiguracoes).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Configurações";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });
 
         //getting the current user
         Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
 
         //setting the values to the textviews
-        textViewId.setText(String.valueOf(user.getToken()));
+        //textViewId.setText(String.valueOf(user.getToken()));  token
         textViewEmail.setText(user.getEmail());
 
         //when the user presses logout button
@@ -91,6 +194,41 @@ public class PerfilFragment extends Fragment {
         super.onDetach();
         mListener = null;
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()){
+            case R.id.buttonMinhasRotas:
+                Context context = getApplicationContext();
+                String texto = "Minhas Rotas";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+                break;
+        }
+
+
+    }
+
+  public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == IMAGE_PICKER && resultCode == RESULT_OK && data != null && data.getData() != null) {
+
+            Uri uri = data.getData();
+
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(getApplicationContext().getContentResolver(), uri);
+                Log.d(TAG, String.valueOf(bitmap));
+
+                circleImage.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+    }
+
+
+
 
     /**
      * This interface must be implemented by activities that contain this
