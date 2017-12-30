@@ -48,16 +48,16 @@ public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisView
         return mList.size();
     }
 
-    public class LocaisViewHolder extends RecyclerView.ViewHolder {
-        public TextView tvTitle;
-        public ImageView ivImage;
-        public TextView tvAtividade;
+public class LocaisViewHolder extends RecyclerView.ViewHolder {
+    public TextView tvTitle;
+    public ImageView ivImage;
+    public TextView tvAtividade;
 
-        public LocaisViewHolder(View v) {
-            super(v);
-            tvTitle = v.findViewById(R.id.titleTextView);
-            ivImage = v.findViewById(R.id.coverImageView);
-            tvAtividade = v.findViewById(R.id.atividade);
-        }
+    public LocaisViewHolder(View v) {
+        super(v);
+        tvTitle = v.findViewById(R.id.titleTextView);
+        ivImage = v.findViewById(R.id.coverImageView);
+        tvAtividade = v.findViewById(R.id.atividade);
     }
+}
 }
