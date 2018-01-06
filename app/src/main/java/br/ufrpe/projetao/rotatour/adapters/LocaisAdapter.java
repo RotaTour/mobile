@@ -1,6 +1,9 @@
 package br.ufrpe.projetao.rotatour.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,10 +11,15 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.activities.CriarRotaActivity;
 
 public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisViewHolder> {
 
@@ -31,16 +39,11 @@ public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisView
     }
 
     @Override
-    public void onBindViewHolder(LocaisViewHolder holder, int position) {
-        int  Images[] = {R.drawable.ic_like
-                ,R.drawable.ic_home_black_24dp
-                ,R.drawable.ic_map_black_24dp
-                ,R.drawable.ic_person_black_24dp
-                ,R.drawable.ic_share_black_24dp};
+    public void onBindViewHolder(final LocaisViewHolder holder, final int position) {
 
-        holder.ivImage.setImageResource(Images[mList.get(position).getImageResourceId()]);
         holder.tvTitle.setText(mList.get(position).getCardName());
         holder.tvAtividade.setText(mList.get(position).getAtividade());
+        holder.ivImage.setImageBitmap(mList.get(position).getImagem());
     }
 
     @Override
@@ -48,16 +51,16 @@ public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisView
         return mList.size();
     }
 
-public class LocaisViewHolder extends RecyclerView.ViewHolder {
-    public TextView tvTitle;
-    public ImageView ivImage;
-    public TextView tvAtividade;
+    public class LocaisViewHolder extends RecyclerView.ViewHolder {
+        public TextView tvTitle;
+        public ImageView ivImage;
+        public TextView tvAtividade;
 
-    public LocaisViewHolder(View v) {
-        super(v);
-        tvTitle = v.findViewById(R.id.titleTextView);
-        ivImage = v.findViewById(R.id.coverImageView);
-        tvAtividade = v.findViewById(R.id.atividade);
+        public LocaisViewHolder(View v) {
+            super(v);
+            tvTitle = v.findViewById(R.id.titleTextView);
+            ivImage = v.findViewById(R.id.coverImageView);
+            tvAtividade = v.findViewById(R.id.atividade);
+        }
     }
-}
 }

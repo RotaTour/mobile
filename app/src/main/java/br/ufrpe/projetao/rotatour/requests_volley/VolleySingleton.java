@@ -1,6 +1,8 @@
 package br.ufrpe.projetao.rotatour.requests_volley;
 
 import android.content.Context;
+import android.util.Log;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.DefaultRetryPolicy;
@@ -12,12 +14,19 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.text.Normalizer;
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+
+import br.ufrpe.projetao.rotatour.Local;
+import br.ufrpe.projetao.rotatour.SharedPrefManager;
 
 public class VolleySingleton {
     private static VolleySingleton mInstance;
@@ -36,13 +45,6 @@ public class VolleySingleton {
 
     private static String removerAcentos(String str) {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").replace(" ", "%20");
-    }
-
-    public void getObject(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
-        url = removerAcentos(url);
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error);
-        request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        mQueue.add(request);
     }
 
     //TODO HEADERS
@@ -128,4 +130,67 @@ public class VolleySingleton {
         };
         mQueue.add(postRequest);
     }
+
+    public void postRoutes(Response.Listener<JSONObject> callback, Response.ErrorListener error,
+                           final String name, final String body, final Context context) {
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("name", name);
+            if(body!=null)
+                jsonObject.put("body", body);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        final JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URLs.URL_ROUTES, jsonObject, callback, error) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+        mQueue.add(postRequest);
+    }
+
+    public void postAddToRoutes(Response.Listener<JSONObject> callback, Response.ErrorListener error,
+                                final String routeId, final String google_place_id,
+                                final List<Local> google_places, final Context context) {
+        List<String> lista_places_id = new ArrayList<>();
+        for (int i = 0; i < google_places.size(); i++){
+            lista_places_id.add(google_places.get(i).getGooglePlaceId());
+        }
+        //aqui é um JsonObjectRequest, dessa forma, nao preciso de Override Params
+        //monto o JSONObject e envio ele na requisição
+        JSONArray arrayPlaces = null;
+        if (google_places != null)
+            arrayPlaces = new JSONArray(lista_places_id);
+        JSONObject jsonObject = new JSONObject();
+        try {
+            jsonObject.put("routeId", routeId);
+            if(google_place_id != null)
+                jsonObject.put("google_place_id", google_place_id);
+            if (arrayPlaces != null)
+                jsonObject.put("google_places", arrayPlaces);
+            //jsonObject.
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+        Log.d("json ikaro", jsonObject.toString());
+
+        final JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST,
+                URLs.URL_ADD_ROUTE, jsonObject, callback, error) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+        mQueue.add(postRequest);
+    }
+
+
+
 }

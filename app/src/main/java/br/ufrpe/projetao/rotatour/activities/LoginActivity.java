@@ -60,6 +60,30 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         if(SharedPrefManager.getInstance(this).isLoggedIn()) {
+            //TODO TRATAR RENOVAÇÃO TOKEN LOGIN SOCIAL
+            final String email = SharedPrefManager.getInstance(this).getUser().getEmail();
+            final String password = SharedPrefManager.getInstance(this).getUser().getPassword();
+
+            VolleySingleton.getInstance(this).postLogin(new Response.Listener<String>() {
+
+                @Override
+                public void onResponse(String response) {
+                    JSONObject jsonObject;
+                    try {
+                        jsonObject = new JSONObject(response);
+                        response = jsonObject.getString("token");
+                        Log.i("LoginRotaActivity", response);
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
+                }
+            }, email, password);
             startActivity(new Intent(this, PrincipalActivity.class));
             finish();
         }

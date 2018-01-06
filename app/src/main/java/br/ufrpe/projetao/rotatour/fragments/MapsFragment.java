@@ -40,19 +40,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FloatingActionButton mFabNovaRota;
     private static final String TAG = "MapsFragment";
 
-    ArrayList<Local> listitems = new ArrayList<>();
-    RecyclerView MyRecyclerView;
-    String Places[] = {"Museu","Praia","Recife Antigo","Igreja","Olinda"};
-    int  Images[] = {R.drawable.ic_like
+    //ArrayList<Local> listitems = new ArrayList<>();
+    //RecyclerView MyRecyclerView;
+    //String Places[] = {"Museu","Praia","Recife Antigo","Igreja","Olinda"};
+    /*int  Images[] = {R.drawable.ic_like
             ,R.drawable.ic_home_black_24dp
             ,R.drawable.ic_map_black_24dp
             ,R.drawable.ic_person_black_24dp
             ,R.drawable.ic_share_black_24dp};
+            */
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        listitems.clear();
+        /*listitems.clear();
         for(int i =0;i<Places.length;i++){
             Local item = new Local();
             item.setCardName(Places[i]);
@@ -60,7 +61,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             item.setAtividade("Atividade"+i);
             listitems.add(item);
         }
-
+*/
         getActivity().setTitle("Places");
     }
 
@@ -69,8 +70,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
-        MyRecyclerView = view.findViewById(R.id.cardView);
         mFabNovaRota = view.findViewById(R.id.novaRota);
+
+        /*MyRecyclerView = view.findViewById(R.id.cardView);
 
         //cards
         MyRecyclerView.setHasFixedSize(true);
@@ -80,7 +82,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             MyRecyclerView.setAdapter(new MyAdapter(listitems));
         }
         MyRecyclerView.setLayoutManager(MyLayoutManager);
-
+*/
         mFabNovaRota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,13 +136,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     @Override
     public void onAttach(Context context) {
         super.onAttach(context);
-
     }
 
     @Override
     public void onDetach() {
         super.onDetach();
-
     }
 
     private void requestPermissionGPS(){

@@ -1,20 +1,29 @@
 package br.ufrpe.projetao.rotatour;
 
+import android.graphics.Bitmap;
+
 public class Local {
     String cardName;
     String atividade;
-    int imageResourceId;
+    String googlePlaceId;
+    Bitmap imagem;
+    int resourceId;
 
-    public Local(String cardName, String atividade, int imageResourceId) {
+    public Local(String cardName, String atividade, String googlePlaceId, Bitmap imagem) {
         this.cardName = cardName;
         this.atividade = atividade;
-        this.imageResourceId = imageResourceId;
+        this.googlePlaceId = googlePlaceId;
+        this.imagem = imagem;
     }
 
     public Local(){
-
     }
-
+    public int getImageResourceId(){
+        return this.resourceId;
+    }
+    public void setImageResourceId(int resourceId){
+        this.resourceId = resourceId;
+    }
     public String getAtividade(){
         return atividade;
     }
@@ -27,10 +36,18 @@ public class Local {
     public void setCardName(String cardName) {
         this.cardName = cardName;
     }
-    public int getImageResourceId() {
-        return imageResourceId;
+    public Bitmap getImagem() {
+        return imagem;
     }
-    public void setImageResourceId(int imageResourceId) {
-        this.imageResourceId = imageResourceId;
+    public void setImagem(Bitmap imagem) {
+        this.imagem = imagem;
+    }
+
+    public String getGooglePlaceId() {
+        return googlePlaceId;
+    }
+
+    public void setGooglePlaceId(String googlePlaceId) {
+        this.googlePlaceId = googlePlaceId;
     }
 }

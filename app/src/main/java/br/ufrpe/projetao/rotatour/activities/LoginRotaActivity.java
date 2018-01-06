@@ -94,17 +94,6 @@ public class LoginRotaActivity extends AppCompatActivity {
                 mTxtEmail.requestFocus();
             }
         }, email, password);
-
-        /*new android.os.Handler().postDelayed(
-                new Runnable() {
-                    public void run() {
-                        // On complete call either onLoginSuccess or onLoginFailed
-                        onLoginSuccess();
-                       // onLoginFailed();
-                        progressDialog.dismiss();
-                        killActivity();
-                    }
-                }, 5000); */
     }
 
     public void onLoginFailed() {
