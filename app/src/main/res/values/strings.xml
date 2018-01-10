@@ -53,4 +53,7 @@
     <string name="criarRota_ajudaLocal">Touch on \'+\' button to add places to your route</string>
     <string name="criarRota_rotaSalva">Route saved.</string>
 
+    <!-- Fragment myroutes -->
+    <string name="my_routes">My Routes</string>
+
 </resources>
