@@ -91,6 +91,7 @@ public class CriarRotaActivity extends AppCompatActivity implements GoogleApiCli
 
         mBtnAdicionarLocal = findViewById(R.id.criarRota_button_novoLocal);
         mTagGroup = findViewById(R.id.criarRota_tag_group);
+
         final Activity criarRota = this;
         mBtnAdicionarLocal.setOnClickListener(new View.OnClickListener() {
             @Override

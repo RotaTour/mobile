@@ -12,6 +12,7 @@
     <string name="login_google">Continue with Google</string>
     <string name="login_falhou">Login failed</string>
     <string name="title_activity_maps">Map</string>
+    <string name="login_erroSocial">Erro! Try login with other plataform: Facebook ou Google</string>
 
     <!-- Strings to loginRTactivity -->
     <string name="loginRT_password">Password</string>

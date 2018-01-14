@@ -20,6 +20,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.GraphRequest;
 import com.facebook.GraphResponse;
 import com.facebook.appevents.AppEventsLogger;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
@@ -281,7 +282,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             public void onErrorResponse(VolleyError error) {
                 if (error == null || error.networkResponse == null)
                     return;
-                Toast.makeText(getApplicationContext(),"Deu erro",Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), R.string.login_erroSocial,Toast.LENGTH_LONG).show();
+                LoginManager.getInstance().logOut(); // desconectar do facebook
                 Log.d("login", "net code error " + String.valueOf(error.networkResponse.statusCode));
             }
         }, name, email, avatar, provider, provider_id);

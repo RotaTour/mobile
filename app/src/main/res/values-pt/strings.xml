@@ -44,4 +44,5 @@
     <string name="criarConta_errorEmail">Email já cadastrado</string>
     <string name="criarRota_ajudaLocal">Toque no botão \'+\' para adicionar locais à rota</string>
     <string name="criarRota_rotaSalva">Rota salva.</string>
+    <string name="login_erroSocial">Erro! Tente login com outra plataforma: Facebook ou Google</string>
 </resources>
