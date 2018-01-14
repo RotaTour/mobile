@@ -45,4 +45,8 @@
     <string name="criarRota_ajudaLocal">Toque no botão \'+\' para adicionar locais à rota</string>
     <string name="criarRota_rotaSalva">Rota salva.</string>
     <string name="login_erroSocial">Erro! Tente login com outra plataforma: Facebook ou Google</string>
+
+    <!-- Fragment myroutes -->
+    <string name="my_routes">Minhas Rotas</string>
+
 </resources>
