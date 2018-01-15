@@ -79,7 +79,9 @@ public class CriarContaActivity extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
+                SharedPrefManager.getInstance(getApplicationContext()).userLogin(
+                        new Usuario(email, password, response, "local", null)
+                );
                 setResult(RESULT_OK);
                 startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
                 finish();

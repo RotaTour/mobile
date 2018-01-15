@@ -1,5 +1,6 @@
 package br.ufrpe.projetao.rotatour.activities;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Handler;
 import android.support.annotation.NonNull;
@@ -23,6 +24,7 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.facebook.share.Share;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -61,30 +63,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         setContentView(R.layout.activity_login);
 
         if(SharedPrefManager.getInstance(this).isLoggedIn()) {
-            //TODO TRATAR RENOVAÇÃO TOKEN LOGIN SOCIAL
-            final String email = SharedPrefManager.getInstance(this).getUser().getEmail();
-            final String password = SharedPrefManager.getInstance(this).getUser().getPassword();
-
-            VolleySingleton.getInstance(this).postLogin(new Response.Listener<String>() {
-
-                @Override
-                public void onResponse(String response) {
-                    JSONObject jsonObject;
-                    try {
-                        jsonObject = new JSONObject(response);
-                        response = jsonObject.getString("token");
-                        Log.i("LoginRotaActivity", response);
-                    } catch (JSONException e) {
-                        e.printStackTrace();
-                    }
-                    SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
-                }
-            }, new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
-                }
-            }, email, password);
+            renovarLogin();
             startActivity(new Intent(this, PrincipalActivity.class));
             finish();
         }
@@ -143,14 +122,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
             String provider_id;
             @Override
             public void onSuccess(LoginResult loginResult) {
-                /*mInfo.setText(
-                        "User ID: "
-                                + loginResult.getAccessToken().getUserId()
-                                + "\n" +
-                                "Auth Token: "
-                                + loginResult.getAccessToken().getToken()
-                );*/
-
                 //solicitar informações do perfil Facebook
                 GraphRequest request = GraphRequest.newMeRequest(
                         loginResult.getAccessToken(),
@@ -166,6 +137,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 } catch (JSONException e) {
                                     e.printStackTrace();
                                 }
+                                //comunicação com nosso servidor
                                 loginSocial(name, email, avatar, provider, provider_id);
                             }
                         });
@@ -173,7 +145,6 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                 parameters.putString("fields", "id,name,email,gender,birthday,picture");
                 request.setParameters(parameters);
                 request.executeAsync();
-                //comunicação com nosso servidor
             }
 
             @Override
@@ -260,32 +231,94 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }, 2000);
     }
 
-    private void loginSocial(String name, final String email, String avatar, String provider, String provider_id){
-        VolleySingleton.getInstance(getApplicationContext()).postRegisterSocial(new Response.Listener<String>() {
-            @Override
-            public void onResponse(String response) {
-                JSONObject jsonObject;
-                Log.i("Login", "entrou no response");
-                try {
-                    jsonObject = new JSONObject(response);
-                    response = jsonObject.getString("token");
-                } catch (JSONException e) {
-                    e.printStackTrace();
+    private void renovarLogin(){
+        final String email = SharedPrefManager.getInstance(this).getUser().getEmail();
+        final String password = SharedPrefManager.getInstance(this).getUser().getPassword();
+        final String provider = SharedPrefManager.getInstance(this).getUser().getProvider();
+
+        if (provider != null && provider.equals("local")) {
+            VolleySingleton.getInstance(this).postLogin(email, password,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = new JSONObject(response);
+                                response = jsonObject.getString("token");
+                            } catch (JSONException e) {e.printStackTrace();}
+
+                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response, "local", null));
+                        }
+                    }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
+                        }
+                    }
+            );
+        } else{
+            final Usuario user = SharedPrefManager.getInstance(this).getUser();
+            VolleySingleton.getInstance(this).postRegisterSocial(null, user.getEmail(),
+                    null, user.getProvider(), user.getProviderId(),
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            JSONObject jsonObject;
+                            try {
+                                jsonObject = new JSONObject(response);
+                                response = jsonObject.getString("token");
+                            } catch (JSONException e) {e.printStackTrace();}
+
+                            SharedPrefManager.getInstance(LoginActivity.this).userLogin(
+                                    new Usuario(user.getEmail(), null, response, user.getProvider(), user.getProviderId())
+                            );
+                        }
+                    },
+                    new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+
+                        }
+                    });
+        }
+    }
+
+    private void loginSocial(String name, final String email, String avatar, final String provider, final String provider_id){
+        final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.loginRT_autenticando));
+        progressDialog.show();
+
+        VolleySingleton.getInstance(getApplicationContext()).postRegisterSocial(
+                name, email, avatar, provider, provider_id,
+
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            response = jsonObject.getString("token");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(
+                                email, null, response, provider, provider_id));
+                        startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                        progressDialog.dismiss();
+                        finish();
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        if (error == null || error.networkResponse == null)
+                            return;
+                        Toast.makeText(getApplicationContext(), R.string.login_erroSocial,Toast.LENGTH_LONG).show();
+                        LoginManager.getInstance().logOut(); // desconectar do facebook
+                    }
                 }
-                Log.i("Login", "token: " + response);
-                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, null, response));
-                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
-                finish();
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                if (error == null || error.networkResponse == null)
-                    return;
-                Toast.makeText(getApplicationContext(), R.string.login_erroSocial,Toast.LENGTH_LONG).show();
-                LoginManager.getInstance().logOut(); // desconectar do facebook
-                Log.d("login", "net code error " + String.valueOf(error.networkResponse.statusCode));
-            }
-        }, name, email, avatar, provider, provider_id);
+        );
     }
 }

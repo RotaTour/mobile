@@ -20,6 +20,7 @@ import org.json.JSONObject;
 
 import java.text.Normalizer;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -64,8 +65,8 @@ public class VolleySingleton {
         mQueue.add(request);
     }
 
-    public void postLogin(Response.Listener<String> callback, Response.ErrorListener error,
-                          final String email, final String password) {
+    public void postLogin(final String email, final String password,
+                          Response.Listener<String> callback, Response.ErrorListener error) {
         final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_LOGIN, callback, error) {
             @Override
             protected Map<String, String> getParams() {
@@ -76,6 +77,10 @@ public class VolleySingleton {
                 return params;
             }
         };
+        postRequest.setRetryPolicy(new DefaultRetryPolicy(
+                5000,
+                DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
 
         mQueue.add(postRequest);
     }
@@ -97,9 +102,10 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
-    public void postRegisterSocial(Response.Listener<String> callback, Response.ErrorListener error,
-                            final String nome, final String email, final String avatar, final String provider,
-                            final String provider_id) {
+    public void postRegisterSocial(
+                            final String nome, final String email, final String avatar,
+                            final String provider, final String provider_id,
+                            Response.Listener<String> callback, Response.ErrorListener error) {
 
         final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_REGISTER_SOCIAL, callback, error) {
             @Override
@@ -131,17 +137,21 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
-    public void postRoutes(Response.Listener<JSONObject> callback, Response.ErrorListener error,
-                           final String name, final String body, final Context context) {
+    public void postRoutes(final String name, final String body, final String[] tags, final Context context,
+                           Response.Listener<JSONObject> callback, Response.ErrorListener error){
         JSONObject jsonObject = new JSONObject();
         try {
             jsonObject.put("name", name);
-            if(body!=null)
+            if(body != null)
                 jsonObject.put("body", body);
+            if (tags != null){
+                JSONArray arrayTags = new JSONArray(Arrays.asList(tags));
+                jsonObject.put("tags", arrayTags);
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
+        Log.d("ikaro", jsonObject.toString());
         final JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST, URLs.URL_ROUTES, jsonObject, callback, error) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
@@ -153,9 +163,9 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
-    public void postAddToRoutes(Response.Listener<JSONObject> callback, Response.ErrorListener error,
-                                final String routeId, final String google_place_id,
-                                final List<Local> google_places, final Context context) {
+    public void postAddToRoutes(final String routeId, final String google_place_id,
+                                final List<Local> google_places, final Context context,
+                                Response.Listener<JSONObject> callback, Response.ErrorListener error) {
         List<String> lista_places_id = new ArrayList<>();
         for (int i = 0; i < google_places.size(); i++){
             lista_places_id.add(google_places.get(i).getGooglePlaceId());
@@ -176,8 +186,6 @@ public class VolleySingleton {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-
-        Log.d("json ikaro", jsonObject.toString());
 
         final JsonObjectRequest postRequest = new JsonObjectRequest(Request.Method.POST,
                 URLs.URL_ADD_ROUTE, jsonObject, callback, error) {

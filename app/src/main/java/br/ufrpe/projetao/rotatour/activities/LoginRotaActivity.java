@@ -65,35 +65,39 @@ public class LoginRotaActivity extends AppCompatActivity {
         final String email = mTxtEmail.getText().toString();
         final String password = mTxtSenha.getText().toString();
 
-        VolleySingleton.getInstance(this).postLogin(new Response.Listener<String>() {
-
-            @Override
-            public void onResponse(String response) {
-                JSONObject jsonObject;
-                try {
-                    jsonObject = new JSONObject(response);
-                    response = jsonObject.getString("token");
-                    Log.i("LoginRotaActivity", response);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
-                progressDialog.dismiss();
-                SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response));
-                setResult(RESULT_OK);
-                killActivity();
-                startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
-            }
-        }, new Response.ErrorListener() {
+        VolleySingleton.getInstance(this).postLogin(email, password,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        JSONObject jsonObject;
+                        try {
+                            jsonObject = new JSONObject(response);
+                            response = jsonObject.getString("token");
+                            Log.i("LoginRotaActivity", response);
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        progressDialog.dismiss();
+                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(
+                                new Usuario(email, password, response,
+                                            "local", null)
+                        );
+                        setResult(RESULT_OK);
+                        killActivity();
+                        startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                    }
+                },
+                new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG);
+                Toast.makeText(getApplicationContext(), error.getMessage(), Toast.LENGTH_LONG).show();
                 mBtnLogin.setEnabled(true);
                 progressDialog.dismiss();
                 mTxtEmail.setError(getString(R.string.loginRT_erro_emailOuSenha));
                 mTxtSenha.setError(getString(R.string.loginRT_erro_emailOuSenha));
                 mTxtEmail.requestFocus();
             }
-        }, email, password);
+        });
     }
 
     public void onLoginFailed() {

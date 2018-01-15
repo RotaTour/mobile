@@ -12,11 +12,12 @@ import br.ufrpe.projetao.rotatour.activities.LoginActivity;
 
 public class SharedPrefManager {
 
-    //the constants
     private static final String SHARED_PREF_NAME = "simplifiedcodingsharedpref";
     private static final String KEY_EMAIL = "keyemail";
     private static final String KEY_PASSWORD = "keypassword";
     private static final String KEY_TOKEN = "keytoken";
+    private static final String KEY_PROVIDER = "keyprovider";
+    private static final String KEY_PROVIDER_ID = "keyproviderid";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -32,32 +33,35 @@ public class SharedPrefManager {
         return mInstance;
     }
 
-    //method to let the user login
-    //this method will store the user data in shared preferences
+    //metodo para logar o usuario, vai armazenar as informacoes do usuario em SharedPreferences
     public void userLogin(Usuario user) {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putString(KEY_TOKEN, user.getToken());
         editor.putString(KEY_EMAIL, user.getEmail());
         editor.putString(KEY_PASSWORD, user.getPassword());
+        editor.putString(KEY_PROVIDER, user.getProvider());
+        editor.putString(KEY_PROVIDER_ID, user.getProviderId());
         editor.apply();
     }
 
-    //this method will checker whether user is already logged in or not
+    //checar se o usuario esta logado
     public boolean isLoggedIn() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return sharedPreferences.getString(KEY_TOKEN, null) != null;
     }
 
-    //this method will give the logged in user
+    //retornar o usuario que esta logado
     public Usuario getUser() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         return new Usuario (sharedPreferences.getString(KEY_EMAIL,null)
                 , sharedPreferences.getString(KEY_PASSWORD, null)
-                , sharedPreferences.getString(KEY_TOKEN, null));
+                , sharedPreferences.getString(KEY_TOKEN, null)
+                , sharedPreferences.getString(KEY_PROVIDER, null)
+                , sharedPreferences.getString(KEY_PROVIDER_ID, null));
     }
 
-    //this method will logout the user
+    //deslogar o usuario
     public void logout() {
         SharedPreferences sharedPreferences = mCtx.getSharedPreferences(SHARED_PREF_NAME, Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();

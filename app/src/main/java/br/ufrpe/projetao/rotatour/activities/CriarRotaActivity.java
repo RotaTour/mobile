@@ -118,39 +118,45 @@ public class CriarRotaActivity extends AppCompatActivity implements GoogleApiCli
     public boolean onOptionsItemSelected(final MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_menu_done:
-                // salvar rota
-                VolleySingleton.getInstance(this).postRoutes(
-                        new Response.Listener<JSONObject>() {
-                            @Override
-                            public void onResponse(JSONObject response) {
-                                try {
-                                    mRotaId = Integer.valueOf(response.getJSONObject("route").getString("id"));
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                //NOVA REQUISIÇÃO ANINHADA (pois depende do sucesso da anterior)- ADICIONAR LOCAIS A ROTA CRIADA
-                                VolleySingleton.getInstance(CriarRotaActivity.this).postAddToRoutes(
-                                        new Response.Listener<JSONObject>() {
-                                            @Override
-                                            public void onResponse(JSONObject response) {
-                                                Toast.makeText(CriarRotaActivity.this, R.string.criarRota_rotaSalva, Toast.LENGTH_SHORT).show();
-                                                finish();
-                                            }
-                                        },
-                                        new Response.ErrorListener() {
-                                            @Override
-                                            public void onErrorResponse(VolleyError error) {
-                                                Toast.makeText(CriarRotaActivity.this, "Erro addToRoutes", Toast.LENGTH_SHORT).show();
-                                            }
-                                        },
-                                        String.valueOf(mRotaId), null , mListaLocais, CriarRotaActivity.this);
-                            }
-                        },
-                        new Response.ErrorListener() {@Override public void onErrorResponse(VolleyError error) {}},
-                        mEdtNomeRota.getText().toString(),mEdtDescricao.getText().toString(),this); //parametros da requisição
+                salvarRota();
                 break;
         }
         return true;
+    }
+
+    private void salvarRota(){
+        VolleySingleton.getInstance(this).postRoutes(
+                mEdtNomeRota.getText().toString(),
+                mEdtDescricao.getText().toString(), mTagGroup.getTags(), this,
+
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            mRotaId = Integer.valueOf(response.getJSONObject("route").getString("id"));
+                        } catch (JSONException e) {e.printStackTrace();}
+
+                        //NOVA REQUISIÇÃO ANINHADA (pois depende do sucesso da anterior)-
+                        VolleySingleton.getInstance(CriarRotaActivity.this).postAddToRoutes(
+                                String.valueOf(mRotaId), null , mListaLocais,
+                                CriarRotaActivity.this,
+
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        Toast.makeText(CriarRotaActivity.this, R.string.criarRota_rotaSalva, Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                },
+                                new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Toast.makeText(CriarRotaActivity.this, "Erro addToRoutes", Toast.LENGTH_SHORT).show();
+                                    }
+                                }); //parametros da requisição postAddToRoutes
+                    }
+                },
+                new Response.ErrorListener() {@Override public void onErrorResponse(VolleyError error) {}});
     }
 
     @Override
