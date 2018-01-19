@@ -68,18 +68,19 @@
     </RelativeLayout>
 
     <Button
-        android:id="@+id/buttonMinhasRotas"
+        android:id="@+id/buttonMinhasAvaliacoes"
+        android:text="Minhas Avaliações"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Minhas Rotas"
+
         android:textAllCaps="false"
         android:textSize="18sp" />
 
     <Button
-        android:id="@+id/buttonMinhasAvaliacoes"
+        android:id="@+id/buttonMinhasRotas"
+        android:text="Minhas Rotas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Minhas Avaliações"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
