@@ -14,17 +14,12 @@
         app:titleTextColor="@color/primary_dark"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
+        android:layout_marginBottom="16dp"
         android:background="@color/white"
         android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 
-    <ScrollView android:id="@+id/svConteudo"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                xmlns:android="http://schemas.android.com/apk/res/android"
-                android:layout_marginTop="24dp"
-                android:layout_marginBottom="16dp">
             <LinearLayout
                 android:id="@+id/criarRota_layout_pai"
                 xmlns:android="http://schemas.android.com/apk/res/android"
@@ -32,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:layout_margin="16dp"
+                android:layout_marginTop="32dp"
+                android:padding="16dp"
                 tools:context=".activities.CriarRotaActivity">
 
                 <android.support.design.widget.TextInputLayout
@@ -80,13 +76,19 @@
                     android:text="@string/criarRota_ajudaLocal"
                     android:layout_gravity="center_vertical"/>
 
-                <android.support.v7.widget.RecyclerView
-                    android:id="@+id/criarRota_rv_lista"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:scrollbars="vertical"/>
+                <ScrollView android:id="@+id/svConteudo"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            xmlns:android="http://schemas.android.com/apk/res/android"
+                            android:layout_gravity="bottom">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/criarRota_rv_lista"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:scrollbars="vertical"/>
+                </ScrollView>
             </LinearLayout>
-    </ScrollView>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/criarRota_button_novoLocal"

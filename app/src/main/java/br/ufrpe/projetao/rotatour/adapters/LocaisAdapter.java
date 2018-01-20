@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -42,7 +43,7 @@ public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisView
     public void onBindViewHolder(final LocaisViewHolder holder, final int position) {
 
         holder.tvTitle.setText(mList.get(position).getCardName());
-        holder.tvAtividade.setText(mList.get(position).getAtividade());
+        //holder.tvAtividade.setText(mList.get(position).getAtividade());
         holder.ivImage.setImageBitmap(mList.get(position).getImagem());
     }
 
@@ -54,13 +55,13 @@ public class LocaisAdapter extends RecyclerView.Adapter<LocaisAdapter.LocaisView
     public class LocaisViewHolder extends RecyclerView.ViewHolder {
         public TextView tvTitle;
         public ImageView ivImage;
-        public TextView tvAtividade;
+        public EditText tvAtividade;
 
         public LocaisViewHolder(View v) {
             super(v);
             tvTitle = v.findViewById(R.id.titleTextView);
             ivImage = v.findViewById(R.id.coverImageView);
-            tvAtividade = v.findViewById(R.id.atividade);
+            tvAtividade = v.findViewById(R.id.place_atividade);
         }
     }
 }

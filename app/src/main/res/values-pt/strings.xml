@@ -48,5 +48,6 @@
 
     <!-- Fragment myroutes -->
     <string name="my_routes">Minhas Rotas</string>
+    <string name="atividade">O que há de interessante para se fazer aqui?</string>
 
 </resources>

@@ -178,11 +178,8 @@ public class CriarRotaActivity extends AppCompatActivity implements GoogleApiCli
                 TextView tvMais = findViewById(R.id.criarRota_tv_mais);
                 if(tvMais.getVisibility() == View.VISIBLE)
                     tvMais.setVisibility(View.INVISIBLE);
-                //Log.i(TAG, "Place: " + place.getName());
             } else if (resultCode == PlaceAutocomplete.RESULT_ERROR) {
                 Status status = PlaceAutocomplete.getStatus(this, data);
-                // TODO: Solucionar o erro.
-                //Log.i(TAG, status.getStatusMessage());
 
             } else if (resultCode == RESULT_CANCELED) {
                 // The user canceled the operation.

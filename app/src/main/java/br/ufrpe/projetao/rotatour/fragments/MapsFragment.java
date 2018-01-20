@@ -4,32 +4,34 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
+import android.location.Location;
+import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Toast;
 
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.location.places.Place;
+import com.google.android.gms.location.places.ui.PlaceAutocompleteFragment;
+import com.google.android.gms.location.places.ui.PlaceSelectionListener;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
-
-import java.util.ArrayList;
+import com.google.android.gms.maps.model.LatLng;
 
 import br.ufrpe.projetao.rotatour.activities.CriarRotaActivity;
-import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.Manifest;
 import br.ufrpe.projetao.rotatour.R;
-import br.ufrpe.projetao.rotatour.adapters.MyAdapter;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
@@ -40,28 +42,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
     private FloatingActionButton mFabNovaRota;
     private static final String TAG = "MapsFragment";
 
-    //ArrayList<Local> listitems = new ArrayList<>();
-    //RecyclerView MyRecyclerView;
-    //String Places[] = {"Museu","Praia","Recife Antigo","Igreja","Olinda"};
-    /*int  Images[] = {R.drawable.ic_like
-            ,R.drawable.ic_home_black_24dp
-            ,R.drawable.ic_map_black_24dp
-            ,R.drawable.ic_person_black_24dp
-            ,R.drawable.ic_share_black_24dp};
-            */
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        /*listitems.clear();
-        for(int i =0;i<Places.length;i++){
-            Local item = new Local();
-            item.setCardName(Places[i]);
-            item.setImageResourceId(Images[i]);
-            item.setAtividade("Atividade"+i);
-            listitems.add(item);
-        }
-*/
         getActivity().setTitle("Places");
     }
 
@@ -71,24 +54,31 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
 
         View view = inflater.inflate(R.layout.fragment_maps, container, false);
         mFabNovaRota = view.findViewById(R.id.novaRota);
+        getActivity().findViewById(R.id.principal_card_search).setVisibility(View.VISIBLE);
 
-        /*MyRecyclerView = view.findViewById(R.id.cardView);
+        PlaceAutocompleteFragment autocompleteFragment = (PlaceAutocompleteFragment)getActivity().getFragmentManager()
+                .findFragmentById(R.id.place_autocomplete_fragment);
+        autocompleteFragment.getView().setVisibility(View.VISIBLE);
 
-        //cards
-        MyRecyclerView.setHasFixedSize(true);
-        LinearLayoutManager MyLayoutManager = new LinearLayoutManager(getActivity());
-        MyLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
-        if (listitems.size() > 0 & MyRecyclerView != null) {
-            MyRecyclerView.setAdapter(new MyAdapter(listitems));
-        }
-        MyRecyclerView.setLayoutManager(MyLayoutManager);
-*/
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(Place place) {
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(place.getLatLng(),16));
+            }
+
+            @Override
+            public void onError(Status status) {
+                Toast.makeText(getActivity(), "Erro", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         mFabNovaRota.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), CriarRotaActivity.class));
             }
         });
+
         //mapa
             mMapView = view.findViewById(R.id.mapView);
             mMapView.onCreate(savedInstanceState);
@@ -103,6 +93,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mMapView.getMapAsync(this);
         return view;
     }
+
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -121,7 +112,20 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mLocationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
             String provider = mLocationManager.getBestProvider(criteria, true);
             requestPermissionGPS();
+            mMap.setPadding(0, 128, 0 , 0); //adicionar padding para aparecer o botão "my location"
             mMap.setMyLocationEnabled(true);
+
+            LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
+            Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (location != null) {
+                double lon = location.getLongitude();
+                double lat = location.getLatitude();
+                LatLng current = new LatLng(lat, lon);
+
+                mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(current, 15));
+            }
+
+
         }catch (SecurityException ex){
             Log.e(TAG, "Error", ex);
         }
