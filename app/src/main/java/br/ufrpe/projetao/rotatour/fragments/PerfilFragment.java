@@ -21,6 +21,7 @@ import java.io.IOException;
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
+import br.ufrpe.projetao.rotatour.activities.RoutesActivity;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -50,6 +51,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             startActivity(new Intent(this, LoginActivity.class));
         }
 */
+
     }
 
     @Override
@@ -58,12 +60,15 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_perfil, container, false);
 
-
+        Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
         //textViewId = v.findViewById(R.id.textViewId); token
         textViewUsername = v.findViewById(R.id.textViewUsername);
         textViewEmail = v.findViewById(R.id.textViewEmail);
         textViewGender = v.findViewById(R.id.textViewGender);
         circleImage = v.findViewById(R.id.profile);
+        final String token = user.getToken();
+
+
 
         v.findViewById(R.id.profile).setOnTouchListener(new View.OnTouchListener() {
             @Override
@@ -83,28 +88,43 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-       v.findViewById(R.id.buttonMinhasRotas).setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               Context context = getApplicationContext();
+        v.findViewById(R.id.buttonMinhasAvaliacoes);
+        v.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+
+              Context context = getApplicationContext();
                String texto = "Minhas Rotas";
                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
                toast.show();
-           }
-       });
+            }
+        });
 
         //Minhas Anvaliacoes button - replace logic
-         v.findViewById(R.id.buttonMinhasAvaliacoes).setOnClickListener(new View.OnClickListener() {
+         v.findViewById(R.id.buttonMinhasRotas).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = getApplicationContext();
+                /*Context context = getApplicationContext();
                 String texto = "Minhas Avaliações";
                 Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
-                toast.show();
+                toast.show();*/
+                Intent intent = new Intent(getActivity(),RoutesActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
         //Minhas Fotos button - replace logic
+      /*  v.findViewById(R.id.buttonMinhasFotos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Context context = getApplicationContext();
+                String texto = "Minhas Fotos";
+                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
+                toast.show();
+            }
+        });*/
+
         v.findViewById(R.id.buttonMinhasFotos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -149,11 +169,11 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         });
 
         //getting the current user
-        Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
+        //Usuario user = SharedPrefManager.getInstance(getContext()).getUser();
 
         //setting the values to the textviews
         //textViewId.setText(String.valueOf(user.getToken()));  token
-        textViewEmail.setText(user.getEmail());
+        //textViewEmail.setText(user.getEmail());
 
         //when the user presses logout button
         //calling the logout method
