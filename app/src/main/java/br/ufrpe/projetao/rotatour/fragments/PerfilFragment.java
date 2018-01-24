@@ -95,7 +95,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
 
 
               Context context = getApplicationContext();
-               String texto = "Minhas Rotas";
+               String texto = "Minhas Avaliacoes";
                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
                toast.show();
             }

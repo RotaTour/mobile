@@ -31,6 +31,9 @@
     <string name="criarConta_criando">Creating Account...</string>
     <string name="title_activity_principal">PrincipalActivity</string>
 
+    <!-- Strings for RouteActivity -->
+    <string name="route_details">Route details</string>
+
     <!-- Principal -->
     <string name="title_home">Home</string>
     <string name="title_map">Map</string>
@@ -57,5 +60,6 @@
     <!-- Fragment myroutes -->
     <string name="my_routes">My Routes</string>
     <string name="atividade">What is interesting to do here?</string>
+
 
 </resources>

@@ -28,6 +28,8 @@
 
         </LinearLayout>
 
+
+
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RoutesRecycleViewr"
             android:layout_width="match_parent"
@@ -36,7 +38,9 @@
             tools:layout_editor_absoluteY="204dp"
             tools:ignore="MissingConstraints">
 
+
         </android.support.v7.widget.RecyclerView>
+
 
 
     </LinearLayout>
