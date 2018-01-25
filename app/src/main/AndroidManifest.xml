@@ -74,15 +74,16 @@
         -->
         <activity
             android:name=".activities.CriarContaActivity"
-            android:label="Criar conta RotaTour"></activity>
+            android:label="Criar conta RotaTour" />
         <activity
             android:name=".activities.LoginRotaActivity"
-            android:label="Login com conta RotaTour"></activity>
+            android:label="Login com conta RotaTour" />
         <activity
             android:name=".activities.PrincipalActivity"
-            android:label="@string/title_activity_principal"></activity>
-        <activity android:name=".activities.CriarRotaActivity"></activity>
-        <activity android:name=".activities.RoutesActivity"></activity>
+            android:label="@string/title_activity_principal" />
+        <activity android:name=".activities.CriarRotaActivity" />
+        <activity android:name=".activities.RoutesActivity" />
+        <activity android:name=".activities.RouteActivity"></activity>
     </application>
 
 </manifest>

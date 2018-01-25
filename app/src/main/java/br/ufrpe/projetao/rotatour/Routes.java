@@ -16,10 +16,11 @@ public class Routes {
         this.created = created;
 
     }*/
-    public Routes(String name, String description, String created){
+    public Routes(String name, String description, String created, int id){
         this.name = name;
         this.description = description;
         this.created = created;
+        this.id = id;
 
     }
 

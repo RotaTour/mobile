@@ -1,6 +1,7 @@
 package br.ufrpe.projetao.rotatour.activities;
 
 import android.app.LauncherActivity;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -44,6 +45,7 @@ public class RoutesActivity extends AppCompatActivity {
     RequestQueue requestQueue;
     String routeName;
     String routeDescription;
+    int routeID;
     String token;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
@@ -71,9 +73,15 @@ public class RoutesActivity extends AppCompatActivity {
 
     public void getJsonData(){
 
+        final ProgressDialog progressDialog = new ProgressDialog(this);
+        progressDialog.setMessage("Loading...");
+        progressDialog.show();
+
+
         JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://rotatourapi.herokuapp.com/api/routes", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
+                progressDialog.dismiss();
                 Log.d("result", String.valueOf(response));
                 try {
                     JSONObject jsonObject = new JSONObject(String.valueOf(response));
@@ -83,7 +91,7 @@ public class RoutesActivity extends AppCompatActivity {
                     for(int i=0; i< rotas_array.length();i++){
                         JSONObject rota = rotas_array.getJSONObject(i);
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), rota.getString("created_at"));
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), rota.getString("created_at"), rota.getInt("id"));
                         routesList.add(route);
 
                         //String route_name = rota.getString("name");
