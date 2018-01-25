@@ -42,6 +42,7 @@
 
     <!-- Home fragment -->
     <string name="home_search">Where are we going?</string>
+    <string name="home_NewPubHint">Share what your are thinking</string>
 
     <!-- Create route activity -->
     <string name="criarRota_activity">Activity</string>

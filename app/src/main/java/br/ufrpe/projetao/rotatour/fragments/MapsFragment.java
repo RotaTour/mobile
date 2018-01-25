@@ -115,6 +115,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback {
             mMap.setPadding(0, 128, 0 , 0); //adicionar padding para aparecer o botão "my location"
             mMap.setMyLocationEnabled(true);
 
+            mMap.setOnMapClickListener(new GoogleMap.OnMapClickListener() {
+                @Override
+                public void onMapClick(LatLng latLng) {
+
+                }
+            });
+
             LocationManager lm = (LocationManager)getActivity().getSystemService(Context.LOCATION_SERVICE);
             Location location = lm.getLastKnownLocation(LocationManager.GPS_PROVIDER);
             if (location != null) {

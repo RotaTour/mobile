@@ -199,6 +199,34 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
+    public void getPubs(final Context context, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URLs.URL_PUBS, null, callback, error) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
+
+
+    public void getUsers(final Context context, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URLs.URL_USERS, null, callback, error) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+        request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
+                DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        mQueue.add(request);
+    }
 
 
 }
