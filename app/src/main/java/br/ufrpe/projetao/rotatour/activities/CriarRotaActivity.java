@@ -186,7 +186,6 @@ public class CriarRotaActivity extends AppCompatActivity implements GoogleApiCli
             }
         }
     }
-
     //conection fail Google API
     @Override
     public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
