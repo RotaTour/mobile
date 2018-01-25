@@ -1,6 +1,8 @@
 package br.ufrpe.projetao.rotatour.fragments;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -107,10 +109,16 @@ public class HomeFragment extends Fragment {
                             JSONObject pubAtual = null;
                             try {
                                 pubAtual = pubs.getJSONObject(i);
-                                pub = new Pub("name",
-                                        pubAtual.getString("created_at"),
+                                String data = pubAtual.getString("created_at");
+                                String ano = data.substring(0,4);
+                                String mes = data.substring(5,7);
+                                String dia = data.substring(8,10);
+                                data = dia + "/" + mes + "/" + ano;
+                                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.logo);
+                                pub = new Pub("Tatu da Silva",
+                                        data,
                                         pubAtual.getString("body"),
-                                        null);
+                                        bitmap);
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }

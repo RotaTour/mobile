@@ -5,10 +5,15 @@
     <color name="black_overlay">#66000000</color>
     <color name="white">#FFF</color>
 
-    <color name="primary">#E43F3F</color>
-    <color name="primary_dark">#E12929</color>
+    <color name="primary">#334D63</color>
+    <color name="primary_dark">#325F85</color>
     <color name="primary_dark2">#E12910</color>
     <color name="primary_darker">#CC1D1D</color>
+
+    <!-- <color name="primary">#E43F3F</color>
+    <color name="primary_dark">#E12929</color>
+    <color name="primary_dark2">#E12910</color>
+    <color name="primary_darker">#CC1D1D</color> -->
     <color name="accent">#FFFFFF</color>
 
     <color name="black">#000000</color>

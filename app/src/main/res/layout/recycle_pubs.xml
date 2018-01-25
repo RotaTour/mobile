@@ -12,7 +12,7 @@
                                     tools:ignore="NamespaceTypo">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="120dp"
+        android:layout_height="180dp"
         android:background="@color/white"
         android:orientation="horizontal">
         <ImageView
@@ -20,36 +20,38 @@
             android:layout_width="120dp"
             android:layout_height="match_parent"
             android:layout_gravity="start"
+            android:src="@drawable/logo"
             android:scaleType="centerCrop"/>
-        <LinearLayout
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:orientation="vertical">
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
             <TextView
                 android:id="@+id/tvNomeUser"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
                 android:padding="8dp"
                 android:textSize="18sp"
                 android:textColor="@color/jet"
                 android:textStyle="bold"/>
             <TextView
                 android:id="@+id/tvDataPub"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignParentEnd="true"
+                android:layout_alignParentTop="true"
                 android:padding="8dp"
-                android:textSize="18sp"
-                android:textColor="@color/jet"
-                android:textStyle="bold"/>
+                android:textSize="15sp"
+                android:textColor="@color/jet"/>
             <TextView
                 android:id="@+id/tvPub"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
                 android:padding="8dp"
                 android:textSize="18sp"
-                android:textColor="@color/jet"
-                android:textStyle="bold"/>
+                android:textColor="@color/jet"/>
 
-        </LinearLayout>
+        </RelativeLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

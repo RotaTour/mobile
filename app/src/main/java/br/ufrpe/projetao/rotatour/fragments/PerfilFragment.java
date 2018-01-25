@@ -16,12 +16,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
 import br.ufrpe.projetao.rotatour.activities.RoutesActivity;
+import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.app.Activity.RESULT_OK;
@@ -31,7 +38,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 
 public class PerfilFragment extends Fragment implements View.OnClickListener {
 
-    private TextView textViewId, textViewUsername, textViewEmail, textViewGender;
+    private TextView textViewId, textViewUsername, textViewEmail;
     private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
     private PerfilFragment.OnFragmentInteractionListener mListener;
     private CircleImageView circleImage;
@@ -64,10 +71,29 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         //textViewId = v.findViewById(R.id.textViewId); token
         textViewUsername = v.findViewById(R.id.textViewUsername);
         textViewEmail = v.findViewById(R.id.textViewEmail);
-        textViewGender = v.findViewById(R.id.textViewGender);
         circleImage = v.findViewById(R.id.profile);
         final String token = user.getToken();
+        String email = SharedPrefManager.getInstance(getContext()).getUser().getEmail();
+        textViewEmail.setText(email);
+        VolleySingleton.getInstance(getContext()).getUser(email, getContext(),
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        String nome = null;
+                        try {
+                            nome = response.getString("name");
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        textViewUsername.setText(nome);
+                    }
+                },
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
 
+                    }
+                });
 
 
         v.findViewById(R.id.profile).setOnTouchListener(new View.OnTouchListener() {

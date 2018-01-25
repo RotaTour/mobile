@@ -54,13 +54,6 @@
                     android:padding="5dp"
                     android:text="tatu@rotatuor.com"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
-                <TextView
-                    android:id="@+id/textViewGender"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="5dp"
-                    android:text="Male"
-                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Medium" />
             </LinearLayout>
         </LinearLayout>
 

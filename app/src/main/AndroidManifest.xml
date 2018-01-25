@@ -48,6 +48,7 @@
         </activity>
         <activity
             android:name=".activities.LoginActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppTheme.Dark">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -74,16 +75,21 @@
         -->
         <activity
             android:name=".activities.CriarContaActivity"
+            android:screenOrientation="portrait"
             android:label="Criar conta RotaTour" />
         <activity
             android:name=".activities.LoginRotaActivity"
+            android:screenOrientation="portrait"
             android:label="Login com conta RotaTour" />
         <activity
             android:name=".activities.PrincipalActivity"
             android:label="@string/title_activity_principal" />
-        <activity android:name=".activities.CriarRotaActivity" />
-        <activity android:name=".activities.RoutesActivity" />
-        <activity android:name=".activities.RouteActivity"></activity>
+        <activity android:name=".activities.CriarRotaActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RoutesActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".activities.RouteActivity"
+                  android:screenOrientation="portrait"></activity>
     </application>
 
 </manifest>
