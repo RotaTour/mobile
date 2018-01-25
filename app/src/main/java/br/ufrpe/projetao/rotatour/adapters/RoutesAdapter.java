@@ -28,7 +28,8 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
         public static  final String ROUTE_NAME = "routeName";
         public static final String ROUTE_DESCRIPTION = "routeDescription";
         public static final String ROUTE_CREATED = "routeCreated";
-        public static final int ROUTE_ID = 0;
+        //public static final int ROUTE_ID = 0;
+        public static final String ROUTE_ID = "";
 
 
         private List<Routes> mList;
@@ -62,7 +63,8 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
                 route_data.putExtra(ROUTE_NAME,routes.getName());
                 route_data.putExtra(ROUTE_DESCRIPTION,routes.getDescription());
                 route_data.putExtra(ROUTE_CREATED,routes.getCreated());
-                //route_data.putExtra(ROUTE_ID,routes.getId());
+                route_data.putExtra(ROUTE_ID, String.valueOf(routes.getId()));
+                //route_data.putExtra(ROUTE_ID, String.valueOf(routes.getId()));
                 v.getContext().startActivity(route_data);
             }
         });
@@ -80,7 +82,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
         public  TextView routeDescription;
         public  TextView createdDate;
         public LinearLayout linearLayout;
-        //public TextView routeID;
+        public TextView routeID;
 
         public RoutesViewHolder(View itemView) {
             super(itemView);

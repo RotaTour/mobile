@@ -40,8 +40,6 @@ import static java.security.AccessController.getContext;
 
 public class RoutesActivity extends AppCompatActivity {
 
-    Button getJson;
-    TextView jsonData;
     RequestQueue requestQueue;
     String routeName;
     String routeDescription;
@@ -63,6 +61,7 @@ public class RoutesActivity extends AppCompatActivity {
 
         Usuario user = SharedPrefManager.getInstance(this).getUser();
         token = user.getToken();
+
 
         //getJson = (Button) findViewById(R.id.buttonJson);
         //jsonData = (TextView) findViewById(R.id.textViewRoutes);
@@ -92,6 +91,7 @@ public class RoutesActivity extends AppCompatActivity {
                         JSONObject rota = rotas_array.getJSONObject(i);
 
                         Routes route = new Routes(rota.getString("name"), rota.getString("body"), rota.getString("created_at"), rota.getInt("id"));
+                        //Log.d("teste", rota.getInt("id"));
                         routesList.add(route);
 
                         //String route_name = rota.getString("name");
@@ -104,6 +104,8 @@ public class RoutesActivity extends AppCompatActivity {
 
                     adapter = new RoutesAdapter(getApplicationContext(),routesList);
                     recyclerView.setAdapter(adapter);
+                    Log.d("TOKEN", token);
+
 
                     //jsonData.setText(rota_final);
 
