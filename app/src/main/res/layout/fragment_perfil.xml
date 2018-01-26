@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/buttonMinhasAvaliacoes"
-        android:text="Minhas Avaliações"
+        android:text="Rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -71,7 +71,7 @@
 
     <Button
         android:id="@+id/buttonMinhasRotas"
-        android:text="Minhas Rotas"
+        android:text="My Routes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
@@ -81,7 +81,7 @@
         android:id="@+id/buttonMinhasFotos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Minhas Fotos"
+        android:text="Photos"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -89,7 +89,7 @@
         android:id="@+id/buttonFavoritos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Favoritos"
+        android:text="Favorites"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -97,7 +97,7 @@
         android:id="@+id/buttonConquistas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Conquistas"
+        android:text="Conquers"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -105,7 +105,7 @@
         android:id="@+id/buttonConfiguracoes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Configurações"
+        android:text="=Configuration"
         android:textAllCaps="false"
         android:textSize="18sp" />
 

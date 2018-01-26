@@ -9,8 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -21,6 +23,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
@@ -35,6 +38,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -51,14 +55,23 @@ import static br.ufrpe.projetao.rotatour.activities.CriarRotaActivity.mGoogleApi
 public class RouteActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     RequestQueue requestQueue;
+    String cardName ="";
+    String atividade="";
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Local> localList;
     String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/";
     String final_URL="";
-    TextView name, description, created;
+    TextView name, description, created, activity;
     int rota_ID;
     private LocaisAdapter locaisAdapter;
+    static GoogleApiClient mGoogleApiClient;
+    Local local;
+    final String place_id ="";
+
+
+    public RouteActivity() {
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,13 +84,14 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                 .enableAutoManage(this, this)
                 .build();
 
+        localList = new ArrayList<>();
         Intent intent = getIntent();
         final String routeName = intent.getStringExtra(RoutesAdapter.ROUTE_NAME);
         final String routeDescription = intent.getStringExtra(RoutesAdapter.ROUTE_DESCRIPTION);
         final String routeCreated = intent.getStringExtra(RoutesAdapter.ROUTE_CREATED);
         final String routeID= intent.getStringExtra(RoutesAdapter.ROUTE_ID);
-        //rota_ID = Integer.valueOf(routeID);
 
+        //rota_ID = Integer.valueOf(routeID);
         //final_URL = BASE_URL + routeID;
         //final int routeID = Integer.parseInt(intent.getStringExtra(String.valueOf(RoutesAdapter.ROUTE_ID)));
 
@@ -85,6 +99,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         TextView name = (TextView)findViewById(R.id.textViewDetailsRouteName);
         TextView description = (TextView)findViewById(R.id.textViewDetailsDescription);
         TextView created = (TextView)findViewById(R.id.textViewDetailsDate);
+        //TextView activity = (TextView)findViewById(R.id.place_atividade);
+        //activity.setText("");
 
         recyclerView = (RecyclerView)findViewById(R.id.RouteDetailRecycleViewr);
         recyclerView.setHasFixedSize(true);
@@ -96,9 +112,11 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         created.setText(routeCreated);
 
         requestQueue = Volley.newRequestQueue(this);
-       getJsonData();
-
+        adapter = new LocaisAdapter(getApplicationContext(), localList);
+        recyclerView.setAdapter(adapter);
+        getJsonData();
     }
+
 
     public void getJsonData(){
 
@@ -106,11 +124,12 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         progressDialog.setMessage("Loading your route...");
         progressDialog.show();
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,"https://rotatourapi.herokuapp.com/api/routes/show/67" , null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,"https://rotatourapi.herokuapp.com/api/routes/show/65" , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
-                Log.d("LOCAL DETAILS", String.valueOf(response));
+                //Log.d("LOCAL DETAILS", String.valueOf(response));
+
                 try {
                     JSONObject fullJson = new JSONObject(String.valueOf(response));
                     JSONObject rota_full = fullJson.getJSONObject("route");
@@ -119,18 +138,44 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
                     for(int i=0; i< locals_array.length();i++){
 
-                        JSONObject local = locals_array.getJSONObject(i);
+                        JSONObject localObj= locals_array.getJSONObject(i);
+                        JSONObject google_place = localObj.getJSONObject("place");
+                        final String place_id = google_place.getString("google_place_id");
+                        Log.e("PLACE ID>", place_id);
 
-                        JSONObject google_place = local.getJSONObject("place");
-                        String place_id = google_place.getString("google_place_id");
-                        Log.e("DETALHE DO LOCAL>>", place_id);
 
-                        //adicionar lógica para chamada do google places
+                        Places.GeoDataApi.getPlaceById(mGoogleApiClient, place_id)
+                                .setResultCallback(new ResultCallback<PlaceBuffer>() {
+                                    @Override
+                                    public void onResult(PlaceBuffer places) {
+                                        if (places.getStatus().isSuccess() && places.getCount() > 0) {
+                                            final Place myPlace = places.get(0);
+                                            cardName = (String) myPlace.getName();
+                                            Log.e("PLACE >>", "Place found: " + myPlace.getName());
+                                            Log.e("PLACE >>", "Place found: " + cardName);
+
+                                            local = new Local(cardName,atividade,place_id,null);
+                                           //new PhotoTask((RouteActivity) getApplicationContext()).execute(place_id);
+                                           localList.add(local);
+                                           adapter.notifyDataSetChanged();
+                                            Log.d("size::", String.valueOf(localList.size()));
+                                            Toast.makeText(RouteActivity.this, "working", Toast.LENGTH_SHORT).show();
+
+                                        } else {
+                                            Log.e("PLACEE>> ", "Place not found");
+                                        }
+                                        places.release();
+                                    }
+                                });
+
+
 
                     }
+                    Log.d("size_out::", String.valueOf(localList.size()));
+                    //adapter = new LocaisAdapter(getApplicationContext(), localList);
+                    //recyclerView.setAdapter(adapter);
 
-                    //adapter = new RoutesAdapter(getApplicationContext(),routesList);
-                   // recyclerView.setAdapter(adapter);
+
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -155,7 +200,78 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     }
 
 
+    // get photo
+    static class PhotoTask extends AsyncTask<String, Void, PhotoTask.AttributedPhoto> {
+        WeakReference<RouteActivity> activityReference;
 
+        PhotoTask(RouteActivity context) {
+            activityReference = new WeakReference<>(context);
+        }
+
+        @Override
+        protected void onPreExecute() {
+            Log.e("PHOTOS>","GOING!");
+        }
+
+        @Override
+        protected void onPostExecute(RouteActivity.PhotoTask.AttributedPhoto attributedPhoto) {
+            if (attributedPhoto != null) {
+
+                Log.e("PHOTOS>","PHOTO LOADED!");
+                // Photo has been loaded, display it
+                activityReference.get().local.setImagem(attributedPhoto.bitmap);
+                activityReference.get().adapter.notifyDataSetChanged();
+            }
+        }
+
+        /**
+         * Loads the first photo for a place id from the Geo Data API.
+         * The place id must be the first (and only) parameter.
+         */
+        @Override
+        protected RouteActivity.PhotoTask.AttributedPhoto doInBackground(String... params) {
+            if (params.length != 1) {
+                return null;
+            }
+            final String placeId = params[0];
+            RouteActivity.PhotoTask.AttributedPhoto attributedPhoto = null;
+
+            PlacePhotoMetadataResult result = Places.GeoDataApi
+                    .getPlacePhotos(mGoogleApiClient, placeId).await();
+
+            if (result.getStatus().isSuccess()) {
+                PlacePhotoMetadataBuffer photoMetadataBuffer = result.getPhotoMetadata();
+                if (photoMetadataBuffer.getCount() > 0 && !isCancelled()) {
+                    // Get the first bitmap and its attributions.
+                    PlacePhotoMetadata photo = photoMetadataBuffer.get(0);
+                    CharSequence attribution = photo.getAttributions();
+                    // Load a scaled bitmap for this photo.
+                    Bitmap image = photo.getPhoto(mGoogleApiClient).await()
+                            .getBitmap();
+
+                    attributedPhoto = new AttributedPhoto(attribution, image);
+                }
+                // Release the PlacePhotoMetadataBuffer.
+                photoMetadataBuffer.release();
+            }
+            return attributedPhoto;
+        }
+
+        /**
+         * Holder for an image and its attribution.
+         */
+        class AttributedPhoto {
+
+            final CharSequence attribution;
+
+            final Bitmap bitmap;
+
+            AttributedPhoto(CharSequence attribution, Bitmap bitmap) {
+                this.attribution = attribution;
+                this.bitmap = bitmap;
+            }
+        }
+    }
 
 
 
