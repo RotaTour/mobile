@@ -48,6 +48,7 @@ import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.adapters.LocaisAdapter;
+import br.ufrpe.projetao.rotatour.adapters.RouteAdapter;
 import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
 
 import static br.ufrpe.projetao.rotatour.activities.CriarRotaActivity.mGoogleApiClient;
@@ -64,7 +65,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     String final_URL="";
     TextView name, description, created, activity;
     int rota_ID;
-    private LocaisAdapter locaisAdapter;
+    //private LocaisAdapter locaisAdapter; it was working
+    private RouteAdapter routeAdapter;
     static GoogleApiClient mGoogleApiClient;
     Local local;
     final String place_id ="";
@@ -106,13 +108,13 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-
         name.setText(routeName);
         description.setText(routeDescription);
         created.setText(routeCreated);
 
         requestQueue = Volley.newRequestQueue(this);
-        adapter = new LocaisAdapter(getApplicationContext(), localList);
+       // adapter = new LocaisAdapter(getApplicationContext(), localList); it was working
+        adapter = new RouteAdapter(getApplicationContext(), localList);
         recyclerView.setAdapter(adapter);
         getJsonData();
     }
@@ -168,12 +170,11 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                                     }
                                 });
 
-
-
                     }
                     Log.d("size_out::", String.valueOf(localList.size()));
-                    //adapter = new LocaisAdapter(getApplicationContext(), localList);
-                    //recyclerView.setAdapter(adapter);
+                    //adapter = new LocaisAdapter(getApplicationContext(), localList); it was working
+                    adapter = new RouteAdapter(getApplicationContext(), localList);
+                    recyclerView.setAdapter(adapter);
 
 
 
