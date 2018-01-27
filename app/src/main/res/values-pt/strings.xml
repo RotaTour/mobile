@@ -53,4 +53,14 @@
     <string name="my_routes">Minhas Rotas</string>
     <string name="atividade">O que há de interessante para se fazer aqui?</string>
 
+    <!-- Strings for perfil fragment-->
+    <string name="rating">Minhas Avaliações</string>
+    <string name="myroutes"> Minhas Rotas</string>
+    <string name="myphotos">Minhas Fotos </string>
+    <string name="favorites">Favoritos</string>
+    <string name="conquer">Conquistas</string>
+    <string name="configuration">Configurações</string>
+    <string name="myfrieds">Meus Amigos</string>
+    <string name="logout">Logout</string>
+
 </resources>
