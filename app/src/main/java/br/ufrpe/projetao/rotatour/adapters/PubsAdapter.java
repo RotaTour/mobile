@@ -39,7 +39,7 @@ public class PubsAdapter extends RecyclerView.Adapter<PubsAdapter.PubsViewHolder
     @Override
     public void onBindViewHolder(final PubsViewHolder holder, final int position) {
         holder.tvUser.setText(mList.get(position).getUser());
-        //Picasso.with(mContext).load(mList.get(position).getImagem()).into(holder.ivImage);
+        Picasso.with(mContext).load(mList.get(position).getImagem()).into(holder.ivImage);
         //holder.ivImage.setImageBitmap(mList.get(position).getImagem());
         holder.tvData.setText(mList.get(position).getData());
         holder.tvPub.setText(mList.get(position).getPub());

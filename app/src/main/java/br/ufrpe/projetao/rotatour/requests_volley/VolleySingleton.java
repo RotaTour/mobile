@@ -216,20 +216,10 @@ public class VolleySingleton {
     public void getPubs(final Context context, final String wall_type,
                         final String optional_id, final String limit, final String post_min_id, final String post_max_id,
                         Response.Listener<JSONObject> callback, Response.ErrorListener error) {
-        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URLs.URL_PUBS, null, callback, error) {
-
-            @Override
-            protected Map<String, String> getParams() {
-                Map<String, String> params = new HashMap<String, String>();
-                params.put("wall_type", wall_type);
-                params.put("optional_id", optional_id);
-                if (limit != null && !limit.equals(""))
-                    params.put("limit", limit);
-                params.put("post_min_id", post_min_id);
-                params.put("post_max_id", post_max_id);
-
-                return params;
-            }
+        String url = URLs.URL_PUBS;
+        url = url + "?" + "wall_type=" + wall_type + "&optional_id=" + optional_id + "&limit=" + limit +
+                "&post_min_id=" + post_min_id + "&post_max_id=" + post_max_id;
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error) {
             @Override
             public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
                 Map<String, String> params = new HashMap<String, String>();
