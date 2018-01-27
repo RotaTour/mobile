@@ -87,10 +87,15 @@ public class RoutesActivity extends AppCompatActivity {
                     JSONArray rotas_array = jsonObject.getJSONArray("routes");
 
                     String rota_final = "";
-                    for(int i=0; i< rotas_array.length();i++){
+                    for(int i=rotas_array.length()-1; i>=0 ;i--){
                         JSONObject rota = rotas_array.getJSONObject(i);
+                        String data = rota.getString("created_at");
+                        String ano = data.substring(0,4);
+                        String mes = data.substring(5,7);
+                        String dia = data.substring(8,10);
+                        data = dia + "/" + mes + "/" + ano;
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), rota.getString("created_at"), rota.getInt("id"));
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"));
                         //Log.d("teste", rota.getInt("id"));
                         routesList.add(route);
 

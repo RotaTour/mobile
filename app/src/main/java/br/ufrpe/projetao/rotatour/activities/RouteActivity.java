@@ -61,16 +61,14 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Local> localList;
-    String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/";
-    String final_URL="";
+    String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/"; //mover para URLS
     TextView name, description, created, activity;
     int rota_ID;
-    //private LocaisAdapter locaisAdapter; it was working
     private RouteAdapter routeAdapter;
     static GoogleApiClient mGoogleApiClient;
     Local local;
-    final String place_id ="";
-
+    String place_id ="";
+    String FINAL_URL ="";
 
     public RouteActivity() {
     }
@@ -92,10 +90,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         final String routeDescription = intent.getStringExtra(RoutesAdapter.ROUTE_DESCRIPTION);
         final String routeCreated = intent.getStringExtra(RoutesAdapter.ROUTE_CREATED);
         final String routeID= intent.getStringExtra(RoutesAdapter.ROUTE_ID);
+        FINAL_URL = BASE_URL+routeID;
 
-        //rota_ID = Integer.valueOf(routeID);
-        //final_URL = BASE_URL + routeID;
-        //final int routeID = Integer.parseInt(intent.getStringExtra(String.valueOf(RoutesAdapter.ROUTE_ID)));
 
 
         TextView name = (TextView)findViewById(R.id.textViewDetailsRouteName);
@@ -113,39 +109,41 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         created.setText(routeCreated);
 
         requestQueue = Volley.newRequestQueue(this);
-       // adapter = new LocaisAdapter(getApplicationContext(), localList); it was working
         adapter = new RouteAdapter(getApplicationContext(), localList);
         recyclerView.setAdapter(adapter);
-        getJsonData();
+        loadRoute();
     }
 
 
-    public void getJsonData(){
+    public void loadRoute(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading your route...");
         progressDialog.show();
 
-        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET,"https://rotatourapi.herokuapp.com/api/routes/show/65" , null, new Response.Listener<JSONObject>() {
+        final JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, FINAL_URL , null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
-                //Log.d("LOCAL DETAILS", String.valueOf(response));
+                Log.d("LOCAL DETAILS", String.valueOf(response));
 
                 try {
+
+                    //recuperacao do array contendo locais
                     JSONObject fullJson = new JSONObject(String.valueOf(response));
                     JSONObject rota_full = fullJson.getJSONObject("route");
-
                     JSONArray locals_array = rota_full.getJSONArray("itens");
 
+
+                    //recuperando google place Id para cada local da rota
                     for(int i=0; i< locals_array.length();i++){
 
                         JSONObject localObj= locals_array.getJSONObject(i);
                         JSONObject google_place = localObj.getJSONObject("place");
                         final String place_id = google_place.getString("google_place_id");
-                        Log.e("PLACE ID>", place_id);
 
 
+                        //realizando chamada assíncrona para o google e criando um objeto places a partir do google id
                         Places.GeoDataApi.getPlaceById(mGoogleApiClient, place_id)
                                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
                                     @Override
@@ -153,16 +151,12 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                                         if (places.getStatus().isSuccess() && places.getCount() > 0) {
                                             final Place myPlace = places.get(0);
                                             cardName = (String) myPlace.getName();
-                                            Log.e("PLACE >>", "Place found: " + myPlace.getName());
-                                            Log.e("PLACE >>", "Place found: " + cardName);
 
-                                            local = new Local(cardName,atividade,place_id,null);
-                                           //new PhotoTask((RouteActivity) getApplicationContext()).execute(place_id);
-                                           localList.add(local);
-                                           adapter.notifyDataSetChanged();
-                                            Log.d("size::", String.valueOf(localList.size()));
-                                            Toast.makeText(RouteActivity.this, "working", Toast.LENGTH_SHORT).show();
+                                            local = new Local(cardName,atividade,place_id, null);
+                                            localList.add(local);
+                                            adapter.notifyDataSetChanged();
 
+                                            //new PhotoTask((RouteActivity) getApplicationContext()).execute(myPlace.getId());
                                         } else {
                                             Log.e("PLACEE>> ", "Place not found");
                                         }
@@ -171,11 +165,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                                 });
 
                     }
-                    Log.d("size_out::", String.valueOf(localList.size()));
-                    //adapter = new LocaisAdapter(getApplicationContext(), localList); it was working
-                    adapter = new RouteAdapter(getApplicationContext(), localList);
-                    recyclerView.setAdapter(adapter);
 
+                    Log.d("out_loop::", String.valueOf(localList.size()));
 
 
                 } catch (JSONException e) {
@@ -211,7 +202,7 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
         @Override
         protected void onPreExecute() {
-            Log.e("PHOTOS>","GOING!");
+            Log.d("PHOTOS>","GOING!");
         }
 
         @Override

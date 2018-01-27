@@ -62,7 +62,7 @@
 
     <Button
         android:id="@+id/buttonMinhasAvaliacoes"
-        android:text="Rating"
+        android:text="@string/rating"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
 
@@ -71,7 +71,7 @@
 
     <Button
         android:id="@+id/buttonMinhasRotas"
-        android:text="My Routes"
+        android:text="@string/my_routes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAllCaps="false"
@@ -81,7 +81,7 @@
         android:id="@+id/buttonMinhasFotos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Photos"
+        android:text="@string/myfrieds"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -89,7 +89,7 @@
         android:id="@+id/buttonFavoritos"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Favorites"
+        android:text="@string/favorites"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -97,7 +97,7 @@
         android:id="@+id/buttonConquistas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Conquers"
+        android:text="@string/conquer"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -105,7 +105,7 @@
         android:id="@+id/buttonConfiguracoes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="=Configuration"
+        android:text="@string/configuration"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
@@ -113,7 +113,7 @@
         android:id="@+id/buttonLogout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Logout"
+        android:text="@string/logout"
         android:textAllCaps="false"
         android:textSize="18sp" />
 
