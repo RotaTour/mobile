@@ -1,16 +1,12 @@
 package br.ufrpe.projetao.rotatour.activities;
 
-import android.app.LauncherActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -29,75 +25,65 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import br.ufrpe.projetao.rotatour.Friend;
 import br.ufrpe.projetao.rotatour.R;
-import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
-import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
+import br.ufrpe.projetao.rotatour.adapters.FriendsAdapter;
 
-import static br.ufrpe.projetao.rotatour.requests_volley.URLs.URL_ROUTES;
-import static java.security.AccessController.getContext;
+public class FriendsActivity extends AppCompatActivity {
 
-public class RoutesActivity extends AppCompatActivity {
 
     RequestQueue requestQueue;
-    String routeName;
-    String routeDescription;
-    int routeID;
-    String token;
+    String friendName, friendUsername,friendEmail, token;
+    Bitmap friendPhoto;
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
-    private List<Routes> routesList;
+    private List<Friend> friendsList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_routes);
+        setContentView(R.layout.activity_friends);
 
-        recyclerView = (RecyclerView)findViewById(R.id.RoutesRecycleViewr);
+
+        recyclerView = (RecyclerView)findViewById(R.id.FriendsRecycleViewr);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        routesList = new ArrayList<>();
+        friendsList = new ArrayList<>();
 
         Usuario user = SharedPrefManager.getInstance(this).getUser();
         token = user.getToken();
-
-
-        //getJson = (Button) findViewById(R.id.buttonJson);
-        //jsonData = (TextView) findViewById(R.id.textViewRoutes);
         requestQueue = Volley.newRequestQueue(this);
 
-        getJsonData();
+        getfriends();
+
     }
 
-    public void getJsonData(){
-
+    public void getfriends(){
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
         progressDialog.show();
 
-
-        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://rotatourapi.herokuapp.com/api/routes", null, new Response.Listener<JSONObject>() {
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, "https://rotatourapi.herokuapp.com/api/friends", null, new Response.Listener<JSONObject>() {
             @Override
             public void onResponse(JSONObject response) {
                 progressDialog.dismiss();
                 Log.d("result", String.valueOf(response));
                 try {
                     JSONObject jsonObject = new JSONObject(String.valueOf(response));
-                    JSONArray rotas_array = jsonObject.getJSONArray("routes");
+                    JSONArray friends_array = jsonObject.getJSONArray("friends");
+                    Log.d("ARRAY_FRIENDS", String.valueOf(friends_array));
 
-                    String rota_final = "";
-                    for(int i=rotas_array.length()-1; i>=0 ;i--){
-                        JSONObject rota = rotas_array.getJSONObject(i);
-                        String data = rota.getString("created_at");
-                        String ano = data.substring(0,4);
-                        String mes = data.substring(5,7);
-                        String dia = data.substring(8,10);
-                        data = dia + "/" + mes + "/" + ano;
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"));
+                    for(int i=0; i< friends_array.length();i++){
+                        JSONObject f = friends_array.getJSONObject(i);
+                        Log.d("FRIEND NAME",f.getString("name"));
+                        Friend friend= new Friend(f.getString("name"), f.getString("username"), f.getString("email"),null);
+                        friend.setPhotoreference((String) f.get("avatar"));
+
                         //Log.d("teste", rota.getInt("id"));
-                        routesList.add(route);
+                        friendsList.add(friend);
 
                         //String route_name = rota.getString("name");
                         //String route_description = rota.getString("body");
@@ -107,10 +93,8 @@ public class RoutesActivity extends AppCompatActivity {
                         //rota_final = rota_final + single_rota;
                     }
 
-                    adapter = new RoutesAdapter(getApplicationContext(),routesList);
+                    adapter = new FriendsAdapter(getApplicationContext(),friendsList);
                     recyclerView.setAdapter(adapter);
-                    Log.d("TOKEN", token);
-
 
                     //jsonData.setText(rota_final);
 
@@ -136,5 +120,5 @@ public class RoutesActivity extends AppCompatActivity {
         requestQueue.add(jsonObjectRequest);
     }
 
+    }
 
-}

@@ -27,6 +27,7 @@ import java.io.IOException;
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
+import br.ufrpe.projetao.rotatour.activities.FriendsActivity;
 import br.ufrpe.projetao.rotatour.activities.RoutesActivity;
 import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -154,10 +155,12 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         v.findViewById(R.id.buttonMinhasFotos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = getApplicationContext();
+               /* Context context = getApplicationContext();
                 String texto = "Minhas Fotos";
                 Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
-                toast.show();
+                toast.show();*/
+                Intent intent = new Intent(getActivity(),FriendsActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 
