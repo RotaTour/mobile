@@ -9,6 +9,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import br.ufrpe.projetao.rotatour.Local;
@@ -18,10 +20,12 @@ import br.ufrpe.projetao.rotatour.R;
 public class PubsAdapter extends RecyclerView.Adapter<PubsAdapter.PubsViewHolder> {
 
     private List<Pub> mList;
+    private Context mContext;
     private LayoutInflater mLayoutInflater;
 
     public PubsAdapter(Context c, List<Pub> l){
         mList = l;
+        mContext = c;
         mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
 
@@ -35,7 +39,8 @@ public class PubsAdapter extends RecyclerView.Adapter<PubsAdapter.PubsViewHolder
     @Override
     public void onBindViewHolder(final PubsViewHolder holder, final int position) {
         holder.tvUser.setText(mList.get(position).getUser());
-        holder.ivImage.setImageBitmap(mList.get(position).getImagem());
+        //Picasso.with(mContext).load(mList.get(position).getImagem()).into(holder.ivImage);
+        //holder.ivImage.setImageBitmap(mList.get(position).getImagem());
         holder.tvData.setText(mList.get(position).getData());
         holder.tvPub.setText(mList.get(position).getPub());
     }

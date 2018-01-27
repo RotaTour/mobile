@@ -6,10 +6,10 @@ public class Pub {
     String user;
     String data;
     String pub;
-    Bitmap imagem;
+    String imagem;
 
 
-    public Pub(String user, String data, String pub, Bitmap imagem) {
+    public Pub(String user, String data, String pub, String imagem) {
 
         this.user = user;
         this.data = data;
@@ -41,11 +41,11 @@ public class Pub {
         this.pub = pub;
     }
 
-    public Bitmap getImagem() {
+    public String getImagem() {
         return imagem;
     }
 
-    public void setImagem(Bitmap imagem) {
+    public void setImagem(String imagem) {
         this.imagem = imagem;
     }
 

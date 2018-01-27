@@ -95,37 +95,42 @@ public class HomeFragment extends Fragment {
 
     private void carregarPubs() {
         VolleySingleton.getInstance(getContext()).getPubs(getContext(),
+                "0", "0", null, "-1", "-1",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONArray pubs = null;
+                        Toast.makeText(getContext(), "Entrou no response de carregar Pubs", Toast.LENGTH_SHORT).show();
                         try {
-                            pubs = response.getJSONArray("statuses");
-                        } catch (JSONException e) {
-                            e.printStackTrace();
-                        }
-                        for (int i =0; i< pubs.length(); i++) {
-                            Pub pub = null;
-                            JSONObject pubAtual = null;
-                            try {
+                            pubs = response.getJSONArray("posts");
+                            // } catch (JSONException e) {
+                            //    e.printStackTrace();
+                            //}
+                            for (int i = pubs.length() - 1; i >= 0; i--) {
+                                Pub pub = null;
+                                JSONObject pubAtual = null;
+                                //try {
                                 pubAtual = pubs.getJSONObject(i);
                                 String data = pubAtual.getString("created_at");
-                                String ano = data.substring(0,4);
-                                String mes = data.substring(5,7);
-                                String dia = data.substring(8,10);
+                                String ano = data.substring(0, 4);
+                                String mes = data.substring(5, 7);
+                                String dia = data.substring(8, 10);
                                 data = dia + "/" + mes + "/" + ano;
-                                Bitmap bitmap = BitmapFactory.decodeResource(getContext().getResources(), R.drawable.logo);
-                                pub = new Pub("Tatu da Silva",
+                                String avatar = pubAtual.getJSONObject("user").getString("avatar");
+                                String user = pubAtual.getJSONObject("user").getString("name");
+                                Toast.makeText(getContext(), user, Toast.LENGTH_SHORT).show();
+                                pub = new Pub(user,
                                         data,
                                         pubAtual.getString("body"),
-                                        bitmap);
-                            } catch (JSONException e) {
+                                        avatar);
+
+                                mListaPubs.add(pub);
+                                mPubsAdapter.notifyDataSetChanged();
+                            }
+                        }catch (JSONException e) {
                                 e.printStackTrace();
                             }
-                            mListaPubs.add(pub);
-                            mPubsAdapter.notifyDataSetChanged();
                         }
-                    }
                 },
                 new Response.ErrorListener() {
                     @Override
