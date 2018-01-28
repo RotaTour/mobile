@@ -1,6 +1,7 @@
 package br.ufrpe.projetao.rotatour.fragments;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -14,7 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -32,6 +35,7 @@ import java.util.List;
 import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.Pub;
 import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.activities.SearchActivity;
 import br.ufrpe.projetao.rotatour.adapters.LocaisAdapter;
 import br.ufrpe.projetao.rotatour.adapters.PubsAdapter;
 import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
@@ -39,11 +43,14 @@ import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 public class HomeFragment extends Fragment {
 
     private EditText mTxtBusca;
+    private ImageButton mBtnSearch;
     private OnFragmentInteractionListener mListener;
 
     private List<Pub> mListaPubs;
     private RecyclerView mRvLista;
     private PubsAdapter mPubsAdapter;
+
+    public static  final String SEARCH_STRING = "Rota";
 
 
     public HomeFragment() {
@@ -68,6 +75,7 @@ public class HomeFragment extends Fragment {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
         mTxtBusca = v.findViewById(R.id.home_search);
+        mBtnSearch = v.findViewById(R.id.home_btnSearch);
         mRvLista = v.findViewById(R.id.home_rvPubs);
         mListaPubs = new ArrayList<>();
 
@@ -81,6 +89,15 @@ public class HomeFragment extends Fragment {
 
         carregarPubs();
 
+        mBtnSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String search = mTxtBusca.getText().toString();
+                Intent i= new Intent(v.getContext(), SearchActivity.class);
+                i.putExtra(SEARCH_STRING,search);
+                startActivity(i);
+            }
+        });
         mTxtBusca.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {

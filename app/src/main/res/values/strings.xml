@@ -77,4 +77,9 @@
     <string name="friend_routes">Check out your friend\'s routes!</string>
 
 
+    <!-- Search activity -->
+
+    <string name="search">Search Result</string>
+    <string name="search_description">Check out the routes related to your search!</string>
+
 </resources>
