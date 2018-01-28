@@ -67,10 +67,10 @@ public class RoutesActivity extends AppCompatActivity {
         //jsonData = (TextView) findViewById(R.id.textViewRoutes);
         requestQueue = Volley.newRequestQueue(this);
 
-        getJsonData();
+        getRoutes();
     }
 
-    public void getJsonData(){
+    public void getRoutes(){
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
