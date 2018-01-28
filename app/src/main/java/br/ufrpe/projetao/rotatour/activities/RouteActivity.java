@@ -4,12 +4,12 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
+import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -23,7 +23,6 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.PendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.location.places.Place;
 import com.google.android.gms.location.places.PlaceBuffer;
@@ -31,7 +30,6 @@ import com.google.android.gms.location.places.PlacePhotoMetadata;
 import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
-import com.google.android.gms.location.places.ui.PlaceAutocomplete;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,13 +43,9 @@ import java.util.Map;
 
 import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.R;
-import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
-import br.ufrpe.projetao.rotatour.adapters.LocaisAdapter;
 import br.ufrpe.projetao.rotatour.adapters.RouteAdapter;
 import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
-
-import static br.ufrpe.projetao.rotatour.activities.CriarRotaActivity.mGoogleApiClient;
 
 public class RouteActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -144,6 +138,7 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
 
                         //realizando chamada assíncrona para o google e criando um objeto places a partir do google id
+                        final int finalI = i;
                         Places.GeoDataApi.getPlaceById(mGoogleApiClient, place_id)
                                 .setResultCallback(new ResultCallback<PlaceBuffer>() {
                                     @Override
@@ -153,6 +148,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
                                             cardName = (String) myPlace.getName();
 
                                             local = new Local(cardName,atividade,place_id, null);
+
+                                            downloadAndSetPhoto(myPlace.getId(), finalI);
                                             localList.add(local);
                                             adapter.notifyDataSetChanged();
 
@@ -191,10 +188,14 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         requestQueue.add(jsonObjectRequest);
     }
 
+    private void downloadAndSetPhoto(String id, int i) {
+        new PhotoTask(this).execute(id, String.valueOf(i));
+    }
 
     // get photo
     static class PhotoTask extends AsyncTask<String, Void, PhotoTask.AttributedPhoto> {
         WeakReference<RouteActivity> activityReference;
+        private int i;
 
         PhotoTask(RouteActivity context) {
             activityReference = new WeakReference<>(context);
@@ -211,7 +212,7 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
 
                 Log.e("PHOTOS>","PHOTO LOADED!");
                 // Photo has been loaded, display it
-                activityReference.get().local.setImagem(attributedPhoto.bitmap);
+                activityReference.get().localList.get(i).setImagem(attributedPhoto.bitmap);
                 activityReference.get().adapter.notifyDataSetChanged();
             }
         }
@@ -222,10 +223,11 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
          */
         @Override
         protected RouteActivity.PhotoTask.AttributedPhoto doInBackground(String... params) {
-            if (params.length != 1) {
+            if (params.length != 2) {
                 return null;
             }
             final String placeId = params[0];
+            i = Integer.valueOf(params[1]);
             RouteActivity.PhotoTask.AttributedPhoto attributedPhoto = null;
 
             PlacePhotoMetadataResult result = Places.GeoDataApi
