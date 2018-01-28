@@ -10,6 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.squareup.picasso.Picasso;
+
 import java.util.List;
 
 import br.ufrpe.projetao.rotatour.Friend;
@@ -21,13 +23,14 @@ import br.ufrpe.projetao.rotatour.R;
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
     private List<Friend> mList;
+    private Context mContext;
     private LayoutInflater mLayoutInflater;
 
-    public FriendsAdapter(Context context, List<Friend> f){
-        mList = f;
-        mLayoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public FriendsAdapter(Context c, List<Friend> l){
+        mList = l;
+        mContext = c;
+        mLayoutInflater = (LayoutInflater) c.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
-
     @Override
     public FriendsViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
@@ -42,7 +45,8 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         holder.friendName.setText(mList.get(position).getFriendName());
         holder.friendUsername.setText(mList.get(position).getFriendUsername());
         holder.friendEmail.setText(mList.get(position).getFrienddEmail());
-        holder.friendPhotos.setImageBitmap(mList.get(position).getFriendPhoto());
+        Picasso.with(mContext).load(mList.get(position).getFriendPhoto()).into(holder.friendPhotos);
+        //holder.friendPhotos.setImageBitmap(mList.get(position).getFriendPhoto());
 
        /* Friend friend = (Friend) mList.get(position);
         if(holder.friendPhotos == null){

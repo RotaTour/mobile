@@ -8,15 +8,15 @@ import android.graphics.Bitmap;
 
 public class Friend {
 
-    private String friendName, friendUsername, friendEmail;
-    private Bitmap friendPhoto;
-    private String photoreference;
+    private String friendName, friendUsername, friendEmail, friendPhoto;
 
 
 
-    public Friend(String friendName, String friendUsername, String friendEmail, Bitmap friendPhoto) {
+
+    public Friend(String friendName, String friendUsername, String friendEmail, String friendPhoto) {
         this.friendName = friendName;
         this.friendUsername = friendUsername;
+
         this.friendEmail = friendEmail;
         this.friendPhoto = friendPhoto;
 
@@ -46,13 +46,6 @@ public class Friend {
         this.friendEmail = frienddEmail;
     }
 
-    public Bitmap getFriendPhoto() {
-        return friendPhoto;
-    }
-
-    public void setFriendPhoto(Bitmap friendPhoto) {
-        this.friendPhoto = friendPhoto;
-    }
 
     public String getFriendEmail() {
         return friendEmail;
@@ -62,12 +55,11 @@ public class Friend {
         this.friendEmail = friendEmail;
     }
 
-    public String getPhotoreference() {
-        return photoreference;
+    public void setFriendPhoto(String friendPhoto) {
+        this.friendPhoto = friendPhoto;
     }
 
-    public void setPhotoreference(String photoreference) {
-        this.photoreference = photoreference;
+    public String getFriendPhoto() {
+        return friendPhoto;
     }
-
 }
