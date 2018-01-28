@@ -96,23 +96,15 @@ public class RoutesActivity extends AppCompatActivity {
                         data = dia + "/" + mes + "/" + ano;
 
                         Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"));
-                        //Log.d("teste", rota.getInt("id"));
+
                         routesList.add(route);
 
-                        //String route_name = rota.getString("name");
-                        //String route_description = rota.getString("body");
-                        //String created = rota.getString("created_at");
-
-                        //String single_rota = route_name+"\n"+route_description+"\n"+created+"\n\n";
-                        //rota_final = rota_final + single_rota;
                     }
 
                     adapter = new RoutesAdapter(getApplicationContext(),routesList);
                     recyclerView.setAdapter(adapter);
                     Log.d("TOKEN", token);
 
-
-                    //jsonData.setText(rota_final);
 
                 } catch (JSONException e) {
                     e.printStackTrace();

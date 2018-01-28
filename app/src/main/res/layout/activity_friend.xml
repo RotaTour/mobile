@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/myRoutes"
+                app:title="@string/friend"
+                app:titleTextColor="@color/primary_dark"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/primary_dark"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/friendProfilePhoto"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="1dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="117dp"
+                tools:layout_editor_absoluteY="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/textViewDetailsFriendName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+                <TextView
+                    android:id="@+id/textViewDetailsFriendUsername"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+                <TextView
+                    android:id="@+id/textViewDetailsFriendEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textViewDetailsFriendDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="@string/friend_routes"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/FriendDetailRecycleViewr"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="172dp"
+            tools:layout_editor_absoluteY="204dp"
+            tools:ignore="MissingConstraints">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+
+
+
+</android.support.constraint.ConstraintLayout>

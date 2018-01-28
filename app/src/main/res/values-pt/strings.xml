@@ -63,4 +63,7 @@
     <string name="myfrieds">Meus Amigos</string>
     <string name="logout">Logout</string>
 
+    <!-- Create friend activity -->
+    <string name="friend">Detalhes do Amigo</string>
+
 </resources>

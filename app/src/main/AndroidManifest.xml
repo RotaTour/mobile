@@ -94,7 +94,8 @@
         <activity
             android:name=".activities.RouteActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activities.FriendsActivity"></activity>
+        <activity android:name=".activities.FriendsActivity" />
+        <activity android:name=".activities.FriendActivity"></activity>
     </application>
 
 </manifest>

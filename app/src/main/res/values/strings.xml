@@ -72,5 +72,9 @@
     <string name="my_routes">My Routes</string>
     <string name="atividade">What is interesting to do here?</string>
 
+    <!-- Create friend activity -->
+    <string name="friend">Friend Details</string>
+    <string name="friend_routes">Check out your friend\'s routes!</string>
+
 
 </resources>
