@@ -80,7 +80,7 @@ public class FriendsActivity extends AppCompatActivity {
                         JSONObject f = friends_array.getJSONObject(i);
                         Log.d("FRIEND NAME",f.getString("name"));
                         Friend friend= new Friend(f.getString("name"), f.getString("username"), f.getString("email"),null);
-                        friend.setPhotoreference((String) f.get("avatar"));
+                        //friend.setPhotoreference((String) f.get("avatar"));
 
                         //Log.d("teste", rota.getInt("id"));
                         friendsList.add(friend);

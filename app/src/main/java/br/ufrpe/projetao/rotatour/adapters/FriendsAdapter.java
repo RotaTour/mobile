@@ -44,11 +44,11 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         holder.friendEmail.setText(mList.get(position).getFrienddEmail());
         holder.friendPhotos.setImageBitmap(mList.get(position).getFriendPhoto());
 
-        Friend friend = (Friend) mList.get(position);
+       /* Friend friend = (Friend) mList.get(position);
         if(holder.friendPhotos == null){
             //new ImageDownloaderTask(holder.friendPhotos).execute(friend.getPhotoreference());
 
-        }
+        }*/
     }
 
     @Override
@@ -62,7 +62,7 @@ public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsV
         public TextView friendUsername;
         public TextView friendEmail;
         public ImageView friendPhotos;
-        public ImageView photoReference;
+        //public ImageView photoReference;
 
         public FriendsViewHolder(View itemView) {
             super(itemView);
