@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -95,21 +96,21 @@ public class HomeFragment extends Fragment {
 
     private void carregarPubs() {
         VolleySingleton.getInstance(getContext()).getPubs(getContext(),
-                "0", "0", null, "-1", "-1",
+                "0", "0", "0", "-1", "-1",
                 new Response.Listener<JSONObject>() {
                     @Override
                     public void onResponse(JSONObject response) {
                         JSONArray pubs = null;
-                        Toast.makeText(getContext(), "Entrou no response de carregar Pubs", Toast.LENGTH_SHORT).show();
                         try {
                             pubs = response.getJSONArray("posts");
-                            // } catch (JSONException e) {
-                            //    e.printStackTrace();
-                            //}
-                            for (int i = pubs.length() - 1; i >= 0; i--) {
-                                Pub pub = null;
-                                JSONObject pubAtual = null;
-                                //try {
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
+                        Log.d("ikaro", response.toString());
+                        for (int i = 0; i < pubs.length(); i++) {
+                            Pub pub = null;
+                            JSONObject pubAtual = null;
+                            try {
                                 pubAtual = pubs.getJSONObject(i);
                                 String data = pubAtual.getString("created_at");
                                 String ano = data.substring(0, 4);
@@ -118,7 +119,6 @@ public class HomeFragment extends Fragment {
                                 data = dia + "/" + mes + "/" + ano;
                                 String avatar = pubAtual.getJSONObject("user").getString("avatar");
                                 String user = pubAtual.getJSONObject("user").getString("name");
-                                Toast.makeText(getContext(), user, Toast.LENGTH_SHORT).show();
                                 pub = new Pub(user,
                                         data,
                                         pubAtual.getString("body"),
@@ -126,11 +126,11 @@ public class HomeFragment extends Fragment {
 
                                 mListaPubs.add(pub);
                                 mPubsAdapter.notifyDataSetChanged();
-                            }
-                        }catch (JSONException e) {
+                            } catch (JSONException e) {
                                 e.printStackTrace();
                             }
                         }
+                    }
                 },
                 new Response.ErrorListener() {
                     @Override
