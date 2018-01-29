@@ -164,30 +164,33 @@ public class HomeFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        for (int i = 0; i < pubs.length(); i++) {
-                            Pub pub = null;
-                            JSONObject pubAtual = null;
-                            try {
-                                pubAtual = pubs.getJSONObject(i);
-                                String data = pubAtual.getString("created_at");
-                                String ano = data.substring(0, 4);
-                                String mes = data.substring(5, 7);
-                                String dia = data.substring(8, 10);
-                                data = dia + "/" + mes + "/" + ano;
-                                String avatar = pubAtual.getJSONObject("user").getString("avatar");
-                                String user = pubAtual.getJSONObject("user").getString("name");
-                                long id = Long.valueOf(pubAtual.getString("id"));
-                                boolean liked = pubAtual.getBoolean("liked");
-                                pub = new Pub(id, liked, user, data,
+                        if(pubs.length() >= 1) {
+                            for (int i = 0; i < pubs.length(); i++) {
+                                Pub pub = null;
+                                JSONObject pubAtual = null;
+                                try {
+                                    pubAtual = pubs.getJSONObject(i);
+                                    String data = pubAtual.getString("created_at");
+                                    String ano = data.substring(0, 4);
+                                    String mes = data.substring(5, 7);
+                                    String dia = data.substring(8, 10);
+                                    data = dia + "/" + mes + "/" + ano;
+                                    String avatar = pubAtual.getJSONObject("user").getString("avatar");
+                                    String user = pubAtual.getJSONObject("user").getString("name");
+                                    long id = Long.valueOf(pubAtual.getString("id"));
+                                    boolean liked = pubAtual.getBoolean("liked");
+                                    pub = new Pub(id, liked, user, data,
                                             pubAtual.getString("body"), avatar);
 
-                                mListaPubs.add(pub);
-                                mPubsAdapter.notifyDataSetChanged();
-                                progressDialog.dismiss();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
+                                    mListaPubs.add(pub);
+                                    mPubsAdapter.notifyDataSetChanged();
+                                    progressDialog.dismiss();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
                             }
                         }
+                        progressDialog.dismiss();
                     }
                 },
                 new Response.ErrorListener() {
