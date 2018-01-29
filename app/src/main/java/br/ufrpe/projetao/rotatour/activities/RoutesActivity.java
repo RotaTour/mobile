@@ -14,6 +14,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.like.LikeButton;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -91,8 +92,9 @@ public class RoutesActivity extends AppCompatActivity {
                         for (int j = 0; j < jTags.length(); j++) {
                             tags.add(jTags.getJSONObject(j).getString("name")) ;
                         }
+                        boolean liked = rota.getBoolean("liked");
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags);
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags, liked);
 
                         routesList.add(route);
 

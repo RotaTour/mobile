@@ -4,9 +4,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
+import com.android.volley.Response;
 import com.facebook.login.LoginManager;
 
+import org.json.JSONObject;
+
 import br.ufrpe.projetao.rotatour.activities.LoginActivity;
+import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 
 //Classe para salvar informações de sessão de usuário no próprio dispositivo Android
 
@@ -18,6 +22,7 @@ public class SharedPrefManager {
     private static final String KEY_TOKEN = "keytoken";
     private static final String KEY_PROVIDER = "keyprovider";
     private static final String KEY_PROVIDER_ID = "keyproviderid";
+    private static final String KEY_AVATAR = "keyavatar";
 
     private static SharedPrefManager mInstance;
     private static Context mCtx;
@@ -42,6 +47,7 @@ public class SharedPrefManager {
         editor.putString(KEY_PASSWORD, user.getPassword());
         editor.putString(KEY_PROVIDER, user.getProvider());
         editor.putString(KEY_PROVIDER_ID, user.getProviderId());
+        editor.putString(KEY_AVATAR, user.getAvatar());
         editor.apply();
     }
 
@@ -58,7 +64,8 @@ public class SharedPrefManager {
                 , sharedPreferences.getString(KEY_PASSWORD, null)
                 , sharedPreferences.getString(KEY_TOKEN, null)
                 , sharedPreferences.getString(KEY_PROVIDER, null)
-                , sharedPreferences.getString(KEY_PROVIDER_ID, null));
+                , sharedPreferences.getString(KEY_PROVIDER_ID, null)
+                , sharedPreferences.getString(KEY_AVATAR, null));
     }
 
     //deslogar o usuario

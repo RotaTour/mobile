@@ -64,8 +64,6 @@ public class FriendActivity extends AppCompatActivity {
        TextView fEmail = (TextView)findViewById(R.id.textViewDetailsFriendEmail);
        photo = (ImageView)findViewById(R.id.friendProfilePhoto);
 
-        routesList = new ArrayList<>();
-
        Picasso.with(mContext).load(friendAvatar).into(photo);
        fname.setText(friendName);
        fUname.setText(friendUsername);
@@ -77,11 +75,13 @@ public class FriendActivity extends AppCompatActivity {
         requestQueue = Volley.newRequestQueue(this);
 
         url = BASE_URL+friendUsername+"/routes";
-        getRoutes();
+        //getRoutes();
 
     }
 
     public void getRoutes(){
+
+        routesList = new ArrayList<>();
 
         final ProgressDialog progressDialog = new ProgressDialog(this);
         progressDialog.setMessage("Loading...");
@@ -112,8 +112,9 @@ public class FriendActivity extends AppCompatActivity {
                         for (int j = 0; j < jTags.length(); j++) {
                             tags.add(jTags.getJSONObject(j).getString("name")) ;
                         }
+                        boolean liked = rota.getBoolean("liked");
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags);
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags, liked);
                         routesList.add(route);
 
                     }
@@ -144,8 +145,12 @@ public class FriendActivity extends AppCompatActivity {
         };
         requestQueue.add(jsonObjectRequest);
     }
-
-
-
+    @Override
+    public void onResume()
+    {  // After a pause OR at startup
+        super.onResume();
+        getRoutes();
+        //Refresh your stuff here
+    }
 
 }

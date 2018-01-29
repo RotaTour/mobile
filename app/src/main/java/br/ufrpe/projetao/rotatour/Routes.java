@@ -10,6 +10,7 @@ import java.util.List;
 public class Routes {
     private int id;
     private String name, description, created;
+    boolean liked;
     List<String> tags;
 
 
@@ -20,12 +21,13 @@ public class Routes {
         this.created = created;
 
     }*/
-    public Routes(String name, String description, String created, int id, ArrayList<String> tags){
+    public Routes(String name, String description, String created, int id, ArrayList<String> tags, boolean liked){
         this.name = name;
         this.description = description;
         this.created = created;
         this.id = id;
         this.tags = tags;
+        this.liked = liked;
     }
 
 
@@ -65,8 +67,11 @@ public class Routes {
         this.created = created;
     }
 
-
     public int get(int position) {
         return position;
+    }
+
+    public boolean isLiked() {
+        return liked;
     }
 }

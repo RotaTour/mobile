@@ -96,8 +96,8 @@ public class SearchActivity extends AppCompatActivity {
                             tags.add(jTags.getJSONObject(j).getString("name")) ;
                         }
 
-
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags);
+                        boolean liked = rota.getBoolean("liked");
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags,liked);
                         routesList.add(route);
 
                     }

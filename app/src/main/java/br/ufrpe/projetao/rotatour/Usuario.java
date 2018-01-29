@@ -1,14 +1,15 @@
 package br.ufrpe.projetao.rotatour;
 
 public class Usuario {
-    private String email, password, token, provider, providerId;
+    private String email, password, token, provider, providerId, avatar;
 
-    public Usuario(String email, String password, String token, String provider, String providerId) {
+    public Usuario(String email, String password, String token, String provider, String providerId, String avatar) {
         this.email = email;
         this.password = password;
         this.token = token;
         this.provider = provider;
         this.providerId = providerId;
+        this.avatar = avatar;
     }
 
     public String getEmail() {
@@ -29,5 +30,9 @@ public class Usuario {
 
     public String getProviderId() {
         return providerId;
+    }
+
+    public String getAvatar() {
+        return avatar;
     }
 }

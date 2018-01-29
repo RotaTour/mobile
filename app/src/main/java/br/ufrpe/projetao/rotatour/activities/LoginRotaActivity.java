@@ -28,6 +28,8 @@ public class LoginRotaActivity extends AppCompatActivity {
     private EditText mTxtEmail;
     private EditText mTxtSenha;
     private Button mBtnLogin;
+    String avatar = null;
+    String token = null;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -62,6 +64,7 @@ public class LoginRotaActivity extends AppCompatActivity {
         progressDialog.setMessage(getString(R.string.loginRT_autenticando));
         progressDialog.show();
 
+
         final String email = mTxtEmail.getText().toString();
         final String password = mTxtSenha.getText().toString();
 
@@ -72,19 +75,40 @@ public class LoginRotaActivity extends AppCompatActivity {
                         JSONObject jsonObject;
                         try {
                             jsonObject = new JSONObject(response);
-                            response = jsonObject.getString("token");
+                            token = jsonObject.getString("token");
                             Log.i("LoginRotaActivity", response);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        progressDialog.dismiss();
+
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(
-                                new Usuario(email, password, response,
-                                            "local", null)
-                        );
-                        setResult(RESULT_OK);
-                        killActivity();
-                        startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                                new Usuario(email, password, token,
+                                        "local", null, avatar));
+                        VolleySingleton.getInstance(LoginRotaActivity.this).getUser(email, LoginRotaActivity.this,
+                                new Response.Listener<JSONObject>() {
+                                    @Override
+                                    public void onResponse(JSONObject response) {
+                                        try {
+                                            avatar = response.getString("avatar");
+                                        } catch (JSONException e) {
+                                            e.printStackTrace();
+                                        }
+                                        SharedPrefManager.getInstance(getApplicationContext()).userLogin(
+                                                new Usuario(email, password, token,
+                                                        "local", null, avatar));
+                                        progressDialog.dismiss();
+                                        setResult(RESULT_OK);
+                                        killActivity();
+                                        startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
+                                    }
+                                }, new Response.ErrorListener() {
+                                    @Override
+                                    public void onErrorResponse(VolleyError error) {
+                                        Log.d("vtnc", "Erro get avatar LoginRotaActivity");
+                                        progressDialog.dismiss();
+                                    }
+                                });
+
                     }
                 },
                 new Response.ErrorListener() {

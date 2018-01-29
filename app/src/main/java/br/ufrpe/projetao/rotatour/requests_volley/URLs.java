@@ -14,6 +14,7 @@ public class URLs {
     public static final String URL_POSTS = ROOT_URL + "posts";
     public static final String URL_NEW_POST = ROOT_URL + "posts/new";
     public static final String URL_PUB_LIKE = ROOT_URL + "posts/like";
+    public static final String URL_ROUTE_LIKE = ROOT_URL + "routes/like";
     public static final String URL_USER= ROOT_URL + "users/";
 
 

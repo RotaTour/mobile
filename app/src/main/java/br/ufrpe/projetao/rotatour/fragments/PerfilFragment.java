@@ -18,6 +18,7 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.squareup.picasso.Picasso;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -40,7 +41,7 @@ import static com.facebook.FacebookSdk.getApplicationContext;
 public class PerfilFragment extends Fragment implements View.OnClickListener {
 
     private TextView textViewId, textViewUsername, textViewEmail;
-    private Button bMinhasRotas, bMinhasAvaliacoes, bMinhasFotos, bFavoritos, bConquistas, bConfiguracoes;
+    private Button bMinhasRotas, bMinhasFotos, bFavoritos, bConfiguracoes;
     private PerfilFragment.OnFragmentInteractionListener mListener;
     private CircleImageView circleImage;
     private static int IMAGE_PICKER = 1;
@@ -74,6 +75,10 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
         textViewEmail = v.findViewById(R.id.textViewEmail);
         circleImage = v.findViewById(R.id.profile);
         final String token = user.getToken();
+        if(user.getAvatar() != null) {
+            Picasso.with(getContext()).load(user.getAvatar()).into(circleImage);
+            Log.d("vtnc", user.getAvatar().toString());
+        }
         String email = SharedPrefManager.getInstance(getContext()).getUser().getEmail();
         textViewEmail.setText(email);
         VolleySingleton.getInstance(getContext()).getUser(email, getContext(),
@@ -115,7 +120,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        v.findViewById(R.id.buttonMinhasAvaliacoes);
+        //v.findViewById(R.id.buttonMinhasAvaliacoes);
         v.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -175,7 +180,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-       //Conquistas button - replace logic
+       /*//Conquistas button - replace logic
         v.findViewById(R.id.buttonConquistas).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -184,7 +189,7 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
                 Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
                 toast.show();
             }
-        });
+        });*/
 
         //Configuracoes button - replace logic
         v.findViewById(R.id.buttonConfiguracoes).setOnClickListener(new View.OnClickListener() {

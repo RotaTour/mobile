@@ -60,7 +60,7 @@
 
     </RelativeLayout>
 
-    <Button
+    <!--<Button
         android:id="@+id/buttonMinhasAvaliacoes"
         android:text="@string/rating"
         android:layout_width="match_parent"
@@ -68,7 +68,7 @@
 
         android:textAllCaps="false"
         android:textSize="18sp" />
-
+    -->
     <Button
         android:id="@+id/buttonMinhasRotas"
         android:text="@string/my_routes"
@@ -93,14 +93,14 @@
         android:textAllCaps="false"
         android:textSize="18sp" />
 
-    <Button
+    <!--<Button
         android:id="@+id/buttonConquistas"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/conquer"
         android:textAllCaps="false"
         android:textSize="18sp" />
-
+    -->
     <Button
         android:id="@+id/buttonConfiguracoes"
         android:layout_width="match_parent"

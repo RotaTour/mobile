@@ -2,12 +2,10 @@ package br.ufrpe.projetao.rotatour.adapters;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -18,13 +16,7 @@ import java.util.List;
 
 import br.ufrpe.projetao.rotatour.Friend;
 import br.ufrpe.projetao.rotatour.R;
-import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.activities.FriendActivity;
-import br.ufrpe.projetao.rotatour.activities.RouteActivity;
-
-/**
- * Created by Victor Alexandre on 1/27/2018.
- */
 
 public class FriendsAdapter extends RecyclerView.Adapter<FriendsAdapter.FriendsViewHolder> {
 

@@ -82,15 +82,28 @@
                     android:text="01-01-2018"
                     android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
 
-                <ImageButton
-                    android:id="@+id/buttonRouteDetailShare"
-                    android:layout_width="wrap_content"
-                    android:gravity=""
+                <LinearLayout
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:tint="@color/white"
-                    app:srcCompat="@drawable/ic_share_black_24dp" />
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/buttonRouteDetailShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/white"
+                        android:layout_marginBottom="9dp"
+                        app:srcCompat="@drawable/ic_share_black_24dp" />
 
-
+                    <com.like.LikeButton
+                        android:id="@+id/btnRouteDetailLike"
+                        app:icon_type="heart"
+                        app:icon_size="20dp"
+                        android:layout_gravity="bottom"
+                        app:circle_start_color="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
             </LinearLayout>
 
         </LinearLayout>
@@ -105,7 +118,7 @@
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/RouteDetailRecycleViewr"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:layout_editor_absoluteX="172dp"
             tools:layout_editor_absoluteY="204dp"

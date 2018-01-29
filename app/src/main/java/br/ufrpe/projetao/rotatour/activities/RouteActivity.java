@@ -28,6 +28,8 @@ import com.google.android.gms.location.places.PlacePhotoMetadata;
 import com.google.android.gms.location.places.PlacePhotoMetadataBuffer;
 import com.google.android.gms.location.places.PlacePhotoMetadataResult;
 import com.google.android.gms.location.places.Places;
+import com.like.LikeButton;
+import com.like.OnLikeListener;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -45,6 +47,7 @@ import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.adapters.RouteAdapter;
 import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
+import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 import me.gujun.android.taggroup.TagGroup;
 
 public class RouteActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
@@ -56,6 +59,7 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     private RecyclerView.Adapter adapter;
     private List<Local> localList;
     private TagGroup mTagGroup;
+    private LikeButton mRouteLike;
     String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/"; //mover para URLS
     TextView name, description, created, activity;
     int rota_ID;
@@ -86,12 +90,49 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         final String routeCreated = intent.getStringExtra(RoutesAdapter.ROUTE_CREATED);
         final String routeID= intent.getStringExtra(RoutesAdapter.ROUTE_ID);
         final ArrayList<String> tags = intent.getStringArrayListExtra(RoutesAdapter.ROUTE_TAGS);
+        final boolean liked = intent.getBooleanExtra(RoutesAdapter.ROUTE_LIKED, false);
         FINAL_URL = BASE_URL+routeID;
-        
+
 
         TextView name = (TextView)findViewById(R.id.textViewDetailsRouteName);
         TextView description = (TextView)findViewById(R.id.textViewDetailsDescription);
         TextView created = (TextView)findViewById(R.id.textViewDetailsDate);
+        mRouteLike = findViewById(R.id.btnRouteDetailLike);
+        mRouteLike.setLiked(liked);
+        mRouteLike.setOnLikeListener(new OnLikeListener() {
+            @Override
+            public void liked(LikeButton likeButton) {
+                VolleySingleton.getInstance(RouteActivity.this).toggleRouteLike(RouteActivity.this, routeID,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("vtnc", "response like route");
+
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("vtnc", "error like route");
+                            }
+                        });
+            }
+
+            @Override
+            public void unLiked(LikeButton likeButton) {
+                VolleySingleton.getInstance(RouteActivity.this).toggleRouteLike(RouteActivity.this, routeID,
+                        new Response.Listener<String>() {
+                            @Override
+                            public void onResponse(String response) {
+                                Log.d("vtnc", "response unlike route");
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("vtnc", "error unlike route");
+                            }
+                        });
+            }
+        });
         mTagGroup = findViewById(R.id.routeDetail_ViewTag);
         mTagGroup.setTags(tags);
         //TextView activity = (TextView)findViewById(R.id.place_atividade);

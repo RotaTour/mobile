@@ -269,6 +269,27 @@ public class VolleySingleton {
         mQueue.add(postRequest);
     }
 
+    public void toggleRouteLike(final Context context, final String id, Response.Listener<String> callback, Response.ErrorListener error) {
+
+        Log.d("vtnc",id);
+        final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_ROUTE_LIKE, callback, error) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", id);
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+
+        mQueue.add(postRequest);
+    }
+
 
     /*public void getUsers(final Context context, Response.Listener<JSONObject> callback, Response.ErrorListener error) {
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, URLs.URL_USERS, null, callback, error) {

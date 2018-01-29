@@ -24,7 +24,6 @@ import com.facebook.appevents.AppEventsLogger;
 import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
-import com.facebook.share.Share;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -235,6 +234,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         final String email = SharedPrefManager.getInstance(this).getUser().getEmail();
         final String password = SharedPrefManager.getInstance(this).getUser().getPassword();
         final String provider = SharedPrefManager.getInstance(this).getUser().getProvider();
+        final String avatar = SharedPrefManager.getInstance(this).getUser().getAvatar();
 
         if (provider != null && provider.equals("local")) {
             VolleySingleton.getInstance(this).postLogin(email, password,
@@ -246,8 +246,8 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                                 jsonObject = new JSONObject(response);
                                 response = jsonObject.getString("token");
                             } catch (JSONException e) {e.printStackTrace();}
-
-                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response, "local", null));
+                            String avatar = SharedPrefManager.getInstance(getApplicationContext()).getUser().getAvatar();
+                            SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(email, password, response, "local", null, avatar));
                         }
                     }, new Response.ErrorListener() {
                         @Override
@@ -270,7 +270,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             } catch (JSONException e) {e.printStackTrace();}
 
                             SharedPrefManager.getInstance(LoginActivity.this).userLogin(
-                                    new Usuario(user.getEmail(), null, response, user.getProvider(), user.getProviderId())
+                                    new Usuario(user.getEmail(), null, response, user.getProvider(), user.getProviderId(), user.getAvatar())
                             );
                         }
                     },
@@ -283,7 +283,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
         }
     }
 
-    private void loginSocial(String name, final String email, String avatar, final String provider, final String provider_id){
+    private void loginSocial(String name, final String email, final String avatar, final String provider, final String provider_id){
         final ProgressDialog progressDialog = new ProgressDialog(LoginActivity.this,
                 R.style.AppTheme_Dark_Dialog);
         progressDialog.setIndeterminate(true);
@@ -304,7 +304,7 @@ public class LoginActivity extends AppCompatActivity implements GoogleApiClient.
                             e.printStackTrace();
                         }
                         SharedPrefManager.getInstance(getApplicationContext()).userLogin(new Usuario(
-                                email, null, response, provider, provider_id));
+                                email, null, response, provider, provider_id, avatar));
                         startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
                         progressDialog.dismiss();
                         finish();

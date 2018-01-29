@@ -57,15 +57,14 @@ public class PubsAdapter extends RecyclerView.Adapter<PubsAdapter.PubsViewHolder
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("vtnc", "response pubLike");
-                                Log.d("vtnc", response);
+                                Log.d("vtnc", "response pubLike" + response);
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("vtnc", "erro pubLike");
-                                Log.d("vtnc", error.toString());
+                                if (error!= null)
+                                    Log.d("vtnc", "erro pubLike" + error.toString());
                             }
                         });
             }
@@ -77,15 +76,14 @@ public class PubsAdapter extends RecyclerView.Adapter<PubsAdapter.PubsViewHolder
                         new Response.Listener<String>() {
                             @Override
                             public void onResponse(String response) {
-                                Log.d("vtnc", "response pubUnLike");
-                                Log.d("vtnc", response);
+                                Log.d("vtnc", "response pubUnLike" + response);
                             }
                         },
                         new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
-                                Log.d("vtnc", "erro pubUnLike");
-                                Log.d("vtnc", error.toString());
+                                if (error != null)
+                                    Log.d("vtnc", "erro pubUnLike" + error.toString());
                             }
                         });
             }

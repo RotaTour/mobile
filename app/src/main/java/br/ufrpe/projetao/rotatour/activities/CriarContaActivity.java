@@ -80,7 +80,7 @@ public class CriarContaActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
                 SharedPrefManager.getInstance(getApplicationContext()).userLogin(
-                        new Usuario(email, password, response, "local", null)
+                        new Usuario(email, password, response, "local", null, null)
                 );
                 setResult(RESULT_OK);
                 startActivity(new Intent(getApplicationContext(), PrincipalActivity.class));
