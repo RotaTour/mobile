@@ -1,9 +1,8 @@
 package br.ufrpe.projetao.rotatour.fragments;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -23,7 +21,6 @@ import android.widget.Toast;
 
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
-import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,6 +32,7 @@ import java.util.List;
 import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.Pub;
 import br.ufrpe.projetao.rotatour.R;
+import br.ufrpe.projetao.rotatour.activities.CriarContaActivity;
 import br.ufrpe.projetao.rotatour.activities.SearchActivity;
 import br.ufrpe.projetao.rotatour.adapters.LocaisAdapter;
 import br.ufrpe.projetao.rotatour.adapters.PubsAdapter;
@@ -43,6 +41,8 @@ import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 public class HomeFragment extends Fragment {
 
     private EditText mTxtBusca;
+    private EditText mTxtNewPost;
+    private ImageButton mBtnNewPost;
     private ImageButton mBtnSearch;
     private OnFragmentInteractionListener mListener;
 
@@ -51,7 +51,6 @@ public class HomeFragment extends Fragment {
     private PubsAdapter mPubsAdapter;
 
     public static  final String SEARCH_STRING = "Rota";
-
 
     public HomeFragment() {
         // Required empty public constructor
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -74,6 +72,9 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_home, container, false);
+
+        mTxtNewPost = v.findViewById(R.id.home_etNewPub);
+        mBtnNewPost = v.findViewById(R.id.home_btnNewPost);
         mTxtBusca = v.findViewById(R.id.home_search);
         mBtnSearch = v.findViewById(R.id.home_btnSearch);
         mRvLista = v.findViewById(R.id.home_rvPubs);
@@ -88,6 +89,26 @@ public class HomeFragment extends Fragment {
         mRvLista.setAdapter(mPubsAdapter);
 
         carregarPubs();
+
+        mBtnNewPost.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String newPub = mTxtNewPost.getText().toString();
+                VolleySingleton.getInstance(getContext()).postPub(getContext(), newPub,
+                        new Response.Listener<JSONObject>() {
+                            @Override
+                            public void onResponse(JSONObject response) {
+                                mPubsAdapter.notifyDataSetChanged();
+                                carregarPubs();
+                            }
+                        }, new Response.ErrorListener() {
+                            @Override
+                            public void onErrorResponse(VolleyError error) {
+                                Log.d("vtnc", "Erro postPub");
+                            }
+                        });
+            }
+        });
 
         mBtnSearch.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,6 +133,13 @@ public class HomeFragment extends Fragment {
     }
 
     private void carregarPubs() {
+
+        final ProgressDialog progressDialog = new ProgressDialog(getContext(),
+                R.style.AppTheme_Dark_Dialog);
+        progressDialog.setIndeterminate(true);
+        progressDialog.setMessage(getString(R.string.home_loadPubs));
+        progressDialog.show();
+
         VolleySingleton.getInstance(getContext()).getPubs(getContext(),
                 "0", "0", "0", "-1", "-1",
                 new Response.Listener<JSONObject>() {
@@ -123,7 +151,6 @@ public class HomeFragment extends Fragment {
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
-                        Log.d("ikaro", response.toString());
                         for (int i = 0; i < pubs.length(); i++) {
                             Pub pub = null;
                             JSONObject pubAtual = null;
@@ -136,13 +163,14 @@ public class HomeFragment extends Fragment {
                                 data = dia + "/" + mes + "/" + ano;
                                 String avatar = pubAtual.getJSONObject("user").getString("avatar");
                                 String user = pubAtual.getJSONObject("user").getString("name");
-                                pub = new Pub(user,
-                                        data,
-                                        pubAtual.getString("body"),
-                                        avatar);
+                                long id = Long.valueOf(pubAtual.getString("id"));
+                                boolean liked = pubAtual.getBoolean("liked");
+                                pub = new Pub(id, liked, user, data,
+                                            pubAtual.getString("body"), avatar);
 
                                 mListaPubs.add(pub);
                                 mPubsAdapter.notifyDataSetChanged();
+                                progressDialog.dismiss();
                             } catch (JSONException e) {
                                 e.printStackTrace();
                             }
@@ -153,7 +181,7 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onErrorResponse(VolleyError error) {
                         Toast.makeText(getContext(), "Erro get pubs", Toast.LENGTH_SHORT).show();
-
+                        progressDialog.dismiss();
                     }
                 });
     }

@@ -216,7 +216,7 @@ public class VolleySingleton {
     public void getPubs(final Context context, final String wall_type,
                         final String optional_id, final String limit, final String post_min_id, final String post_max_id,
                         Response.Listener<JSONObject> callback, Response.ErrorListener error) {
-        String url = URLs.URL_PUBS;
+        String url = URLs.URL_POSTS;
         url = url + "?" + "wall_type=" + wall_type + "&optional_id=" + optional_id + "&limit=" + limit +
                 "&post_min_id=" + post_min_id + "&post_max_id=" + post_max_id;
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error) {
@@ -230,6 +230,44 @@ public class VolleySingleton {
         request.setRetryPolicy(new DefaultRetryPolicy(50000, DefaultRetryPolicy.DEFAULT_MAX_RETRIES,
                 DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         mQueue.add(request);
+    }
+
+    public void postPub(final Context context, final String body,
+                        Response.Listener<JSONObject> callback, Response.ErrorListener error) {
+        JSONObject requestJson = new JSONObject();
+        try {
+            requestJson.put("body", body);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        final JsonObjectRequest request = new JsonObjectRequest(Request.Method.POST, URLs.URL_NEW_POST, requestJson, callback, error) {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError { //Adicionar cabeçalho à requisição
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+        mQueue.add(request);
+    }
+
+    public void togglePubLike(final Context context, final long id, Response.Listener<String> callback, Response.ErrorListener error) {
+        final StringRequest postRequest = new StringRequest(Request.Method.POST, URLs.URL_PUB_LIKE, callback, error) {
+            @Override
+            protected Map<String, String> getParams() {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("id", String.valueOf(id));
+                return params;
+            }
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> params = new HashMap<String, String>();
+                params.put("Authorization", "Bearer "+ SharedPrefManager.getInstance(context).getUser().getToken());
+                return params;
+            }
+        };
+
+        mQueue.add(postRequest);
     }
 
 

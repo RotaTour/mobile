@@ -11,8 +11,9 @@ public class URLs {
     public static final String URL_LOGIN= ROOT_URL + "login";
     public static final String URL_ROUTES= ROOT_URL + "routes";
     public static final String URL_ADD_ROUTE= ROOT_URL + "routes/addToRoute";
-    public static final String URL_PUBS = ROOT_URL + "posts";
-    public static final String URL_USERS_AI = ROOT_URL_AI + "users";
+    public static final String URL_POSTS = ROOT_URL + "posts";
+    public static final String URL_NEW_POST = ROOT_URL + "posts/new";
+    public static final String URL_PUB_LIKE = ROOT_URL + "posts/like";
     public static final String URL_USER= ROOT_URL + "users/";
 
 

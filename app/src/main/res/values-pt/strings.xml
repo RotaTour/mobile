@@ -35,7 +35,8 @@
 
     <!-- Fragmento home -->
     <string name="home_search">Pra onde vamos?</string>
-    <string name="home_NewPubHint">Compartilhe o que você está pensando</string>
+    <string name="home_loadPubs">Carregando publicações</string>
+    <string name="home_NewPubHint">O que você está pensando?</string>
 
     <!-- Criar rota activity -->
     <string name="criarRota_activity">Atividade</string>
