@@ -29,12 +29,9 @@ import org.json.JSONObject;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.Pub;
 import br.ufrpe.projetao.rotatour.R;
-import br.ufrpe.projetao.rotatour.activities.CriarContaActivity;
 import br.ufrpe.projetao.rotatour.activities.SearchActivity;
-import br.ufrpe.projetao.rotatour.adapters.LocaisAdapter;
 import br.ufrpe.projetao.rotatour.adapters.PubsAdapter;
 import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
 
@@ -80,6 +77,8 @@ public class HomeFragment extends Fragment {
         mRvLista = v.findViewById(R.id.home_rvPubs);
         mListaPubs = new ArrayList<>();
 
+        mBtnNewPost.requestFocus();
+
         LinearLayoutManager lln = new LinearLayoutManager(getContext());
         lln.setOrientation(LinearLayoutManager.VERTICAL);
         mRvLista.setLayoutManager(lln);
@@ -94,16 +93,26 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 String newPub = mTxtNewPost.getText().toString();
+
+                final ProgressDialog progressDialog = new ProgressDialog(getContext(),
+                        R.style.AppTheme_Dark_Dialog);
+                progressDialog.setIndeterminate(true);
+                progressDialog.setMessage(getString(R.string.home_loadPubs));
+                progressDialog.show();
+
                 VolleySingleton.getInstance(getContext()).postPub(getContext(), newPub,
                         new Response.Listener<JSONObject>() {
                             @Override
                             public void onResponse(JSONObject response) {
+                                mTxtNewPost.setText("");
                                 mPubsAdapter.notifyDataSetChanged();
+                                progressDialog.dismiss();
                                 carregarPubs();
                             }
                         }, new Response.ErrorListener() {
                             @Override
                             public void onErrorResponse(VolleyError error) {
+                                progressDialog.dismiss();
                                 Log.d("vtnc", "Erro postPub");
                             }
                         });
@@ -133,6 +142,9 @@ public class HomeFragment extends Fragment {
     }
 
     private void carregarPubs() {
+        mListaPubs = new ArrayList<>();
+        mPubsAdapter = new PubsAdapter(getContext(), mListaPubs);
+        mRvLista.setAdapter(mPubsAdapter);
 
         final ProgressDialog progressDialog = new ProgressDialog(getContext(),
                 R.style.AppTheme_Dark_Dialog);
