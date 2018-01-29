@@ -18,6 +18,7 @@ import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.RoutesViewHolder;
 import br.ufrpe.projetao.rotatour.activities.RouteActivity;
+import me.gujun.android.taggroup.TagGroup;
 
 /**
  * Created by Victor Alexandre on 1/19/2018.
@@ -55,6 +56,9 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
         holder.routeDescription.setText(mList.get(position).getDescription());
         holder.createdDate.setText(mList.get(position).getCreated());
 
+        holder.tgRouteTags.setTags(mList.get(position).getTags());
+
+
         holder.linearLayout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -82,15 +86,18 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
         public  TextView routeDescription;
         public  TextView createdDate;
         public LinearLayout linearLayout;
+        public TagGroup tgRouteTags;
         public TextView routeID;
 
         public RoutesViewHolder(View itemView) {
             super(itemView);
 
+            tgRouteTags = itemView.findViewById(R.id.route_ViewTag);
             routeName = itemView.findViewById(R.id.textViewRouteName);
             routeDescription =  itemView.findViewById(R.id.textViewRouteDescription);
             createdDate = itemView.findViewById(R.id.textViewCreated);
             linearLayout = itemView.findViewById(R.id.linearLayoutCardview);
+
             //adicionar view para ID
 
         }

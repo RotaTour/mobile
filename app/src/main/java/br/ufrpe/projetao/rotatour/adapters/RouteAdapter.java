@@ -21,6 +21,7 @@ import java.util.List;
 import br.ufrpe.projetao.rotatour.Local;
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.activities.CriarRotaActivity;
+import me.gujun.android.taggroup.TagGroup;
 
 public class RouteAdapter extends RecyclerView.Adapter<RouteAdapter.LocaisViewHolder> {
 

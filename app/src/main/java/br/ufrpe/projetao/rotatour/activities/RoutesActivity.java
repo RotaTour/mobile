@@ -1,16 +1,11 @@
 package br.ufrpe.projetao.rotatour.activities;
 
-import android.app.LauncherActivity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -34,9 +29,6 @@ import br.ufrpe.projetao.rotatour.Routes;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
 import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
-
-import static br.ufrpe.projetao.rotatour.requests_volley.URLs.URL_ROUTES;
-import static java.security.AccessController.getContext;
 
 public class RoutesActivity extends AppCompatActivity {
 
@@ -94,8 +86,13 @@ public class RoutesActivity extends AppCompatActivity {
                         String mes = data.substring(5,7);
                         String dia = data.substring(8,10);
                         data = dia + "/" + mes + "/" + ano;
+                        ArrayList<String> tags = new ArrayList<>();
+                        JSONArray jTags = rota.getJSONArray("tags");
+                        for (int j = 0; j < jTags.length(); j++) {
+                            tags.add(jTags.getJSONObject(j).getString("name")) ;
+                        }
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"));
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags);
 
                         routesList.add(route);
 

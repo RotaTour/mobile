@@ -107,7 +107,13 @@ public class FriendActivity extends AppCompatActivity {
                         String dia = data.substring(8,10);
                         data = dia + "/" + mes + "/" + ano;
 
-                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"));
+                        ArrayList<String> tags = new ArrayList<>();
+                        JSONArray jTags = rota.getJSONArray("tags");
+                        for (int j = 0; j < jTags.length(); j++) {
+                            tags.add(jTags.getJSONObject(j).getString("name")) ;
+                        }
+
+                        Routes route = new Routes(rota.getString("name"), rota.getString("body"), data, rota.getInt("id"), tags);
                         routesList.add(route);
 
                     }

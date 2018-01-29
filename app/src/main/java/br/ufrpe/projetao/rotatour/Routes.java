@@ -1,5 +1,8 @@
 package br.ufrpe.projetao.rotatour;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by Victor Alexandre on 1/15/2018.
  */
@@ -7,6 +10,7 @@ package br.ufrpe.projetao.rotatour;
 public class Routes {
     private int id;
     private String name, description, created;
+    List<String> tags;
 
 
   /*  public Routes(int id, String name, String description, String created){
@@ -16,12 +20,17 @@ public class Routes {
         this.created = created;
 
     }*/
-    public Routes(String name, String description, String created, int id){
+    public Routes(String name, String description, String created, int id, ArrayList<String> tags){
         this.name = name;
         this.description = description;
         this.created = created;
         this.id = id;
+        this.tags = tags;
+    }
 
+
+    public List<String> getTags() {
+        return tags;
     }
 
     public int getId() {

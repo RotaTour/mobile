@@ -2,6 +2,9 @@ package br.ufrpe.projetao.rotatour;
 
 import android.graphics.Bitmap;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Local {
     String cardName;
     String atividade;
@@ -18,6 +21,8 @@ public class Local {
 
     public Local(){
     }
+
+
     public int getImageResourceId(){
         return this.resourceId;
     }

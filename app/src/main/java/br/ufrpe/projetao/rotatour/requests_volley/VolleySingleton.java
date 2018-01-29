@@ -48,7 +48,6 @@ public class VolleySingleton {
         return Normalizer.normalize(str, Normalizer.Form.NFD).replaceAll("[^\\p{ASCII}]", "").replace(" ", "%20");
     }
 
-    //TODO HEADERS
     public void getObjectWithHeader(String url, Response.Listener<JSONObject> callback, Response.ErrorListener error, final String email, final String password) {
         url = removerAcentos(url);
         final JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null, callback, error) {
