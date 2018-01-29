@@ -72,5 +72,9 @@
     <string name="search">Resultado da busca</string>
     <string name="search_description">Confira as rotas relacionadas com a sua busca!</string>
 
+    <string name="route_details">Detalhes da Rota</string>
+
+
+    <string name="friend_routes">Confira as rotas do seu amigo!</string>
 
 </resources>
