@@ -13,6 +13,7 @@ import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -77,7 +78,7 @@ public class HomeFragment extends Fragment {
         mRvLista = v.findViewById(R.id.home_rvPubs);
         mListaPubs = new ArrayList<>();
 
-        mBtnNewPost.requestFocus();
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         LinearLayoutManager lln = new LinearLayoutManager(getContext());
         lln.setOrientation(LinearLayoutManager.VERTICAL);

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import org.w3c.dom.Text;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufrpe.projetao.rotatour.Local;
@@ -31,9 +32,10 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
         public static final String ROUTE_CREATED = "routeCreated";
         //public static final int ROUTE_ID = 0;
         public static final String ROUTE_ID = "";
+        public static final String ROUTE_TAGS = "tags";
 
 
-        private List<Routes> mList;
+    private List<Routes> mList;
         private LayoutInflater mLayoutInflater;
 
     public RoutesAdapter(Context c, List<Routes> l){
@@ -64,6 +66,7 @@ public class RoutesAdapter extends RecyclerView.Adapter<RoutesAdapter.RoutesView
             public void onClick(View v) {
                 Routes routes = mList.get(position);
                 Intent route_data= new Intent(v.getContext(), RouteActivity.class);
+                route_data.putStringArrayListExtra(ROUTE_TAGS, (ArrayList<String>) mList.get(position).getTags());
                 route_data.putExtra(ROUTE_NAME,routes.getName());
                 route_data.putExtra(ROUTE_DESCRIPTION,routes.getDescription());
                 route_data.putExtra(ROUTE_CREATED,routes.getCreated());

@@ -4,7 +4,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.AsyncTask;
-import android.os.Debug;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,7 +11,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -37,6 +35,7 @@ import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,6 +45,7 @@ import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.adapters.RouteAdapter;
 import br.ufrpe.projetao.rotatour.adapters.RoutesAdapter;
+import me.gujun.android.taggroup.TagGroup;
 
 public class RouteActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
@@ -55,6 +55,7 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     private RecyclerView recyclerView;
     private RecyclerView.Adapter adapter;
     private List<Local> localList;
+    private TagGroup mTagGroup;
     String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/"; //mover para URLS
     TextView name, description, created, activity;
     int rota_ID;
@@ -84,13 +85,15 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         final String routeDescription = intent.getStringExtra(RoutesAdapter.ROUTE_DESCRIPTION);
         final String routeCreated = intent.getStringExtra(RoutesAdapter.ROUTE_CREATED);
         final String routeID= intent.getStringExtra(RoutesAdapter.ROUTE_ID);
+        final ArrayList<String> tags = intent.getStringArrayListExtra(RoutesAdapter.ROUTE_TAGS);
         FINAL_URL = BASE_URL+routeID;
-
-
+        
 
         TextView name = (TextView)findViewById(R.id.textViewDetailsRouteName);
         TextView description = (TextView)findViewById(R.id.textViewDetailsDescription);
         TextView created = (TextView)findViewById(R.id.textViewDetailsDate);
+        mTagGroup = findViewById(R.id.routeDetail_ViewTag);
+        mTagGroup.setTags(tags);
         //TextView activity = (TextView)findViewById(R.id.place_atividade);
         //activity.setText("");
 
