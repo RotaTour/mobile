@@ -28,6 +28,7 @@ import java.io.IOException;
 import br.ufrpe.projetao.rotatour.R;
 import br.ufrpe.projetao.rotatour.SharedPrefManager;
 import br.ufrpe.projetao.rotatour.Usuario;
+import br.ufrpe.projetao.rotatour.activities.FavoritesActivity;
 import br.ufrpe.projetao.rotatour.activities.FriendsActivity;
 import br.ufrpe.projetao.rotatour.activities.RoutesActivity;
 import br.ufrpe.projetao.rotatour.requests_volley.VolleySingleton;
@@ -169,14 +170,12 @@ public class PerfilFragment extends Fragment implements View.OnClickListener {
             }
         });
 
-        // Favoritos buttos - replace logic
+        // Favoritos button - replace logic
        v.findViewById(R.id.buttonFavoritos).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Context context = getApplicationContext();
-                String texto = "Favoritos";
-                Toast toast = Toast.makeText(context,texto,Toast.LENGTH_SHORT);
-                toast.show();
+                Intent intent = new Intent(getActivity(),FavoritesActivity.class);
+                getActivity().startActivity(intent);
             }
         });
 

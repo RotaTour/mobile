@@ -96,7 +96,9 @@
             android:screenOrientation="portrait" />
         <activity android:name=".activities.FriendsActivity" />
         <activity android:name=".activities.FriendActivity" />
-        <activity android:name=".activities.SearchActivity"></activity>
+        <activity android:name=".activities.SearchActivity" />
+        <activity android:name=".activities.FavoritesActivity" />
+        <activity android:name=".activities.FavoriteActivity"></activity>
     </application>
 
 </manifest>

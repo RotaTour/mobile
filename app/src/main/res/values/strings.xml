@@ -37,6 +37,7 @@
     <!-- Strings for perfil fragment-->
     <string name="rating">Rating</string>
     <string name="myroutes"> My Routes</string>
+    <string name="favoritos"> Favorite Routes</string>
     <string name="myphotos">My Photos </string>
     <string name="favorites">Favorites </string>
     <string name="conquer">Conquers</string>
