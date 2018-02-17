@@ -1,9 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.ufrpe.projetao.rotatour.activities.FavoriteActivity">
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:android="http://schemas.android.com/apk/res/android"
+                android:id="@+id/myRoutes"
+                app:title="@string/route_details"
+                app:titleTextColor="@color/primary_dark"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginBottom="5dp"
+                android:background="@color/white"
+                android:elevation="4dp"
+                android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
+                app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:background="@color/primary_dark"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="start">
+
+
+            <de.hdodenhof.circleimageview.CircleImageView
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                android:id="@+id/profile"
+                android:layout_width="130dp"
+                android:layout_height="130dp"
+                android:clickable="true"
+                android:elevation="5dp"
+                android:padding="10dp"
+                android:scaleType="centerCrop"
+                android:src="@drawable/countries"
+                app:civ_border_color="#FFFFFFFF"
+                app:civ_border_width="1dp"
+                tools:ignore="MissingConstraints"
+                tools:layout_editor_absoluteX="117dp"
+                tools:layout_editor_absoluteY="6dp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:gravity="center_vertical">
+
+                <TextView
+                    android:id="@+id/textViewDetailsRouteName"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="Route Name"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Large" />
+
+                <me.gujun.android.taggroup.TagGroup
+                    android:id="@+id/routeDetail_ViewTag"
+                    android:layout_marginBottom="5dp"
+                    style="@style/TagGroup.Small" />
+
+                <TextView
+                    android:id="@+id/textViewDetailsDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="0dp"
+                    android:text="01-01-2018"
+                    android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+                <LinearLayout
+                    android:gravity="bottom"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <ImageButton
+                        android:id="@+id/buttonRouteDetailShare"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:tint="@color/white"
+                        android:layout_marginBottom="9dp"
+                        app:srcCompat="@drawable/ic_share_black_24dp" />
+
+                    <com.like.LikeButton
+                        android:id="@+id/btnRouteDetailLike"
+                        app:icon_type="heart"
+                        app:icon_size="20dp"
+                        android:layout_gravity="bottom"
+                        app:circle_start_color="@color/white"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"/>
+                </LinearLayout>
+            </LinearLayout>
+
+        </LinearLayout>
+        <TextView
+            android:id="@+id/textViewDetailsDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="5dp"
+            android:gravity="center"
+            android:text="Recife é um município brasileiro, capital do estado de Pernambuco, localizado na Região Nordeste do país"
+            android:textAppearance="@style/Base.TextAppearance.AppCompat.Small"/>
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RouteDetailRecycleViewr"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:layout_editor_absoluteX="172dp"
+            tools:layout_editor_absoluteY="204dp"
+            tools:ignore="MissingConstraints">
+
+        </android.support.v7.widget.RecyclerView>
+
+
+    </LinearLayout>
+
+
+
+
 
 </android.support.constraint.ConstraintLayout>
