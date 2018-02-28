@@ -3,6 +3,7 @@ package br.ufrpe.projetao.rotatour.activities;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -10,6 +11,8 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.android.volley.AuthFailureError;
@@ -19,6 +22,9 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
+import com.facebook.FacebookSdk;
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareDialog;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
@@ -36,6 +42,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.lang.ref.WeakReference;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -61,6 +68,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     private TagGroup mTagGroup;
     private LikeButton mRouteLike;
     String BASE_URL = "https://rotatourapi.herokuapp.com/api/routes/show/"; //mover para URLS
+    String SHARE_URL= "https://rotatourapi.herokuapp.com/routes/show/";
+    String FINAL_SHARE_URL="";
     TextView name, description, created, activity;
     int rota_ID;
     private RouteAdapter routeAdapter;
@@ -68,6 +77,8 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     Local local;
     String place_id ="";
     String FINAL_URL ="";
+    ShareDialog shareDialog;
+    private ImageButton shareButton;
 
     public RouteActivity() {
     }
@@ -76,12 +87,13 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_route);
-
+        FacebookSdk.sdkInitialize(this.getApplicationContext());
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .addApi(Places.GEO_DATA_API)
                 .addApi(Places.PLACE_DETECTION_API)
                 .enableAutoManage(this, this)
                 .build();
+
 
         localList = new ArrayList<>();
         Intent intent = getIntent();
@@ -92,6 +104,23 @@ public class RouteActivity extends AppCompatActivity implements GoogleApiClient.
         final ArrayList<String> tags = intent.getStringArrayListExtra(RoutesAdapter.ROUTE_TAGS);
         final boolean liked = intent.getBooleanExtra(RoutesAdapter.ROUTE_LIKED, false);
         FINAL_URL = BASE_URL+routeID;
+        FINAL_SHARE_URL = SHARE_URL + routeID;
+
+        shareButton = (ImageButton)findViewById(R.id.buttonRouteDetailShare);
+        shareDialog = new ShareDialog(this);
+        shareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ShareLinkContent linkContent = new ShareLinkContent.Builder()
+                        .setQuote("Hey! Look at my new Route!")
+                        .setContentUrl(Uri.parse(FINAL_SHARE_URL))
+                        .build();
+                if(ShareDialog.canShow(ShareLinkContent.class)){
+                    shareDialog.show(linkContent);
+                }
+
+            }
+        });
 
 
         TextView name = (TextView)findViewById(R.id.textViewDetailsRouteName);

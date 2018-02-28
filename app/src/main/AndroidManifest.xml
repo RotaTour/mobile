@@ -42,7 +42,6 @@
 
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
@@ -99,6 +98,11 @@
         <activity android:name=".activities.SearchActivity" />
         <activity android:name=".activities.FavoritesActivity" />
         <activity android:name=".activities.FavoriteActivity"></activity>
+        
+        <provider
+            android:authorities="com.facebook.app.FacebookContentProvider719517088218830"
+            android:name="com.facebook.FacebookContentProvider"
+            android:exported="true"/>
     </application>
 
 </manifest>
